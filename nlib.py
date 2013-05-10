@@ -66,7 +66,10 @@ class YStock:
         series = []
         raw_data.reverse()
         for row in raw_data:
+            open, high, low = float(row[1]), float(row[2]), float(row[3])
+            close, vol = float(row[4]), float(row[5])
             adjusted_close = float(row[6])
+            adjustment = adjusted_close/close
             if previous_adjusted_close:
                 arithmetic_return = adjusted_close/previous_adjusted_close-1.0
 
@@ -76,12 +79,16 @@ class YStock:
             previous_adjusted_close = adjusted_close
             series.append(dict(
                date = datetime.datetime.strptime(row[0],'%Y-%m-%d'),
-               open = float(row[1]),
-               high = float(row[2]),
-               low = float(row[3]),
-               close = float(row[4]),
-               volume = float(row[5]),
+               open = open,
+               high = high,               
+               low = low,
+               close = close,
+               volume = vol,
                adjusted_close = adjusted_close,
+               adjusted_open = open*adjustment, 
+               adjusted_high = high*adjustment,
+               adjusted_low = low*adjustment,
+               adjusted_vol = vol/adjustment,
                arithmetic_return = arithmetic_return,
                log_return = log_return))
         return series
@@ -235,7 +242,7 @@ class Canvas(object):
             self.legend.append((q[0],legend))
         return self
 
-    def ellipses(self, data, color='blue', width=0.01, height=0.01):
+    def ellipses(self, data, color='blue', width=0.01, height=0.01, legend=None):
         for point in data:
             x, y = point[:2]
             dx = point[2] if len(point)>2 else width
@@ -245,6 +252,8 @@ class Canvas(object):
             ellipse.set_clip_box(self.ax.bbox)
             ellipse.set_alpha(0.5)
             ellipse.set_facecolor(color)
+        if legend:
+            self.legend.append((q[0],legend))
         return self
 
     def imshow(self, data, interpolation='bilinear'):
