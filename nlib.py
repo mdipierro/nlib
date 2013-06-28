@@ -61,7 +61,7 @@ class YStock:
             d=stop.month-1,e=stop.day,f=stop.year)
         # Date,Open,High,Low,Close,Volume,Adj Close
         lines = urllib.urlopen(url).readlines()
-        raw_data = [row.split(',') for row in lines[1:]]
+        raw_data = [row.split(',') for row in lines[1:] if row.count(',')==6]
         previous_adjusted_close = 0
         series = []
         raw_data.reverse()
@@ -72,7 +72,6 @@ class YStock:
             adjustment = adjusted_close/close
             if previous_adjusted_close:
                 arithmetic_return = adjusted_close/previous_adjusted_close-1.0
-
                 log_return = math.log(adjusted_close/previous_adjusted_close)
             else:
                 arithmetic_return = log_return = None
@@ -195,7 +194,7 @@ except ImportError:
 
 class Canvas(object):
 
-    def __init__(self, title='title', xlab='x', ylab='y', xrange=None, yrange=None):
+    def __init__(self, title='', xlab='x', ylab='y', xrange=None, yrange=None):
         self.fig = Figure()
         self.fig.set_facecolor('white')
         self.ax = self.fig.add_subplot(111)
@@ -228,8 +227,15 @@ class Canvas(object):
         #    self.legend.append((q[0], legend))
         return self
 
-    def plot(self, data, color='blue', style='-', width=2, legend=None):
-        x, y = [p[0] for p in data], [p[1] for p in data]
+    def plot(self, data, color='blue', style='-', width=2, 
+             legend=None, xrange=None):
+        if callable(data) and xrange:
+            x = [xrange[0]+0.01*i*(xrange[1]-xrange[0]) for i in range(0,101)]
+            y = [data(p) for p in x]
+        elif data and isinstance(data[0],(int,float)):
+            x, y = range(len(data)), data
+        else:
+            x, y = [p[0] for p in data], [p[1] for p in data]
         q = self.ax.plot(x, y, linestyle=style, linewidth=width, color=color)
         if legend:
             self.legend.append((q[0],legend))
@@ -879,27 +885,26 @@ class Trader:
     def model(self,window):
         "the forecasting model"
         # we fit last few days quadratically
-        points = [(x,y) for (x,y) in enumerate(window)]
+        points = [(x,y['adjusted_close']) for (x,y) in enumerate(window)]
         a,chi2,fitting_f = fit_least_squares(points,QUADRATIC)
         # and we extrapolate tomorrow's price
-        price_tomorrow = fitting_f(len(points))
-        return price_tomorrow
+        tomorrow_prediction = fitting_f(len(points))
+        return tomorrow_prediction
 
-    def strategy(self,window):
+    def strategy(self, history, ndays=7):
         "the trading strategy"
-        price_today = window[-1]
-        price_tomorrow = self.model(window)
-        if price_tomorrow>price_today:
-            return 'buy'
+        if len(history)<ndays:
+            return
         else:
-            return 'sell'
-
-    def simulate(self,data,cash=1000.0,shares=0.0,days=7,daily_rate=0.03/360):
+            today_close = history[-1]['adjusted_close']
+            tomorrow_prediction = self.model(history[-ndays:])
+            return 'buy' if tomorrow_prediction>today_close else 'sell'
+        
+    def simulate(self,data,cash=1000.0,shares=0.0,daily_rate=0.03/360):
         "find fitting parameters that optimize the trading strategy"
-        for t in range(days,len(data)):
-            window =  data[t-days:t]
-            today_close = window[-1]
-            suggestion = self.strategy(window)
+        for t in range(len(data)):
+            suggestion = self.strategy(data[:t])
+            today_close = data[t-1]['adjusted_close']
             # and we buy or sell based on our strategy
             if cash>0 and suggestion=='buy':
                 # we keep track of finances
@@ -912,7 +917,7 @@ class Trader:
             # we assume money in the bank also gains an interest
             cash*=math.exp(daily_rate)
         # we return the net worth
-        return cash+shares*data[-1]
+        return cash+shares*data[-1]['adjusted_close']
 
 def sqrt(x):
     try:
@@ -1053,6 +1058,7 @@ def invert_bicgstab(f,x,ap=1e-4,rp=1e-4,ns=200):
         y = y + omega*r + alpha*p
         residue=sqrt((r*r)/r.rows)
         if residue<max(ap,norm(y)*rp): return y
+        r = r - omega*t
     raise ArithmeticError, 'no convergence'
 
 def solve_fixed_point(f, x, ap=1e-6, rp=1e-4, ns=100):
@@ -1493,15 +1499,15 @@ class NeuralNetwork:
             if check and i % 100 == 0:
                 print('error %-14f' % error)
 
-def E(f,S): return float(sum(f(x) for x in S))/len(S)
+def E(f,S): return float(sum(f(x) for x in S))/(len(S) or 1)
 def mean(X): return E(lambda x:x, X)
 def variance(X): return E(lambda x:x**2, X) - E(lambda x:x, X)**2
 def sd(X): return sqrt(variance(X))
 
-def cov(X,Y):
+def covariance(X,Y):
     return sum(X[i]*Y[i] for i in range(len(X)))/len(X) - mean(X)*mean(Y)
-def corr(X,Y):
-    return cov(X,Y)/sd(X)/sd(Y)
+def correlation(X,Y):
+    return covariance(X,Y)/sd(X)/sd(Y)
 
 class LCG(object):
     def __init__(self,seed,a=66539,c=0,m=2**31):
@@ -1816,8 +1822,8 @@ def test076():
     >>> points = []
     >>> for key in storage.keys('*/2011'):
     ...     v = [day['log_return'] for day in storage[key][1:]]
-    ...     ret = sum(v)/len(v)
-    ...     var = sum(x**2 for x in v)/len(v) - ret**2
+    ...     ret = mean(v)
+    ...     var = variance(v)
     ...     points.append((var*math.sqrt(len(v)),ret*len(v),0.0002,0.02))
     >>> Canvas(title='S&P100 (2011)',xlab='risk',ylab='return',
     ...      xrange = (min(p[0] for p in points),max(p[0] for p in points)),
@@ -2201,13 +2207,13 @@ def test102():
 def test103():
     """
     >>> from datetime import date
-    >>> data = YStock.download('aapl','adjusted_close',
+    >>> data = YStock('aapl').historical(
     ...        start=date(2011,1,1),stop=date(2011,12,31))
     >>> print(Trader().simulate(data,cash=1000.0))
     1133...
     >>> print(1000.0*math.exp(0.03))
     1030...
-    >>> print(1000.0*data[-1]/data[0])
+    >>> print(1000.0*data[-1]['adjusted_close']/data[0]['adjusted_close'])
     1228...
     
     """
@@ -2533,9 +2539,9 @@ def test132():
     1.00551523013
     >>> print(sd(Y))
     0.404909628555
-    >>> print(cov(X,Y))
+    >>> print(covariance(X,Y))
     0.0802804358268
-    >>> print(corr(X,Y))
+    >>> print(correlation(X,Y))
     0.479067813484
     
     """
