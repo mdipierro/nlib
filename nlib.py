@@ -1620,8 +1620,8 @@ class RandomSource(object):
             this, other = self.other, None
         else:
             while True:
-                v1 = self.random(-1,1)
-                v2 = self.random(-1,1)
+                v1 = 2.0*self.random()-1
+                v2 = 2.0*self.random()-1
                 r = v1*v1+v2*v2
                 if r<1: break
             this = sqrt(-2.0*log(r)/r)*v1
