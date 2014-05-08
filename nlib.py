@@ -209,8 +209,9 @@ class Canvas(object):
 
     def save(self, filename='plot.png'):
         if self.legend:
-            self.ax.legend([e[0] for e in self.legend],
-                           [e[1] for e in self.legend])
+            legend = self.ax.legend([e[0] for e in self.legend],
+                                    [e[1] for e in self.legend])
+            legend.get_frame().set_alpha(0.7)
         if filename:
             FigureCanvasAgg(self.fig).print_png(open(filename, 'wb'))
         else:
@@ -1706,13 +1707,13 @@ class MCEngine:
             variance = float(s2)/k-mu*mu
             dmu = sqrt(variance)/k
             if k>10:
-                if abs(dmu)<max(ap,ams(mu)*rp):
+                if abs(dmu)<max(ap,abs(mu)*rp):
                     self.converence = True
                     break
         self.confidence_intervals = confidence_intervals(mu,dmu)
         return bootstrap(self.results)
 
-    def var(self, confidence=0.68):
+    def var(self, confidence=68):
         self.results.sort()
         left_tail = (1.0-confidence)/2
         right_tail = 1.0-left_tail
