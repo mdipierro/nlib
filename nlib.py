@@ -72,6 +72,7 @@ class YStock:
             adjustment = adjusted_close/close
             if previous_adjusted_close:
                 arithmetic_return = adjusted_close/previous_adjusted_close-1.0
+
                 log_return = math.log(adjusted_close/previous_adjusted_close)
             else:
                 arithmetic_return = log_return = None
@@ -79,12 +80,12 @@ class YStock:
             series.append(dict(
                date = datetime.datetime.strptime(row[0],'%Y-%m-%d'),
                open = open,
-               high = high,               
+               high = high,
                low = low,
                close = close,
                volume = vol,
                adjusted_close = adjusted_close,
-               adjusted_open = open*adjustment, 
+               adjusted_open = open*adjustment,
                adjusted_high = high*adjustment,
                adjusted_low = low*adjustment,
                adjusted_vol = vol/adjustment,
@@ -228,13 +229,13 @@ class Canvas(object):
         #    self.legend.append((q[0], legend))
         return self
 
-    def plot(self, data, color='blue', style='-', width=2, 
+    def plot(self, data, color='blue', style='-', width=2,
              legend=None, xrange=None):
         if callable(data) and xrange:
-            x = [xrange[0]+0.01*i*(xrange[1]-xrange[0]) for i in range(0,101)]
+            x = [xrange[0]+0.01*i*(xrange[1]-xrange[0]) for i in xrange(0,101)]
             y = [data(p) for p in x]
         elif data and isinstance(data[0],(int,float)):
-            x, y = range(len(data)), data
+            x, y = xrange(len(data)), data
         else:
             x, y = [p[0] for p in data], [p[1] for p in data]
         q = self.ax.plot(x, y, linestyle=style, linewidth=width, color=color)
@@ -298,6 +299,15 @@ class memoize_persistent(object):
             self.storage[key] = value
         return value
 
+def timef(f, ns=1000, dt = 60):
+    import time
+    t = t0 = time.time()
+    for k in xrange(1,ns):
+        f()
+        t = time.time()
+        if t-t0>dt: break
+    return (t-t0)/k
+
 def breadth_first_search(graph,start):
     vertices, link = graph
     blacknodes = []
@@ -346,6 +356,8 @@ class DisjointSets(object):
             self.counter-=1
             return True # they have been joined
         return False    # they were already joined
+    def joined(self,i,j):
+       return self.parent(i) == self.parent(j)
     def __len__(self):
         return self.counter
 
@@ -445,7 +457,7 @@ def encode_huffman(input):
 def decode_huffman(keys, encoded):
     reversed_map = dict((v,k) for (k,v) in keys.items())
     i, output = 0, []
-    for j in range(1,len(encoded)+1):
+    for j in xrange(1,len(encoded)+1):
         if encoded[i:j] in reversed_map:
            output.append(reversed_map[encoded[i:j]])
            i=j
@@ -479,7 +491,7 @@ def needleman_wunsch(a,b,p=0.97):
     return z
 
 def continuum_knapsack(a,b,c):
-    table = [(a[i]/b[i],i) for i in range(len(a))]
+    table = [(a[i]/b[i],i) for i in xrange(len(a))]
     table.sort()
     table.reverse()
     f=0.0
@@ -489,6 +501,186 @@ def continuum_knapsack(a,b,c):
         c = c-b[i]*quantity
         f = f+a[i]*quantity
     return (f,x)
+
+class Cluster(object):
+    def __init__(self,points,metric,weights=None):
+        self.points, self.metric = points, metric
+        self.k = len(points)
+        self.w = weights or [1.0]*self.k
+        self.q = dict((i,[i]) for i,e in enumerate(points))
+        self.d = []
+        for i in xrange(self.k):
+            for j in xrange(i+1,self.k):
+                m = metric(points[i],points[j])
+                if not m is None:
+                    self.d.append((m,i,j))
+        self.d.sort()
+        self.dd = []
+    def parent(self,i):
+        while isinstance(i,int): (parent, i) = (i, self.q[i])
+        return parent, i
+    def step(self):
+        if self.k>1:
+            # find new clusters to join
+            (self.r,i,j),self.d = self.d[0],self.d[1:]
+            # join them
+            i,x = self.parent(i) # find members of cluster i
+            j,y = self.parent(j) # find members if cluster j
+            x += y               # join members
+            self.q[j] = i        # make j cluster point to i
+            self.k -= 1          # decrease cluster count
+            # update all distances to new joined cluster
+            new_d = [] # links not related to joined clusters
+            old_d = {} # old links related to joined clusters
+            for (r,h,k) in self.d:
+                if h in (i,j):
+                    a,b = old_d.get(k,(0.0,0.0))
+                    old_d[k] = a+self.w[k]*r,b+self.w[k]
+                elif k in (i,j):
+                    a,b = old_d.get(h,(0.0,0.0))
+                    old_d[h] = a+self.w[h]*r,b+self.w[h]
+                else:
+                    new_d.append((r,h,k))
+            new_d += [(a/b,i,k) for k,(a,b) in old_d.items()]
+            new_d.sort()
+            self.d = new_d
+            # update weight of new cluster
+            self.w[i] = self.w[i]+self.w[j]
+            # get new list of cluster members
+            self.v = [s for s in self.q.values() if isinstance(s,list)]
+            self.dd.append((self.r,len(self.v)))
+        return self.r, self.v
+
+    def find(self,k):
+        # if necessary start again
+        if self.k<k: self.__init__(self.points,self.metric)
+        # step until we get k clusters
+        while self.k>k: self.step()
+        # return list of cluster members
+        return self.r, self.v
+
+class NeuralNetwork:
+    """
+    Back-Propagation Neural Networks
+    Placed in the public domain.
+    Original author: Neil Schemenauer <nas@arctrix.com>
+    Modified by: Massimo Di Pierro
+    Read more: http://www.ibm.com/developerworks/library/l-neural/
+    """
+
+    @staticmethod
+    def rand(a, b):
+        """ calculate a random number where:  a <= rand < b """
+        return (b-a)*random.random() + a
+
+    @staticmethod
+    def sigmoid(x):
+        """ our sigmoid function, tanh is a little nicer than the standard 1/(1+e^-x) """
+        return math.tanh(x)
+
+    @staticmethod
+    def dsigmoid(y):
+        """ # derivative of our sigmoid function, in terms of the output """
+        return 1.0 - y**2
+
+    def __init__(self, ni, nh, no):
+        # number of input, hidden, and output nodes
+        self.ni = ni + 1 # +1 for bias node
+        self.nh = nh
+        self.no = no
+
+        # activations for nodes
+        self.ai = [1.0]*self.ni
+        self.ah = [1.0]*self.nh
+        self.ao = [1.0]*self.no
+
+        # create weights
+        self.wi = Matrix(self.ni, self.nh, fill=lambda r,c: self.rand(-0.2, 0.2))
+        self.wo = Matrix(self.nh, self.no, fill=lambda r,c: self.rand(-2.0, 2.0))
+
+        # last change in weights for momentum
+        self.ci = Matrix(self.ni, self.nh)
+        self.co = Matrix(self.nh, self.no)
+
+    def update(self, inputs):
+        if len(inputs) != self.ni-1:
+            raise ValueError('wrong number of inputs')
+
+        # input activations
+        for i in xrange(self.ni-1):
+            self.ai[i] = inputs[i]
+
+        # hidden activations
+        for j in xrange(self.nh):
+            s = sum(self.ai[i] * self.wi[i,j] for i in xrange(self.ni))
+            self.ah[j] = self.sigmoid(s)
+
+        # output activations
+        for k in xrange(self.no):
+            s = sum(self.ah[j] * self.wo[j,k] for j in xrange(self.nh))
+            self.ao[k] = self.sigmoid(s)
+        return self.ao[:]
+
+    def back_propagate(self, targets, N, M):
+        if len(targets) != self.no:
+            raise ValueError('wrong number of target values')
+
+        # calculate error terms for output
+        output_deltas = [0.0] * self.no
+        for k in xrange(self.no):
+            error = targets[k]-self.ao[k]
+            output_deltas[k] = self.dsigmoid(self.ao[k]) * error
+
+        # calculate error terms for hidden
+        hidden_deltas = [0.0] * self.nh
+        for j in xrange(self.nh):
+            error = sum(output_deltas[k]*self.wo[j,k] for k in xrange(self.no))
+            hidden_deltas[j] = self.dsigmoid(self.ah[j]) * error
+
+        # update output weights
+        for j in xrange(self.nh):
+            for k in xrange(self.no):
+                change = output_deltas[k]*self.ah[j]
+                self.wo[j,k] = self.wo[j,k] + N*change + M*self.co[j,k]
+                self.co[j,k] = change
+                #print(N*change, M*self.co[j,k])
+
+        # update input weights
+        for i in xrange(self.ni):
+            for j in xrange(self.nh):
+                change = hidden_deltas[j]*self.ai[i]
+                self.wi[i,j] = self.wi[i,j] + N*change + M*self.ci[i,j]
+                self.ci[i,j] = change
+
+        # calculate error
+        error = sum(0.5*(targets[k]-self.ao[k])**2 for k in xrange(len(targets)))
+        return error
+
+    def test(self, patterns):
+        for p in patterns:
+            print(p[0], '->', self.update(p[0]))
+
+    def weights(self):
+        print('Input weights:')
+        for i in xrange(self.ni):
+            print(self.wi[i])
+        print
+        print('Output weights:')
+        for j in xrange(self.nh):
+            print(self.wo[j])
+
+    def train(self, patterns, iterations=1000, N=0.5, M=0.1, check=False):
+        # N: learning rate
+        # M: momentum factor
+        for i in xrange(iterations):
+            error = 0.0
+            for p in patterns:
+                inputs = p[0]
+                targets = p[1]
+                self.update(inputs)
+                error = error + self.back_propagate(targets, N, M)
+            if check and i % 100 == 0:
+                print('error %-14f' % error)
 
 def D(f,h=1e-6): # first derivative of f
     return lambda x,f=f,h=h: (f(x+h)-f(x-h))/2/h
@@ -503,11 +695,11 @@ def myexp(x,precision=1e-6,max_steps=40):
        return 1.0/myexp(-x,precision,max_steps)
     else:
        t = s = 1.0 # first term
-       for k in range(1,max_steps):
+       for k in xrange(1,max_steps):
            t = t*x/k   # next term
            s = s + t   # add next term
            if abs(t)<precision: return s
-       raise ArithmeticError, 'no convergence'
+       raise ArithmeticError('no convergence')
 
 def mysin(x,precision=1e-6,max_steps=40):
     pi = math.pi
@@ -525,12 +717,12 @@ def mysin(x,precision=1e-6,max_steps=40):
        return sqrt(1.0-mysin(pi/2-x)**2)
     else:
        t = s = x                     # first term
-       for k in range(1,max_steps):
+       for k in xrange(1,max_steps):
            t = t*(-1.0)*x*x/(2*k)/(2*k+1)   # next term
            s = s + t                 # add next term
            r = x**(2*k+1)            # estimate residue
            if r<precision: return s  # stopping condition
-       raise ArithmeticError, 'no convergence'
+       raise ArithmeticError('no convergence')
 
 def mycos(x,precision=1e-6,max_steps=40):
     pi = math.pi
@@ -548,72 +740,79 @@ def mycos(x,precision=1e-6,max_steps=40):
        return sqrt(1.0-mycos(pi/2-x)**2)
     else:
        t = s = 1                     # first term
-       for k in range(1,max_steps):
+       for k in xrange(1,max_steps):
            t = t*(-1.0)*x*x/(2*k)/(2*k-1)   # next term
            s = s + t                 # add next term
            r = x**(2*k)              # estimate residue
            if r<precision: return s  # stopping condition
-       raise ArithmeticError, 'no convergence'
+       raise ArithmeticError('no convergence')
 
 class Matrix(object):
-    def __init__(self,rows=1,cols=1,fill=0.0):
+    def __init__(self,rows,cols=1,fill=0.0):
         """
         Constructor a zero matrix
-        Parameters
-        - rows: the integer number of rows
-        - cols: the integer number of columns
-        - fill: the value or callable to be used to fill the matrix
+        Examples:
+        A = Matrix([[1,2],[3,4]])
+        A = Matrix([1,2,3,4])
+        A = Matrix(10,20)
+        A = Matrix(10,20,fill=0.0)
+        A = Matrix(10,20,fill=lambda r,c: 1.0 if r==c else 0.0)
         """
-        if isinstance(rows,(list,tuple)):
-           (rows, cols, fill) = (len(rows),len(rows[0]),lambda r,c,f=rows:f[r][c])
-        self.rows = rows
-        self.cols = cols
-        if callable(fill):
-            self.values = [fill(r,c) for r in xrange(rows) for c in xrange(cols)]
+        if isinstance(rows,list):
+            if isinstance(rows[0],list):
+                self.rows = [[e for e in row] for row in rows]
+            else:
+                self.rows = [[e] for e in rows]
+        elif isinstance(rows,int) and isinstance(cols,int):
+            xrows, xcols = xrange(rows), xrange(cols)
+            if callable(fill):
+                self.rows = [[fill(r,c) for c in xcols] for r in xrows]
+            else:
+                self.rows = [[fill for c in xcols] for r in xrows]
         else:
-            self.values = [fill for r in xrange(rows) for c in xrange(cols)]
+            raise RuntimeError("Unable to build matrix from %s" % repr(rows))
+        self.nrows = len(self.rows)
+        self.ncols = len(self.rows[0])
 
-    def __getitem__(A,(i,j)):
-        return A.values[i*A.cols+j]
+    def __getitem__(A,coords):
+        " x = A[0,1]"
+        i,j = coords
+        return A.rows[i][j]
 
-    def __setitem__(A,(i,j),value):
-        A.values[i*A.cols+j] = value
+    def __setitem__(A,coords,value):
+        " A[0,1] = 3.0 "
+        i,j = coords
+        A.rows[i][j] = value
 
-    def row(A,i):
-        return Matrix(A.cols,1,fill=lambda r,c: A[i,c])
-
-    def col(A,i):
-        return Matrix(A.rows,1,fill=lambda r,c: A[r,i])
-
-    def as_list(A):
-        return [[A[i,j] for j in xrange(A.cols)] for i in xrange(A.rows)]
+    def tolist(A):
+        " assert(Matrix([[1,2],[3,4]]).tolist() == [[1,2],[3,4]]) "
+        return A.rows
 
     def __str__(A):
-        return str(A.as_list())
+        return str(A.rows)
+
+    def flatten(A):
+        " assert(Matrix([[1,2],[3,4]]).flatten() == [1,2,3,4]) "
+        return [A[r,c] for r in xrange(A.nrows) for c in xrange(A.ncols)]
+
+    def reshape(A,n,m):
+        " assert(Matrix([[1,2],[3,4]]).reshape(1,4).tolist() == [[1,2,3,4]]) "
+        if n*m != A.nrows*A.ncols:
+             raise RuntimeError("Impossible reshape")
+        flat = A.flatten()
+        return Matrix(n,m,fill=lambda r,c,m=m,flat=flat: flat[r*m+c])
+
+    def swap_rows(A,i,j):
+        " assert(Matrix([[1,2],[3,4]]).swap_rows(1,0).tolist() == [[3,4],[1,2]]) "
+        A.rows[i], A.rows[j] = A.rows[j], A.rows[i]
 
     @staticmethod
     def identity(rows=1,e=1.0):
-        """
-        Constuctor a diagonal matrix
-        Parameters
-        - rows: the integer number of rows (also number of columns)
-        - fill: the value to be used to fill the matrix
-        - x: the value in the diagonal
-        """
-        M = Matrix(rows,rows,fill=(e-e))
-        for i in xrange(rows): M[i,i] = e
-        return M
+        return Matrix(rows,rows,lambda r,c,e=e: e if r==c else 0.0)
 
     @staticmethod
     def diagonal(d):
-        M = Matrix(len(d),len(d),fill=(d[0]-d[0]))
-        for i,e in enumerate(d): M[i,i] = e
-        return M
-
-    @staticmethod
-    def from_list(v):
-        "builds a matrix from a list of lists"
-        return Matrix(len(v),len(v[0]),fill=lambda r,c: v[r][c])
+        return Matrix(len(d),len(d),lambda r,c,d=d:d[r] if r==c else 0.0)
 
     def __add__(A,B):
         """
@@ -625,14 +824,14 @@ class Matrix(object):
         >>> print(C)
         [[5, 5.0], [5, 5.0]]
         """
-        n, m = A.rows, A.cols
+        n, m = A.nrows, A.ncols
         if not isinstance(B,Matrix):
             if n==m:
                 B = Matrix.identity(n,B)
             elif n==1 or m==1:
-                B = Matrix(n,m,fill=B)
-        if B.rows!=n or B.cols!=m:
-            raise ArithmeticError, "Incompatible dimensions"
+                B = Matrix([[B for c in xrange(m)] for r in xrange(n)])
+        if B.nrows!=n or B.ncols!=m:
+            raise ArithmeticError('incompatible dimensions')
         C = Matrix(n,m)
         for r in xrange(n):
             for c in xrange(m):
@@ -649,14 +848,14 @@ class Matrix(object):
         >>> print(C)
         [[3.0, 1.0], [-1.0, -3.0]]
         """
-        n, m = A.rows, A.cols
+        n, m = A.nrows, A.ncols
         if not isinstance(B,Matrix):
             if n==m:
                 B = Matrix.identity(n,B)
             elif n==1 or m==1:
                 B = Matrix(n,m,fill=B)
-        if B.rows!=n or B.cols!=m:
-            raise ArithmeticError, "Incompatible dimensions"
+        if B.nrows!=n or B.ncols!=m:
+            raise ArithmeticError('Incompatible dimensions')
         C = Matrix(n,m)
         for r in xrange(n):
             for c in xrange(m):
@@ -667,42 +866,42 @@ class Matrix(object):
     def __rsub__(A,B): #B-A
         return (-A)+B
     def __neg__(A):
-        return Matrix(A.rows,A.cols,fill=lambda r,c:-A[r,c])
+        return Matrix(A.nrows,A.ncols,fill=lambda r,c:-A[r,c])
 
     def __rmul__(A,x):
         "multiplies a number of matrix A by a scalar number x"
         import copy
         M = copy.deepcopy(A)
-        for r in xrange(M.rows):
-            for c in xrange(M.cols):
+        for r in xrange(M.nrows):
+            for c in xrange(M.ncols):
                  M[r,c] *= x
         return M
 
     def __mul__(A,B):
         "multiplies a number of matrix A by another matrix B"
         if isinstance(B,(list,tuple)):
-            return (A*Matrix(len(B),1,fill=lambda r,c:B[r])).rows
+            return (A*Matrix(len(B),1,fill=lambda r,c:B[r])).nrows
         elif not isinstance(B,Matrix):
             return B*A
-        elif A.cols == 1 and B.cols==1 and A.rows == B.rows:
+        elif A.ncols == 1 and B.ncols==1 and A.nrows == B.nrows:
             # try a scalar product ;-)
-            return sum(A[r,0]*B[r,0] for r in xrange(A.rows))
-        elif A.cols!=B.rows:
-            raise ArithmeticError, "incompatible dimensions"
-        M = Matrix(A.rows,B.cols)
-        for r in xrange(A.rows):
-            for c in xrange(B.cols):
-                for k in xrange(A.cols):
+            return sum(A[r,0]*B[r,0] for r in xrange(A.nrows))
+        elif A.ncols!=B.nrows:
+            raise ArithmeticError('Incompatible dimension')
+        M = Matrix(A.nrows,B.ncols)
+        for r in xrange(A.nrows):
+            for c in xrange(B.ncols):
+                for k in xrange(A.ncols):
                     M[r,c] += A[r,k]*B[k,c]
         return M
 
     def __rdiv__(A,x):
         """Computes x/A using Gauss-Jordan elimination where x is a scalar"""
         import copy
-        n = A.cols
-        if A.rows != n:
-           raise ArithmeticError, "matrix not squared"
-        indexes = range(n)
+        n = A.ncols
+        if A.nrows != n:
+           raise ArithmeticError('matrix not squared')
+        indexes = xrange(n)
         A = copy.deepcopy(A)
         B = Matrix.identity(n,x)
         for c in indexes:
@@ -724,22 +923,24 @@ class Matrix(object):
 
     def __div__(A,B):
         if isinstance(B,Matrix):
-            return A*(1.0/B) # matrix/marix
+            return A*(1.0/B) # matrix/matrix
         else:
             return (1.0/B)*A # matrix/scalar
 
-    def swap_rows(A,i,j):
-        for c in xrange(A.cols):
-            A[i,c],A[j,c] = A[j,c],A[i,c]
 
     @property
-    def t(A):
+    def T(A):
         """Transposed of A"""
-        return Matrix(A.cols,A.rows, fill=lambda r,c: A[c,r])
+        return Matrix(A.ncols,A.nrows, fill=lambda r,c: A[c,r])
+
+    @property
+    def H(A):
+        """Hermitian of A"""
+        return Matrix(A.ncols,A.nrows, fill=lambda r,c: A[c,r].conj())
 
 def is_almost_symmetric(A, ap=1e-6, rp=1e-4):
-    if A.rows != A.cols: return False
-    for r in xrange(A.rows):
+    if A.nrows != A.ncols: return False
+    for r in xrange(A.nrows):
         for c in xrange(r):
             delta = abs(A[r,c]-A[c,r])
             if delta>ap and delta>max(abs(A[r,c]),abs(A[c,r]))*rp:
@@ -747,8 +948,8 @@ def is_almost_symmetric(A, ap=1e-6, rp=1e-4):
     return True
 
 def is_almost_zero(A, ap=1e-6, rp=1e-4):
-    for r in xrange(A.rows):
-        for c in xrange(A.cols):
+    for r in xrange(A.nrows):
+        for c in xrange(A.ncols):
             delta = abs(A[r,c]-A[c,r])
             if delta>ap and delta>max(abs(A[r,c]),abs(A[c,r]))*rp:
                 return False
@@ -758,14 +959,14 @@ def norm(A,p=1):
     if isinstance(A,(list,tuple)):
         return sum(abs(x)**p for x in A)**(1.0/p)
     elif isinstance(A,Matrix):
-        if A.rows==1 or A.cols==1:
+        if A.nrows==1 or A.ncols==1:
              return sum(norm(A[r,c])**p \
-                for r in xrange(A.rows) \
-                for c in xrange(A.cols))**(1.0/p)
+                for r in xrange(A.nrows) \
+                for c in xrange(A.ncols))**(1.0/p)
         elif p==1:
              return max([sum(norm(A[r,c]) \
-                for r in xrange(A.rows)) \
-                for c in xrange(A.cols)])
+                for r in xrange(A.nrows)) \
+                for c in xrange(A.ncols)])
         else:
              raise NotImplementedError
     else:
@@ -781,12 +982,12 @@ def condition_number(f,x=None,h=1e-6):
 
 def exp(x,ap=1e-6,rp=1e-4,ns=40):
     if isinstance(x,Matrix):
-       t = s = Matrix.identity(x.cols)
-       for k in range(1,ns):
+       t = s = Matrix.identity(x.ncols)
+       for k in xrange(1,ns):
            t = t*x/k   # next term
            s = s + t   # add next term
            if norm(t)<max(ap,norm(s)*rp): return s
-       raise ArithmeticError, 'no convergence'
+       raise ArithmeticError('no convergence')
     elif type(x)==type(1j):
        return cmath.exp(x)
     else:
@@ -795,20 +996,20 @@ def exp(x,ap=1e-6,rp=1e-4,ns=40):
 def Cholesky(A):
     import copy, math
     if not is_almost_symmetric(A):
-        raise ArithmeticError, 'not symmetric'
+        raise ArithmeticError('not symmetric')
     L = copy.deepcopy(A)
-    for k in xrange(L.cols):
+    for k in xrange(L.ncols):
         if L[k,k]<=0:
-            raise ArithmeticError, 'not positive definitive'
+            raise ArithmeticError('not positive definite')
         p = L[k,k] = math.sqrt(L[k,k])
-        for i in xrange(k+1,L.rows):
+        for i in xrange(k+1,L.nrows):
             L[i,k] /= p
-        for j in xrange(k+1,L.rows):
+        for j in xrange(k+1,L.nrows):
             p=float(L[j,k])
-            for i in xrange(k+1,L.rows):
+            for i in xrange(k+1,L.nrows):
                 L[i,j] -= p*L[i,k]
-    for  i in xrange(L.rows):
-        for j in range(i+1,L.cols):
+    for  i in xrange(L.nrows):
+        for j in xrange(i+1,L.ncols):
             L[i,j]=0
     return L
 
@@ -825,8 +1026,8 @@ def Markowitz(mu, A, r_free):
     """Assess Markowitz risk/return.
     Example:
     >>> cov = Matrix([[0.04, 0.006,0.02],
-    ...                        [0.006,0.09, 0.06],
-    ...                        [0.02, 0.06, 0.16]])
+    ...               [0.006,0.09, 0.06],
+    ...               [0.02, 0.06, 0.16]])
     >>> mu = Matrix([[0.10],[0.12],[0.15]])
     >>> r_free = 0.05
     >>> x, ret, risk = Markowitz(mu, cov, r_free)
@@ -835,10 +1036,10 @@ def Markowitz(mu, A, r_free):
     >>> print(ret, risk)
     0.113915... 0.186747...
     """
-    x = Matrix(A.rows, 1)
+    x = Matrix([[0.0] for r in xrange(A.nrows)])
     x = (1/A)*(mu - r_free)
-    x = x/sum(x[r,0] for r in range(x.rows))
-    portfolio = [x[r,0] for r in range(x.rows)]
+    x = x/sum(x[r,0] for r in xrange(x.nrows))
+    portfolio = [x[r,0] for r in xrange(x.nrows)]
     portfolio_return = mu*x
     portfolio_risk = sqrt(x*(A*x))
     return portfolio, portfolio_return, portfolio_risk
@@ -862,20 +1063,20 @@ def fit_least_squares(points, f):
         else: return sum(func(x)*c[i,0] for i,func in enumerate(f))
     A = Matrix(len(points),len(f))
     b = Matrix(len(points))
-    for i in range(A.rows):
+    for i in xrange(A.nrows):
         weight = 1.0/points[i][2] if len(points[i])>2 else 1.0
         b[i,0] = weight*float(points[i][1])
-        for j in range(A.cols):
+        for j in xrange(A.ncols):
             A[i,j] = weight*f[j](float(points[i][0]))
-    c = (1.0/(A.t*A))*(A.t*b)
+    c = (1.0/(A.T*A))*(A.T*b)
     chi = A*c-b
     chi2 = norm(chi,2)**2
     fitting_f = lambda x, c=c, f=f, q=eval_fitting_function: q(f,c,x)
-    return c.values, chi2, fitting_f
+    return c.flatten(), chi2, fitting_f
 
 # examples of fitting functions
 def POLYNOMIAL(n):
-    return [(lambda x, p=p: x**p) for p in range(n+1)]
+    return [(lambda x, p=p: x**p) for p in xrange(n+1)]
 CONSTANT  = POLYNOMIAL(0)
 LINEAR    = POLYNOMIAL(1)
 QUADRATIC = POLYNOMIAL(2)
@@ -900,10 +1101,10 @@ class Trader:
             today_close = history[-1]['adjusted_close']
             tomorrow_prediction = self.model(history[-ndays:])
             return 'buy' if tomorrow_prediction>today_close else 'sell'
-        
+
     def simulate(self,data,cash=1000.0,shares=0.0,daily_rate=0.03/360):
         "find fitting parameters that optimize the trading strategy"
-        for t in range(len(data)):
+        for t in xrange(len(data)):
             suggestion = self.strategy(data[:t])
             today_close = data[t-1]['adjusted_close']
             # and we buy or sell based on our strategy
@@ -927,7 +1128,7 @@ def sqrt(x):
         return cmath.sqrt(x)
 
 def Jacobi_eigenvalues(A,checkpoint=False):
-    """Returns U end e so that A=U*Matrix.diagonal(e)*transposed(U)
+    """Returns U end e so that A=U*diagonal(e)*transposed(U)
        where i-column of U contains the eigenvector corresponding to
        the eigenvalue e[i] of A.
 
@@ -935,13 +1136,13 @@ def Jacobi_eigenvalues(A,checkpoint=False):
     """
     def maxind(M,k):
         j=k+1
-        for i in xrange(k+2,M.cols):
+        for i in xrange(k+2,M.ncols):
             if abs(M[k,i])>abs(M[k,j]):
                j=i
         return j
-    n = A.rows
-    if n!=A.cols:
-        raise ArithmeticError, 'matrix not squared'
+    n = A.nrows
+    if n!=A.ncols:
+        raise ArithmeticError('matrix not squared')
     indexes = xrange(n)
     S = Matrix(n,n, fill=lambda r,c: float(A[r,c]))
     E = Matrix.identity(n)
@@ -1002,6 +1203,7 @@ def Jacobi_eigenvalues(A,checkpoint=False):
         for j in indexes: U[j,i] = E[i,j]/norm
     return U,e
 
+
 def compute_correlation(stocks, key='arithmetic_return'):
     "The input must be a list of YStock(...).historical() data"
     # find trading days common to all stocks
@@ -1017,15 +1219,15 @@ def compute_correlation(stocks, key='arithmetic_return'):
     for stock in stocks:
         v.append([x[key] for x in stock if x['date'] in days])
     # compute mean returns (skip first day, data not reliable)
-    mus = [sum(v[i][k] for k in range(1,n))/n for i in iter_stocks]
+    mus = [sum(v[i][k] for k in xrange(1,n))/n for i in iter_stocks]
     # fill in the covariance matrix
-    var = [sum(v[i][k]**2 for k in range(1,n))/n - mus[i]**2 for i in iter_stocks]
+    var = [sum(v[i][k]**2 for k in xrange(1,n))/n - mus[i]**2 for i in iter_stocks]
     corr = Matrix(nstocks,nstocks,fill=lambda i,j: \
-             (sum(v[i][k]*v[j][k] for k in range(1,n))/n - mus[i]*mus[j])/ \
+             (sum(v[i][k]*v[j][k] for k in xrange(1,n))/n - mus[i]*mus[j])/ \
              math.sqrt(var[i]*var[j]))
     return corr
 
-def invert_minimum_residue(f,x,ap=1e-4,rp=1e-4,ns=200):
+def invert_minimum_residual(f,x,ap=1e-4,rp=1e-4,ns=200):
     import copy
     y = copy.copy(x)
     r = x-1.0*f(x)
@@ -1034,9 +1236,9 @@ def invert_minimum_residue(f,x,ap=1e-4,rp=1e-4,ns=200):
         alpha = (q*r)/(q*q)
         y = y + alpha*r
         r = r - alpha*q
-        residue = sqrt((r*r)/r.rows)
+        residue = sqrt((r*r)/r.nrows)
         if residue<max(ap,norm(y)*rp): return y
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def invert_bicgstab(f,x,ap=1e-4,rp=1e-4,ns=200):
     import copy
@@ -1057,57 +1259,57 @@ def invert_bicgstab(f,x,ap=1e-4,rp=1e-4,ns=200):
         t = f(r)
         omega = (t*r)/(t*t)
         y = y + omega*r + alpha*p
-        residue=sqrt((r*r)/r.rows)
+        residue=sqrt((r*r)/r.nrows)
         if residue<max(ap,norm(y)*rp): return y
         r = r - omega*t
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def solve_fixed_point(f, x, ap=1e-6, rp=1e-4, ns=100):
     def g(x): return f(x)+x # f(x)=0 <=> g(x)=x
     Dg = D(g)
     for k in xrange(ns):
         if abs(Dg(x)) >= 1:
-            raise ArithmeticError, 'error D(g)(x)>=1'
+            raise ArithmeticError('error D(g)(x)>=1')
         (x_old, x) = (x, g(x))
         if k>2 and norm(x_old-x)<max(ap,norm(x)*rp):
             return x
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def solve_bisection(f, a, b, ap=1e-6, rp=1e-4, ns=100):
     fa, fb = f(a), f(b)
     if fa == 0: return a
     if fb == 0: return b
     if fa*fb > 0:
-        raise ArithmeticError, 'f(a) and f(b) must have opposite sign'
+        raise ArithmeticError('f(a) and f(b) must have opposite sign')
     for k in xrange(ns):
         x = (a+b)/2
         fx = f(x)
         if fx==0 or norm(b-a)<max(ap,norm(x)*rp): return x
         elif fx * fa < 0: (b,fb) = (x, fx)
         else: (a,fa) = (x, fx)
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def solve_newton(f, x, ap=1e-6, rp=1e-4, ns=20):
     x = float(x) # make sure it is not int
     for k in xrange(ns):
         (fx, Dfx) = (f(x), D(f)(x))
         if norm(Dfx) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (x_old, x) = (x, x-fx/Dfx)
         if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def solve_secant(f, x, ap=1e-6, rp=1e-4, ns=20):
     x = float(x) # make sure it is not int
     (fx, Dfx) = (f(x), D(f)(x))
     for k in xrange(ns):
         if norm(Dfx) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (x_old, fx_old,x) = (x, fx, x-fx/Dfx)
         if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x
         fx = f(x)
         Dfx = (fx-fx_old)/(x-x_old)
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def optimize_bisection(f, a, b, ap=1e-6, rp=1e-4, ns=100):
     return solve_bisection(D(f), a, b , ap, rp, ns)
@@ -1119,10 +1321,10 @@ def optimize_newton(f, x, ap=1e-6, rp=1e-4, ns=20):
         (fx, Dfx) = (f(x), Df(x))
         if Dfx==0: return x
         if norm(Dfx) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (x_old, x) = (x, x-fx/Dfx)
         if norm(x-x_old)<max(ap,norm(x)*rp): return x
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def optimize_secant(f, x, ap=1e-6, rp=1e-4, ns=100):
     x = float(x) # make sure it is not int
@@ -1131,12 +1333,12 @@ def optimize_secant(f, x, ap=1e-6, rp=1e-4, ns=100):
     for k in xrange(ns):
         if fx==0: return x
         if norm(Dfx) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (x_old, fx_old, x) = (x, fx, x-fx/Dfx)
         if norm(x-x_old)<max(ap,norm(x)*rp): return x
         fx = f(x)
         Dfx = (fx - fx_old)/(x-x_old)
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def optimize_golden_search(f, a, b, ap=1e-6, rp=1e-4, ns=100):
     a,b=float(a),float(b)
@@ -1153,7 +1355,7 @@ def optimize_golden_search(f, a, b, ap=1e-6, rp=1e-4, ns=100):
             x1 = a+(1.0-tau)*(b-a)
             f1 = f(x1)
         if k>2 and norm(b-a)<max(ap,norm(b)*rp): return b
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 def partial(f,i,h=1e-4):
     def df(x,f=f,i=i,h=h):
@@ -1163,7 +1365,7 @@ def partial(f,i,h=1e-4):
         x[i] -= 2*h
         f_minus = f(x)
         if isinstance(f_plus,(list,tuple)):
-            return [(f_plus[i]-f_minus[i])/(2*h) for i in range(len(f_plus))]
+            return [(f_plus[i]-f_minus[i])/(2*h) for i in xrange(len(f_plus))]
         else:
             return (f_plus-f_minus)/(2*h)
     return df
@@ -1188,15 +1390,16 @@ def solve_newton_multi(f, x, ap=1e-6, rp=1e-4, ns=20):
 
     Returns x, solution of f(x)=0, as a list
     """
-    x = Matrix([x]).t
-    fx = Matrix([f(x.values)]).t
+    n = len(x)
+    x = Matrix(len(x))
     for k in xrange(ns):
-        (fx.values, J) = (f(x.values), jacobian(f,x.values))
+        fx = Matrix(f(x.flatten()))
+        J = jacobian(f,x.flatten())
         if norm(J) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (x_old, x) = (x, x-(1.0/J)*fx)
-        if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x.values
-    raise ArithmeticError, 'no convergence'
+        if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x.flatten()
+    raise ArithmeticError('no convergence')
 
 def optimize_newton_multi(f, x, ap=1e-6, rp=1e-4, ns=20):
     """
@@ -1208,14 +1411,14 @@ def optimize_newton_multi(f, x, ap=1e-6, rp=1e-4, ns=20):
 
     Returns x, which maximizes of minimizes f(x)=0, as a list
     """
-    x = Matrix([x]).t
+    x = Matrix(list(x))
     for k in xrange(ns):
-        (grad,H) = (gradient(f,x.values), hessian(f,x.values))
+        (grad,H) = (gradient(f,x.flatten()), hessian(f,x.flatten()))
         if norm(H) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (x_old, x) = (x, x-(1.0/H)*grad)
-        if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x.values
-    raise ArithmeticError, 'no convergence'
+        if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x.flatten()
+    raise ArithmeticError('no convergence')
 
 def optimize_newton_multi_imporved(f, x, ap=1e-6, rp=1e-4, ns=20, h=10.0):
     """
@@ -1227,23 +1430,23 @@ def optimize_newton_multi_imporved(f, x, ap=1e-6, rp=1e-4, ns=20, h=10.0):
 
     Returns x, which maximizes of minimizes f(x)=0, as a list
     """
-    x = Matrix([x]).t
-    fx = f(x.values)
+    x = Matrix(list(x))
+    fx = f(x.flatten())
     for k in xrange(ns):
-        (grad,H) = (gradient(f,x.values), hessian(f,x.values))
+        (grad,H) = (gradient(f,x.flatten()), hessian(f,x.flatten()))
         if norm(H) < ap:
-            raise ArithmeticError, 'unstable solution'
+            raise ArithmeticError('unstable solution')
         (fx_old, x_old, x) = (fx, x, x-(1.0/H)*grad)
-        fx = f(x.values)
+        fx = f(x.flatten())
         while fx>fx_old: # revert to steepest descent
             (fx, x) = (fx_old, x_old)
             norm_grad = norm(grad)
             (x_old, x) = (x, x - grad/norm_grad*h)
-            (fx_old, fx) = (fx, f(x.values))
+            (fx_old, fx) = (fx, f(x.flatten()))
             h = h/2
         h = norm(x-x_old)*2
-        if k>2 and h/2<max(ap,norm(x)*rp): return x.values
-    raise ArithmeticError, 'no convergence'
+        if k>2 and h/2<max(ap,norm(x)*rp): return x.flatten()
+    raise ArithmeticError('no convergence')
 
 def fit(data, fs, b=None, ap=1e-6, rp=1e-4, ns=200, constraint=None):
     if not isinstance(fs,(list,tuple)):
@@ -1265,9 +1468,9 @@ def fit(data, fs, b=None, ap=1e-6, rp=1e-4, ns=200, constraint=None):
             A = Matrix([[fs[k](b,x)/dy for k in xrange(na)] \
                                   for (x,y,dy) in data])
             z = Matrix([[y/dy] for (x,y,dy) in data])
-            a = (1/(A.t*A))*(A.t*z)
+            a = (1/(A.T*A))*(A.T*z)
             chi2 = norm(A*a-z)**2
-            return a.values, chi2
+            return a.flatten(), chi2
         def g(b,data=data,fs=fs,constraint=constraint):
             a, chi2 = core(b, data, fs)
             if constraint:
@@ -1286,7 +1489,7 @@ def integrate_naive(f, a, b, n=20):
     """
     a,b= float(a),float(b)
     h = (b-a)/n
-    return h/2*(f(a)+f(b))+h*sum(f(a+h*i) for i in range(1,n))
+    return h/2*(f(a)+f(b))+h*sum(f(a+h*i) for i in xrange(1,n))
 
 def integrate(f, a, b, ap=1e-4, rp=1e-4, ns=20):
     """
@@ -1294,10 +1497,10 @@ def integrate(f, a, b, ap=1e-4, rp=1e-4, ns=20):
     converges to precision
     """
     I = integrate_naive(f,a,b,1)
-    for k in range(1,ns):
+    for k in xrange(1,ns):
         I_old, I = I, integrate_naive(f,a,b,2**k)
         if k>2 and norm(I-I_old)<max(ap,norm(I)*rp): return I
-    raise ArithmeticError, 'no convergence'
+    raise ArithmeticError('no convergence')
 
 class QuadratureIntegrator:
     """
@@ -1312,193 +1515,13 @@ class QuadratureIntegrator:
         self.packed = (h, order, w)
     def integrate(self,f,a):
         (h, order, w) = self.packed
-        return sum(w[i,0]*f(a+i*h) for i in range(order))
+        return sum(w[i,0]*f(a+i*h) for i in xrange(order))
 
 def integrate_quadrature_naive(f,a,b,n=20,order=4):
     a,b = float(a),float(b)
     h = (b-a)/n
     q = QuadratureIntegrator((b-a)/n,order=order)
-    return sum(q.integrate(f,a+i*h) for i in range(n))
-
-class Cluster(object):
-    def __init__(self,points,metric,weights=None):
-        self.points, self.metric = points, metric
-        self.k = len(points)
-        self.w = weights or [1.0]*self.k
-        self.q = dict((i,[i]) for i,e in enumerate(points))
-        self.d = []
-        for i in xrange(self.k):
-            for j in xrange(i+1,self.k):
-                m = metric(points[i],points[j])
-                if not m is None:
-                    self.d.append((m,i,j))
-        self.d.sort()
-        self.dd = []
-    def parent(self,i):
-        while isinstance(i,int): (parent, i) = (i, self.q[i])
-        return parent, i
-    def step(self):
-        if self.k>1:
-            # find new clusters to join
-            (self.r,i,j),self.d = self.d[0],self.d[1:]
-            # join them
-            i,x = self.parent(i) # find members of cluster i
-            j,y = self.parent(j) # find members if cluster j
-            x += y               # join members
-            self.q[j] = i        # make j cluster point to i
-            self.k -= 1          # decrease cluster count
-            # update all distances to new joined cluster
-            new_d = [] # links not related to joined clusters
-            old_d = {} # old links related to joined clusters
-            for (r,h,k) in self.d:
-                if h in (i,j):
-                    a,b = old_d.get(k,(0.0,0.0))
-                    old_d[k] = a+self.w[k]*r,b+self.w[k]
-                elif k in (i,j):
-                    a,b = old_d.get(h,(0.0,0.0))
-                    old_d[h] = a+self.w[h]*r,b+self.w[h]
-                else:
-                    new_d.append((r,h,k))
-            new_d += [(a/b,i,k) for k,(a,b) in old_d.items()]
-            new_d.sort()
-            self.d = new_d
-            # update weight of new cluster
-            self.w[i] = self.w[i]+self.w[j]
-            # get new list of cluster memebrs
-            self.v = [s for s in self.q.values() if isinstance(s,list)]
-            self.dd.append((self.r,len(self.v)))
-        return self.r, self.v
-
-    def find(self,k):
-        # if necessary start again
-        if self.k<k: self.__init__(self.points,self.metric)
-        # step until we get k clusters
-        while self.k>k: self.step()
-        # return list of cluster members
-        return self.r, self.v
-
-class NeuralNetwork:
-    """
-    Back-Propagation Neural Networks
-    Placed in the public domain.
-    Original author: Neil Schemenauer <nas@arctrix.com>
-    Modified by: Massimo Di Pierro
-    Read more: http://www.ibm.com/developerworks/library/l-neural/
-    """
-
-    @staticmethod
-    def rand(a, b):
-        """ calculate a random number where:  a <= rand < b """
-        return (b-a)*random.random() + a
-
-    @staticmethod
-    def sigmoid(x):
-        """ our sigmoid function, tanh is a little nicer than the standard 1/(1+e^-x) """
-        return math.tanh(x)
-
-    @staticmethod
-    def dsigmoid(y):
-        """ # derivative of our sigmoid function, in terms of the output ({\it for example} y) """
-        return 1.0 - y**2
-
-    def __init__(self, ni, nh, no):
-        # number of input, hidden, and output nodes
-        self.ni = ni + 1 # +1 for bias node
-        self.nh = nh
-        self.no = no
-
-        # activations for nodes
-        self.ai = [1.0]*self.ni
-        self.ah = [1.0]*self.nh
-        self.ao = [1.0]*self.no
-
-        # create weights
-        self.wi = Matrix(self.ni, self.nh, fill=lambda r,c: self.rand(-0.2, 0.2))
-        self.wo = Matrix(self.nh, self.no, fill=lambda r,c: self.rand(-2.0, 2.0))
-
-        # last change in weights for momentum
-        self.ci = Matrix(self.ni, self.nh)
-        self.co = Matrix(self.nh, self.no)
-
-    def update(self, inputs):
-        if len(inputs) != self.ni-1:
-            raise ValueError, 'wrong number of inputs'
-
-        # input activations
-        for i in range(self.ni-1):
-            self.ai[i] = inputs[i]
-
-        # hidden activations
-        for j in range(self.nh):
-            s = sum(self.ai[i] * self.wi[i,j] for i in range(self.ni))
-            self.ah[j] = self.sigmoid(s)
-
-        # output activations
-        for k in range(self.no):
-            s = sum(self.ah[j] * self.wo[j,k] for j in range(self.nh))
-            self.ao[k] = self.sigmoid(s)
-        return self.ao[:]
-
-    def back_propagate(self, targets, N, M):
-        if len(targets) != self.no:
-            raise ValueError, 'wrong number of target values'
-
-        # calculate error terms for output
-        output_deltas = [0.0] * self.no
-        for k in range(self.no):
-            error = targets[k]-self.ao[k]
-            output_deltas[k] = self.dsigmoid(self.ao[k]) * error
-
-        # calculate error terms for hidden
-        hidden_deltas = [0.0] * self.nh
-        for j in range(self.nh):
-            error = sum(output_deltas[k]*self.wo[j,k] for k in range(self.no))
-            hidden_deltas[j] = self.dsigmoid(self.ah[j]) * error
-
-        # update output weights
-        for j in range(self.nh):
-            for k in range(self.no):
-                change = output_deltas[k]*self.ah[j]
-                self.wo[j,k] = self.wo[j,k] + N*change + M*self.co[j,k]
-                self.co[j,k] = change
-                #print(N*change, M*self.co[j,k])
-
-        # update input weights
-        for i in range(self.ni):
-            for j in range(self.nh):
-                change = hidden_deltas[j]*self.ai[i]
-                self.wi[i,j] = self.wi[i,j] + N*change + M*self.ci[i,j]
-                self.ci[i,j] = change
-
-        # calculate error
-        error = sum(0.5*(targets[k]-self.ao[k])**2 for k in range(len(targets)))
-        return error
-
-    def test(self, patterns):
-        for p in patterns:
-            print(p[0], '->', self.update(p[0]))
-
-    def weights(self):
-        print('Input weights:')
-        for i in range(self.ni):
-            print(self.wi[i])
-        print
-        print('Output weights:')
-        for j in range(self.nh):
-            print(self.wo[j])
-
-    def train(self, patterns, iterations=1000, N=0.5, M=0.1, check=False):
-        # N: learning rate
-        # M: momentum factor
-        for i in xrange(iterations):
-            error = 0.0
-            for p in patterns:
-                inputs = p[0]
-                targets = p[1]
-                self.update(inputs)
-                error = error + self.back_propagate(targets, N, M)
-            if check and i % 100 == 0:
-                print('error %-14f' % error)
+    return sum(q.integrate(f,a+i*h) for i in xrange(n))
 
 def E(f,S): return float(sum(f(x) for x in S))/(len(S) or 1)
 def mean(X): return E(lambda x:x, X)
@@ -1506,16 +1529,16 @@ def variance(X): return E(lambda x:x**2, X) - E(lambda x:x, X)**2
 def sd(X): return sqrt(variance(X))
 
 def covariance(X,Y):
-    return sum(X[i]*Y[i] for i in range(len(X)))/len(X) - mean(X)*mean(Y)
+    return sum(X[i]*Y[i] for i in xrange(len(X)))/len(X) - mean(X)*mean(Y)
 def correlation(X,Y):
     return covariance(X,Y)/sd(X)/sd(Y)
 
-class LCG(object):
-    def __init__(self,seed,a=66539,c=0,m=2**31):
+class MCG(object):
+    def __init__(self,seed,a=66539,m=2**31):
         self.x = seed
-        self.a, self.c, self.m = a, c, m
+        self.a, self.m = a, m
     def next(self):
-        self.x = (self.a*self.x + self.c) % self.m
+        self.x = (self.a*self.x) % self.m
         return self.x
     def random(self):
         return float(self.next())/self.m
@@ -1528,15 +1551,15 @@ class MarsenneTwister(object):
     """
     def __init__(self,seed=4357):
         self.w = []   # the array for the state vector
-        self.w.append(seed & 0xffffffffL)
+        self.w.append(seed & 0xffffffff)
         for i in xrange(1, 625):
-            self.w.append((69069 * self.w[i-1]) & 0xffffffffL)
+            self.w.append((69069 * self.w[i-1]) & 0xffffffff)
         self.wi = i
     def random(self):
         w = self.w
         wi = self.wi
-        N, M, U, L = 624, 397, 0x80000000L, 0x7fffffffL
-        K = [0x0L, 0x9908b0dfL]
+        N, M, U, L = 624, 397, 0x80000000, 0x7fffffff
+        K = [0x0, 0x9908b0df]
         y = 0
         if wi >= N:
             for kk in xrange((N-M) + 1):
@@ -1552,10 +1575,14 @@ class MarsenneTwister(object):
         y = w[wi]
         wi += 1
         y ^= (y >> 11)
-        y ^= (y << 7) & 0x9d2c5680L
-        y ^= (y << 15) & 0xefc60000L
+        y ^= (y << 7) & 0x9d2c5680
+        y ^= (y << 15) & 0xefc60000
         y ^= (y >> 18)
-        return (float(y)/0xffffffffL )
+        return (float(y)/0xffffffff )
+
+def leapfrog(mcg,k):
+    a = mcg.a**k % mcg.m
+    return [MCG(mcg.next(),a,mcg.m) for i in range(k)]
 
 class RandomSource(object):
     def __init__(self,generator=None):
@@ -1580,21 +1607,18 @@ class RandomSource(object):
             if u<p+epsilon:
                 return key
             u = u - p
-        raise ArithmeticError, "invalid probability"
+        raise ArithmeticError('invalid probability')
 
     def binomial(self,n,p,epsilon=1e-6):
         u = self.random()
         q = (1.0-p)**n
-        for k in range(n+1):
+        for k in xrange(n+1):
             if u<q+epsilon:
                 return k
             else:
                 u = u - q
             q = q*(n-k)/(k+1)*p/(1.0-p)
-        raise ArithmeticError, "invalid probability"
-
-    def negative_binomial(self,n,p,epsilon=1e-6):
-        return self.binomial(n-1,p-1,epsilon)
+        raise ArithmeticError('invalid probability')
 
     def poisson(self,lamb,epsilon=1e-6):
         u = self.random()
@@ -1607,7 +1631,7 @@ class RandomSource(object):
                 u = u - q
             q = q*lamb/(k+1)
             k = k+1
-        raise ArithmeticError, "invalid probability"
+        raise ArithmeticError('invalid probability')
 
     def uniform(self,a,b):
         return a+(b-a)*self.random()
@@ -1620,13 +1644,30 @@ class RandomSource(object):
             this, other = self.other, None
         else:
             while True:
-                v1 = 2.0*self.random()-1
-                v2 = 2.0*self.random()-1
+                v1 = self.random(-1,1)
+                v2 = self.random(-1,1)
                 r = v1*v1+v2*v2
                 if r<1: break
             this = sqrt(-2.0*log(r)/r)*v1
             self.other = sqrt(-2.0*log(r)/r)*v1
         return mu+sigma*this
+
+def confidence_intervals(mu,sigma):
+    """Computes the normal confidence intervals"""
+    CONFIDENCE=[
+        (0.68,1.0),
+        (0.80,1.281551565545),
+        (0.90,1.644853626951),
+        (0.95,1.959963984540),
+        (0.98,2.326347874041),
+        (0.99,2.575829303549),
+        (0.995,2.807033768344),
+        (0.998,3.090232306168),
+        (0.999,3.290526731492),
+        (0.9999,3.890591886413),
+        (0.99999,4.417173413469)
+        ]
+    return [(a,mu-b*sigma,mu+b*sigma) for (a,b) in CONFIDENCE]
 
     def pareto(self,alpha,xm):
         u = self.random()
@@ -1656,34 +1697,17 @@ class RandomSource(object):
         norm = math.sqrt(x*x+y*y+z*z)
         return x/norm,y/norm,z/norm
 
-def resample(x,size=None):
-    return [x[random.randint(0,len(x)-1)] for i in range(size or len(x))]
+def resample(S,size=None):
+    return [random.choice(S) for i in xrange(size or len(S))]
 
 def bootstrap(x, confidence=0.68, nsamples=100):
     """Computes the bootstrap errors of the input list."""
     def mean(S): return float(sum(x for x in S))/len(S)
-    means=[mean(resample(x)) for k in range(nsamples)]
+    means = [mean(resample(x)) for k in xrange(nsamples)]
     means.sort()
     left_tail = int(((1.0-confidence)/2)*nsamples)
     right_tail = nsamples-1-left_tail
     return means[left_tail], mean(x), means[right_tail]
-
-def confidence_intervals(mu,sigma):
-    """Computes the normal confidence intervals"""
-    CONFIDENCE=[
-        (0.68,1.0),
-        (0.80,1.281551565545),
-        (0.90,1.644853626951),
-        (0.95,1.959963984540),
-        (0.98,2.326347874041),
-        (0.99,2.575829303549),
-        (0.995,2.807033768344),
-        (0.998,3.090232306168),
-        (0.999,3.290526731492),
-        (0.9999,3.890591886413),
-        (0.99999,4.417173413469)
-        ]
-    return [(a,mu-b*sigma,mu+b*sigma) for (a,b) in CONFIDENCE]
 
 class MCEngine:
     """
@@ -1698,81 +1722,40 @@ class MCEngine:
         self.results = []
         s1=s2=0.0
         self.convergence=False
-        for k in range(1,ns):
+        for k in xrange(1,ns):
             x = self.simulate_once()
             self.results.append(x)
             s1 += x
             s2 += x*x
             mu = float(s1)/k
             variance = float(s2)/k-mu*mu
-            dmu = sqrt(variance)/k
+            dmu = sqrt(variance/k)
             if k>10:
                 if abs(dmu)<max(ap,abs(mu)*rp):
                     self.converence = True
                     break
-        self.confidence_intervals = confidence_intervals(mu,dmu)
+        self.results.sort()
         return bootstrap(self.results)
 
-    def var(self, confidence=68):
-        self.results.sort()
-        left_tail = (1.0-confidence)/2
-        right_tail = 1.0-left_tail
-        min_index = int(left_tail*len(self.results))
-        max_index = int(right_tail*len(self.results))
-        if min_index<10:
-            raise ArithmeticError, 'not enough data, not reliable'
-        return self.results[min_index], self.results[max_index]
-
-class NetworkReliability(MCEngine):
-    def __init__(self,n_nodes,start,stop):
-        self.links = []
-        self.b_nodes = n_nodes
-        self.start = start
-        self.stop = stop
-    def add_link(self,i,j,failure_probability):
-        self.links.append((i,j,failure_probability))
-    def simulate_once(self):
-        nodes = DisjoinSets(self.n_nodes)
-        for i,j,pf in self.links:
-            if random.random()>pf:
-                nodes.join(i,j)
-        return nodes.joined(i,j)
-
-class NuclearReactor(MCEngine):
-    def __init__(self,radius,density):
-        self.random = RandomSource()
-        self.radius = radius
-        self.density = density
-    def simulate_once(self):
-        p = self.random.point_in_shpere(self.radius)
-        events = [p]
-        while events:
-            event = events.pop()
-            v = self.random.point_on_sphere()
-            d1 = self.random.exponential(self.density)
-            d2 = self.random.exponential(self.density)
-            p1 = (p[0]+v[0]*d1,p[1]+v[1]*d1,p[2]+v[2]*d1)
-            p2 = (p[0]-v[0]*d2,p[1]-v[1]*d2,p[2]-v[2]*d2)
-            if p1[0]**2+p1[1]**2+p1[2]**2<self.radius:
-                events.append(p1)
-            if p2[0]**2+p2[1]**2+p2[2]**2<self.radius:
-                events.append(p2)
-            if len(events)>1000:
-                return 1.0
-        return 0.0
+    def var(self, confidence=95):
+        index = int(0.01*len(self.results)*confidence+0.999)
+        if len(self.results)-index < 5:
+            raise ArithmeticError('not enough data, not reliable')
+        return self.results[index]
 
 
-def test072():
+def test071():
     """
-    >>> SP100 = ['AA', 'AAPL', 'ABT', 'AEP', 'ALL', 'AMGN', 'AMZN', 'AVP', 'AXP', 'BA', 'BAC',
-    ... 'BAX', 'BHI', 'BK', 'BMY', 'BRK.B', 'CAT', 'C', 'CL', 'CMCSA', 'COF', 'COP', 'COST',
-    ... 'CPB', 'CSCO', 'CVS', 'CVX', 'DD', 'DELL', 'DIS', 'DOW', 'DVN', 'EMC', 'ETR', 'EXC',
-    ... 'F', 'FCX', 'FDX', 'GD', 'GE', 'GILD', 'GOOG', 'GS', 'HAL', 'HD', 'HNZ', 'HON', 'HPQ',
-    ... 'IBM', 'INTC', 'JNJ', 'JPM', 'KFT', 'KO', 'LMT', 'LOW', 'MA', 'MCD', 'MDT', 'MET',
-    ... 'MMM', 'MO', 'MON', 'MRK', 'MS', 'MSFT', 'NKE', 'NOV', 'NSC', 'NWSA', 'NYX', 'ORCL',
-    ... 'OXY', 'PEP', 'PFE', 'PG', 'PM', 'QCOM', 'RF', 'RTN', 'S', 'SLB', 'SLE', 'SO', 'T',
-    ... 'TGT', 'TWX', 'TXN', 'UNH', 'UPS', 'USB', 'UTX', 'VZ', 'WAG', 'WFC', 'WMB', 'WMT',
-    ... 'WY', 'XOM', 'XRX']
+    >>> SP100 = ['AA', 'AAPL', 'ABT', 'AEP', 'ALL', 'AMGN', 'AMZN', 'AVP',
+    ... 'AXP', 'BA', 'BAC', 'BAX', 'BHI', 'BK', 'BMY', 'BRK.B', 'CAT', 'C', 'CL',
+    ... 'CMCSA', 'COF', 'COP', 'COST', 'CPB', 'CSCO', 'CVS', 'CVX', 'DD', 'DELL',
+    ... 'DIS', 'DOW', 'DVN', 'EMC', 'ETR', 'EXC', 'F', 'FCX', 'FDX', 'GD', 'GE',
+    ... 'GILD', 'GOOG', 'GS', 'HAL', 'HD', 'HNZ', 'HON', 'HPQ', 'IBM', 'INTC',
+    ... 'JNJ', 'JPM', 'KFT', 'KO', 'LMT', 'LOW', 'MA', 'MCD', 'MDT', 'MET',
+    ... 'MMM', 'MO', 'MON', 'MRK', 'MS', 'MSFT', 'NKE', 'NOV', 'NSC', 'NWSA',
+    ... 'NYX', 'ORCL', 'OXY', 'PEP', 'PFE', 'PG', 'PM', 'QCOM', 'RF', 'RTN', 'S',
+    ... 'SLB', 'SLE', 'SO', 'T', 'TGT', 'TWX', 'TXN', 'UNH', 'UPS', 'USB',
+    ... 'UTX', 'VZ', 'WAG', 'WFC', 'WMB', 'WMT', 'WY', 'XOM', 'XRX']
     >>> from datetime import date
     >>> storage = PersistentDictionary('sp100.sqlite')
     >>> for symbol in SP100:
@@ -1785,7 +1768,7 @@ def test072():
     pass
 
 
-def test073():
+def test072():
     """
     >>> storage = PersistentDictionary('sp100.sqlite')
     >>> appl = storage['AAPL/2011']
@@ -1796,7 +1779,7 @@ def test073():
     pass
 
 
-def test074():
+def test073():
     """
     >>> storage = PersistentDictionary('sp100.sqlite')
     >>> appl = storage['AAPL/2011'][1:] # skip 1st day
@@ -1807,24 +1790,24 @@ def test074():
     pass
 
 
-def test075():
+def test074():
     """
     >>> from random import gauss
-    >>> points = [(gauss(0,1),gauss(0,1),gauss(0,0.2),gauss(0,0.2)) for i in range(30)]
+    >>> points = [(gauss(0,1),gauss(0,1),gauss(0,0.2),gauss(0,0.2)) for i in xrange(30)]
     >>> Canvas(title='example scatter plot', xrange=(-2,2), yrange=(-2,2)).ellipses(points).save('images/scatter.png')
     
     """
     pass
 
 
-def test076():
+def test075():
     """
     >>> storage = PersistentDictionary('sp100.sqlite')
     >>> points = []
     >>> for key in storage.keys('*/2011'):
     ...     v = [day['log_return'] for day in storage[key][1:]]
-    ...     ret = mean(v)
-    ...     var = variance(v)
+    ...     ret = sum(v)/len(v)
+    ...     var = sum(x**2 for x in v)/len(v) - ret**2
     ...     points.append((var*math.sqrt(len(v)),ret*len(v),0.0002,0.02))
     >>> Canvas(title='S&P100 (2011)',xlab='risk',ylab='return',
     ...      xrange = (min(p[0] for p in points),max(p[0] for p in points)),
@@ -1835,7 +1818,7 @@ def test076():
     pass
 
 
-def test077():
+def test076():
     """
     >>> def f(x,y): return (x-1)**2+(y-2)**2
     >>> points = [[f(0.1*i-3,0.1*j-3) for i in range(61)] for j in range(61)]
@@ -1845,7 +1828,7 @@ def test077():
     pass
 
 
-def test078():
+def test077():
     """
     >>> print(fib(11))
     89
@@ -1854,7 +1837,7 @@ def test078():
     pass
 
 
-def test079():
+def test078():
     """
     >>> walls, torn_down_walls = make_maze(n=20,d=2)
     
@@ -1862,9 +1845,9 @@ def test079():
     pass
 
 
-def test080():
+def test079():
     """
-    >>> vertices = range(10)
+    >>> vertices = xrange(10)
     >>> links = [(i,j,abs(math.sin(i+j+1))) for i in vertices for j in vertices]
     >>> graph = [vertices,links]
     >>> links = Dijkstra(graph,0)
@@ -1883,12 +1866,12 @@ def test080():
     pass
 
 
-def test081():
+def test080():
     """
     >>> n,d = 4, 2
     >>> walls, links = make_maze(n,d)
     >>> symmetrized_links = [(i,j,1) for (i,j) in links]+[(j,i,1) for (i,j) in links]
-    >>> graph = [range(n*n),symmetrized_links]
+    >>> graph = [xrange(n*n),symmetrized_links]
     >>> links = Dijkstra(graph,0)
     >>> paths = dict((i,(j,d)) for (i,j,d) in links)
     
@@ -1896,7 +1879,7 @@ def test081():
     pass
 
 
-def test082():
+def test081():
     """
     >>> input = 'this is a nice day'
     >>> keys, encoded = encode_huffman(input)
@@ -1912,7 +1895,7 @@ def test082():
     pass
 
 
-def test083():
+def test082():
     """
     >>> from math import log
     >>> input = 'this is a nice day'
@@ -1925,7 +1908,7 @@ def test083():
     pass
 
 
-def test084():
+def test083():
     """
     >>> dna1 = 'ATGCTTTAGAGGATGCGTAGATAGCTAAATAGCTCGCTAGA'
     >>> dna2 = 'GATAGGTACCACAATAATAAGGATAGCTCGCAAATCCTCGA'
@@ -1936,13 +1919,13 @@ def test084():
     pass
 
 
-def test085():
+def test084():
     """
     >>> bases = 'ATGC'
     >>> from random import choice
-    >>> genes = [''.join(choice(bases) for k in range(10)) for i in range(20)]
-    >>> chromosome1 = ''.join(choice(genes) for i in range(10))
-    >>> chromosome2 = ''.join(choice(genes) for i in range(10))
+    >>> genes = [''.join(choice(bases) for k in xrange(10)) for i in xrange(20)]
+    >>> chromosome1 = ''.join(choice(genes) for i in xrange(10))
+    >>> chromosome2 = ''.join(choice(genes) for i in xrange(10))
     >>> z = needleman_wunsch(chromosome1, chromosome2)
     >>> Canvas(title='Needleman-Wunsch').imshow(z).save('images/needleman.png')
     
@@ -1950,7 +1933,38 @@ def test085():
     pass
 
 
+def test085():
+    """
+    >>> def metric(a,b):
+    ...     return math.sqrt(sum((x-b[i])**2 for i,x in enumerate(a)))
+    >>> points = [[random.gauss(i % 5,0.3) for j in xrange(10)] for i in xrange(200)]
+    >>> c = Cluster(points,metric)
+    >>> r, clusters = c.find(1) # cluster all points until one cluster only
+    >>> Canvas(title='clustering example',xlab='distance',ylab='number of clusters'
+    ...       ).plot(c.dd[150:]).save('clustering1.png')
+    >>> Canvas(title='clustering example (2d projection)',xlab='p[0]',ylab='p[1]'
+    ...       ).ellipses([p[:2] for p in points]).save('clustering2.png')
+    
+    """
+    pass
+
+
 def test086():
+    """
+    >>> pat = [[[0,0], [0]], [[0,1], [1]], [[1,0], [1]], [[1,1], [0]]]
+    >>> n = NeuralNetwork(2, 2, 1)
+    >>> n.train(pat)
+    >>> n.test(pat)
+    [0, 0] -> [0.00...]
+    [0, 1] -> [0.98...]
+    [1, 0] -> [0.98...]
+    [1, 1] -> [-0.00...]
+    
+    """
+    pass
+
+
+def test088():
     """
     >>> def f(x): return x*x-5.0*x
     >>> print(f(0))
@@ -1969,7 +1983,7 @@ def test086():
     pass
 
 
-def test087():
+def test089():
     """
     >>> X = [0.03*i for i in xrange(200)]
     >>> c = Canvas(title='sin(x) approximations')
@@ -1987,7 +2001,7 @@ def test087():
     pass
 
 
-def test088():
+def test090():
     """
     >>> a = math.pi/2
     >>> X = [0.03*i for i in xrange(200)]
@@ -2006,9 +2020,9 @@ def test088():
     pass
 
 
-def test089():
+def test091():
     """
-    >>> for i in range(10):
+    >>> for i in xrange(10):
     ...     x= 0.1*i
     ...     assert abs(myexp(x) - math.exp(x)) < 1e-4
     
@@ -2016,9 +2030,9 @@ def test089():
     pass
 
 
-def test090():
+def test092():
     """
-    >>> for i in range(10):
+    >>> for i in xrange(10):
     ...     x= 0.1*i
     ...     assert abs(mysin(x) - math.sin(x)) < 1e-4
     
@@ -2026,9 +2040,9 @@ def test090():
     pass
 
 
-def test091():
+def test093():
     """
-    >>> for i in range(10):
+    >>> for i in xrange(10):
     ...     x = 0.1*i
     ...     assert abs(mycos(x) - math.cos(x)) < 1e-4
     
@@ -2036,7 +2050,7 @@ def test091():
     pass
 
 
-def test092():
+def test094():
     """
     >>> A = Matrix([[1.0,2.0],[3.0,4.0]])
     >>> print(A + A)      # calls A.__add__(A)
@@ -2057,7 +2071,7 @@ def test092():
     pass
 
 
-def test093():
+def test095():
     """
     >>> A = Matrix([[1,2],[3,4]])
     >>> print(A + 1j)
@@ -2067,7 +2081,7 @@ def test093():
     pass
 
 
-def test094():
+def test096():
     """
     >>> A = Matrix([[1.0,2.0],[3.0,4.0]])
     >>> print(2*A)       # scalar * matrix
@@ -2082,11 +2096,11 @@ def test094():
     pass
 
 
-def test095():
+def test097():
     """
-    >>> points = [(math.cos(0.0628*t),math.sin(0.0628*t)) for t in range(200)]
-    >>> points += [(0.02*t,0) for t in range(50)]
-    >>> points += [(0,0.02*t) for t in range(50)]
+    >>> points = [(math.cos(0.0628*t),math.sin(0.0628*t)) for t in xrange(200)]
+    >>> points += [(0.02*t,0) for t in xrange(50)]
+    >>> points += [(0,0.02*t) for t in xrange(50)]
     >>> Canvas(title='Linear Transformation',xlab='x',ylab='y',
     ...        xrange=(-1,1), yrange=(-1,1)).ellipses(points).save('la1.png')
     >>> def f(A,points,filename):
@@ -2110,7 +2124,7 @@ def test095():
     pass
 
 
-def test096():
+def test098():
     """
     >>> A = Matrix([[1,2],[4,9]])
     >>> print(1/A)
@@ -2124,17 +2138,17 @@ def test096():
     pass
 
 
-def test097():
+def test099():
     """
     >>> A = Matrix([[1,2],[3,4]])
-    >>> print(A.t)
+    >>> print(A.T)
     [[1, 3], [2, 4]]
     
     """
     pass
 
 
-def test098():
+def test100():
     """
     >>> A = Matrix([[1,2,2],[4,4,2],[4,6,4]])
     >>> b = Matrix([[3],[6],[10]])
@@ -2146,7 +2160,7 @@ def test098():
     pass
 
 
-def test099():
+def test101():
     """
     >>> def f(x): return x*x-5.0*x
     >>> print(condition_number(f,1))
@@ -2159,7 +2173,7 @@ def test099():
     pass
 
 
-def test100():
+def test102():
     """
     >>> A = Matrix([[1,2],[3,4]])
     >>> print(exp(A))
@@ -2169,20 +2183,20 @@ def test100():
     pass
 
 
-def test101():
+def test103():
     """
     >>> A = Matrix([[4,2,1],[2,9,3],[1,3,16]])
     >>> L = Cholesky(A)
-    >>> print(is_almost_zero(A - L*L.t))
+    >>> print(is_almost_zero(A - L*L.T))
     True
     
     """
     pass
 
 
-def test102():
+def test104():
     """
-    >>> points = [(k,5+0.8*k+0.3*k*k+math.sin(k),2) for k in range(100)]
+    >>> points = [(k,5+0.8*k+0.3*k*k+math.sin(k),2) for k in xrange(100)]
     >>> a,chi2,fitting_f = fit_least_squares(points,QUADRATIC)
     >>> for p in points[-10:]:
     ...     print(p[0], round(p[1],2), round(fitting_f(p[0]),2))
@@ -2205,13 +2219,13 @@ def test102():
     pass
 
 
-def test103():
+def test105():
     """
     >>> from datetime import date
     >>> data = YStock('aapl').historical(
     ...        start=date(2011,1,1),stop=date(2011,12,31))
     >>> print(Trader().simulate(data,cash=1000.0))
-    1133...
+    1120...
     >>> print(1000.0*math.exp(0.03))
     1030...
     >>> print(1000.0*data[-1]['adjusted_close']/data[0]['adjusted_close'])
@@ -2221,22 +2235,22 @@ def test103():
     pass
 
 
-def test104():
+def test106():
     """
     >>> import random
     >>> A = Matrix(4,4)
-    >>> for r in range(A.rows):
-    ...     for c in range(r,A.cols):
+    >>> for r in xrange(A.nrows):
+    ...     for c in xrange(r,A.ncols):
     ...         A[r,c] = A[c,r] = random.gauss(10,10)
     >>> U,e = Jacobi_eigenvalues(A)
-    >>> print(is_almost_zero(U*Matrix.diagonal(e)*U.t-A))
+    >>> print(is_almost_zero(U*Matrix.diagonal(e)*U.T-A))
     True
     
     """
     pass
 
 
-def test105():
+def test107():
     """
     >>> storage = PersistentDictionary('sp100.sqlite')
     >>> symbols = storage.keys('*/2011')[:20]
@@ -2251,16 +2265,16 @@ def test105():
     pass
 
 
-def test106():
+def test108():
     """
     >>> m = 30
     >>> x = Matrix(m*m,1,fill=lambda r,c:(r//m in(10,20) or r%m in(10,20)) and 1. or 0.)
     >>> def smear(x):
     ...     alpha, beta = 0.4, 8
-    ...     for k in range(beta):
-    ...        y = Matrix(x.rows,1)
-    ...        for r in range(m):
-    ...            for c in range(m):
+    ...     for k in xrange(beta):
+    ...        y = Matrix(x.nrows,1)
+    ...        for r in xrange(m):
+    ...            for c in xrange(m):
     ...                y[r*m+c,0] = (1.0-alpha/4)*x[r*m+c,0]
     ...                if c<m-1: y[r*m+c,0] += alpha * x[r*m+c+1,0]
     ...                if c>0:   y[r*m+c,0] += alpha * x[r*m+c-1,0]
@@ -2269,16 +2283,16 @@ def test106():
     ...        x = y
     ...     return y
     >>> y = smear(x)
-    >>> z = invert_minimum_residue(smear,y,ns=1000)
-    >>> y.cols = y.rows = z.rows = z.cols = m
-    >>> Canvas(title="Defocused image").imshow(y.as_list()).save('images/defocused.png')
-    >>> Canvas(title="refocus image").imshow(z.as_list()).save('images/refocused.png')
+    >>> z = invert_minimum_residual(smear,y,ns=1000)
+    >>> y = y.reshape(m,m)
+    >>> Canvas(title="Defocused image").imshow(y.tolist()).save('images/defocused.png')
+    >>> Canvas(title="refocus image").imshow(z.tolist()).save('images/refocused.png')
     
     """
     pass
 
 
-def test107():
+def test109():
     """
     >>> def f(x): return (x-2)*(x-5)/10
     >>> print(round(solve_fixed_point(f,1.0,rp=0),4))
@@ -2288,7 +2302,7 @@ def test107():
     pass
 
 
-def test108():
+def test110():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(solve_bisection(f,1.0,3.0),4))
@@ -2298,7 +2312,7 @@ def test108():
     pass
 
 
-def test109():
+def test111():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(solve_newton(f,1.0),4))
@@ -2308,7 +2322,7 @@ def test109():
     pass
 
 
-def test110():
+def test112():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(solve_secant(f,1.0),4))
@@ -2318,7 +2332,7 @@ def test110():
     pass
 
 
-def test111():
+def test113():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(optimize_bisection(f,2.0,5.0),4))
@@ -2328,7 +2342,7 @@ def test111():
     pass
 
 
-def test112():
+def test114():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(optimize_newton(f,3.0),3))
@@ -2338,7 +2352,7 @@ def test112():
     pass
 
 
-def test113():
+def test115():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(optimize_secant(f,3.0),3))
@@ -2348,7 +2362,7 @@ def test113():
     pass
 
 
-def test114():
+def test116():
     """
     >>> def f(x): return (x-2)*(x-5)
     >>> print(round(optimize_golden_search(f,2.0,5.0),3))
@@ -2358,7 +2372,7 @@ def test114():
     pass
 
 
-def test115():
+def test117():
     """
     >>> def f(x): return 2.0*x[0]+3.0*x[1]+5.0*x[1]*x[2]
     >>> df0 = partial(f,0)
@@ -2372,7 +2386,7 @@ def test115():
     pass
 
 
-def test116():
+def test118():
     """
     >>> def f(x): return 2.0*x[0]+3.0*x[1]+5.0*x[1]*x[2]
     >>> print(gradient(f, x=(1,1,1)))
@@ -2384,7 +2398,7 @@ def test116():
     pass
 
 
-def test117():
+def test119():
     """
     >>> def f(x): return (2.0*x[0]+3.0*x[1]+5.0*x[1]*x[2], 2.0*x[0])
     >>> print(jacobian(f, x=(1,1,1)))
@@ -2394,9 +2408,9 @@ def test117():
     pass
 
 
-def test118():
+def test120():
     """
-    >>> def f(x): return (x[0]+x[1], x[0]+x[1]**2-2)
+    >>> def f(x): return [x[0]+x[1], x[0]+x[1]**2-2]
     >>> print(solve_newton_multi(f, x=(0,0)))
     [1.0..., -1.0...]
     
@@ -2404,7 +2418,7 @@ def test118():
     pass
 
 
-def test119():
+def test121():
     """
     >>> def f(x): return (x[0]-2)**2+(x[1]-3)**2
     >>> print(optimize_newton_multi(f, x=(0,0)))
@@ -2414,9 +2428,9 @@ def test119():
     pass
 
 
-def test120():
+def test122():
     """
-    >>> data = [(i, i+2.0*i**2+300.0/(i+10), 2.0) for i in range(1,10)]
+    >>> data = [(i, i+2.0*i**2+300.0/(i+10), 2.0) for i in xrange(1,10)]
     >>> fs = [(lambda b,x: x), (lambda b,x: x*x), (lambda b,x: 1.0/(x+b[0]))]
     >>> ab, chi2 = fit(data,fs,[5])
     >>> print(ab, chi2)
@@ -2426,7 +2440,7 @@ def test120():
     pass
 
 
-def test121():
+def test123():
     """
     >>> from math import sin, cos
     >>> print(integrate_naive(sin,0,3,n=2))
@@ -2444,7 +2458,7 @@ def test121():
     pass
 
 
-def test122():
+def test124():
     """
     >>> from math import sin
     >>> print(integrate_quadrature_naive(sin,0,3,n=2,order=2))
@@ -2458,40 +2472,9 @@ def test122():
     pass
 
 
-def test123():
+def test128():
     """
-    >>> def metric(a,b):
-    ...     return math.sqrt(sum((x-b[i])**2 for i,x in enumerate(a)))
-    >>> points = [[random.gauss(i % 5,0.3) for j in range(10)] for i in range(200)]
-    >>> c = Cluster(points,metric)
-    >>> r, clusters = c.find(1) # cluster all points until one cluster only
-    >>> Canvas(title='clustering example',xlab='distance',ylab='number of clusters'
-    ...       ).plot(c.dd[150:]).save('clustering1.png')
-    >>> Canvas(title='clustering example (2d projection)',xlab='p[0]',ylab='p[1]'
-    ...       ).ellipses([p[:2] for p in points]).save('clustering2.png')
-    
-    """
-    pass
-
-
-def test124():
-    """
-    >>> pat = [[[0,0], [0]], [[0,1], [1]], [[1,0], [1]], [[1,1], [0]]]
-    >>> n = NeuralNetwork(2, 2, 1)
-    >>> n.train(pat)
-    >>> n.test(pat)
-    [0, 0] -> [0.00...]
-    [0, 1] -> [0.98...]
-    [1, 0] -> [0.98...]
-    [1, 1] -> [-0.00...]
-    
-    """
-    pass
-
-
-def test129():
-    """
-    >>> S = [random.random()+random.random() for i in range(100)]
+    >>> S = [random.random()+random.random() for i in xrange(100)]
     >>> print(mean(S))
     1.000...
     >>> print(sd(S))
@@ -2501,7 +2484,7 @@ def test129():
     pass
 
 
-def test130():
+def test129():
     """
     >>> S = [1,2,3,4,5,6]
     >>> def payoff(x): return 20.0 if x==6 else -5.0
@@ -2512,11 +2495,11 @@ def test130():
     pass
 
 
-def test131():
+def test130():
     """
     >>> from math import sin, pi
     >>> def integrate_mc(f,a,b,N=1000):
-    ...     return sum(f(random.uniform(a,b)) for i in range(N))/N*(b-a)
+    ...     return sum(f(random.uniform(a,b)) for i in xrange(N))/N*(b-a)
     >>> print(integrate_mc(sin,0,pi,N=10000))
     2.000....
     
@@ -2524,11 +2507,11 @@ def test131():
     pass
 
 
-def test132():
+def test131():
     """
     >>> X = []
     >>> Y = []
-    >>> for i in range(1000):
+    >>> for i in xrange(1000):
     ...     u = random.random()
     ...     X.append(u+random.random())
     ...     Y.append(u+random.random())
@@ -2549,10 +2532,10 @@ def test132():
     pass
 
 
-def test133():
+def test132():
     """
-    >>> def added_uniform(n): return sum([random.uniform(-1,1) for i in range(n)])/n
-    >>> def make_set(n,m=10000): return [added_uniform(n) for j in range(m)]
+    >>> def added_uniform(n): return sum([random.uniform(-1,1) for i in xrange(n)])/n
+    >>> def make_set(n,m=10000): return [added_uniform(n) for j in xrange(m)]
     >>> Canvas(title='Central Limit Theorem',xlab='y',ylab='p(y)'
     ...       ).hist(make_set(1),legend='N=1').save('images/central1.png')
     >>> Canvas(title='Central Limit Theorem',xlab='y',ylab='p(y)'
