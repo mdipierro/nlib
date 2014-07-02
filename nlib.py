@@ -1,6 +1,4 @@
 # Created by Massimo Di Pierro - BSD License
-from __future__ import print_function
-
 class YStock:
     """
     Class that downloads and stores data from Yahoo Finance
@@ -113,9 +111,9 @@ class PersistentDictionary(object):
     >>> p = PersistentDictionary(path='test.sqlite')
     >>> key = 'test/' + p.uuid()
     >>> p[key] = {'a': 1, 'b': 2}
-    >>> print(p[key])
+    >>> print p[key]
     {'a': 1, 'b': 2}
-    >>> print(len(p.keys('test/*')))
+    >>> print len(p.keys('test/*'))
     1
     >>> del p[key]
     """
@@ -643,7 +641,7 @@ class NeuralNetwork:
                 change = output_deltas[k]*self.ah[j]
                 self.wo[j,k] = self.wo[j,k] + N*change + M*self.co[j,k]
                 self.co[j,k] = change
-                #print(N*change, M*self.co[j,k])
+                #print N*change, M*self.co[j,k]
 
         # update input weights
         for i in xrange(self.ni):
@@ -658,16 +656,16 @@ class NeuralNetwork:
 
     def test(self, patterns):
         for p in patterns:
-            print(p[0], '->', self.update(p[0]))
+            print p[0], '->', self.update(p[0])
 
     def weights(self):
-        print('Input weights:')
+        print 'Input weights:'
         for i in xrange(self.ni):
-            print(self.wi[i])
+            print self.wi[i]
         print
-        print('Output weights:')
+        print 'Output weights:'
         for j in xrange(self.nh):
-            print(self.wo[j])
+            print self.wo[j]
 
     def train(self, patterns, iterations=1000, N=0.5, M=0.1, check=False):
         # N: learning rate
@@ -680,7 +678,7 @@ class NeuralNetwork:
                 self.update(inputs)
                 error = error + self.back_propagate(targets, N, M)
             if check and i % 100 == 0:
-                print('error %-14f' % error)
+                print 'error %-14f' % error
 
 def D(f,h=1e-6): # first derivative of f
     return lambda x,f=f,h=h: (f(x+h)-f(x-h))/2/h
@@ -821,7 +819,7 @@ class Matrix(object):
         >>> A = Matrix([[4,3.0], [2,1.0]])
         >>> B = Matrix([[1,2.0], [3,4.0]])
         >>> C = A + B
-        >>> print(C)
+        >>> print C
         [[5, 5.0], [5, 5.0]]
         """
         n, m = A.nrows, A.ncols
@@ -845,7 +843,7 @@ class Matrix(object):
         >>> A = Matrix([[4.0,3.0], [2.0,1.0]])
         >>> B = Matrix([[1.0,2.0], [3.0,4.0]])
         >>> C = A - B
-        >>> print(C)
+        >>> print C
         [[3.0, 1.0], [-1.0, -3.0]]
         """
         n, m = A.nrows, A.ncols
@@ -918,7 +916,7 @@ class Matrix(object):
                 for k in indexes:
                     A[r,k] -= A[c,k]*p
                     B[r,k] -= B[c,k]*p
-            # if DEBUG: print(A, B)
+            # if DEBUG: print A, B
         return B
 
     def __div__(A,B):
@@ -1031,9 +1029,9 @@ def Markowitz(mu, A, r_free):
     >>> mu = Matrix([[0.10],[0.12],[0.15]])
     >>> r_free = 0.05
     >>> x, ret, risk = Markowitz(mu, cov, r_free)
-    >>> print(x)
+    >>> print x
     [0.556634..., 0.275080..., 0.1682847...]
-    >>> print(ret, risk)
+    >>> print ret, risk
     0.113915... 0.186747...
     """
     x = Matrix([[0.0] for r in xrange(A.nrows)])
@@ -1830,7 +1828,7 @@ def test076():
 
 def test077():
     """
-    >>> print(fib(11))
+    >>> print fib(11)
     89
     
     """
@@ -1851,7 +1849,7 @@ def test079():
     >>> links = [(i,j,abs(math.sin(i+j+1))) for i in vertices for j in vertices]
     >>> graph = [vertices,links]
     >>> links = Dijkstra(graph,0)
-    >>> for link in links: print(link)
+    >>> for link in links: print link
     (1, 2, 0.897...)
     (2, 0, 0.141...)
     (3, 2, 0.420...)
@@ -1883,12 +1881,12 @@ def test081():
     """
     >>> input = 'this is a nice day'
     >>> keys, encoded = encode_huffman(input)
-    >>> print(encoded)
+    >>> print encoded
     10111001110010001100100011110010101100110100000011111111110
     >>> decoded = decode_huffman(keys,encoded)
-    >>> print(decoded == input)
+    >>> print decoded == input
     True
-    >>> print(1.0*len(input)/(len(encoded)/8))
+    >>> print 1.0*len(input)/(len(encoded)/8)
     2.57...
     
     """
@@ -1901,7 +1899,7 @@ def test082():
     >>> input = 'this is a nice day'
     >>> w = [1.0*input.count(c)/len(input) for c in set(input)]
     >>> E = -sum(wi*log(wi,2) for wi in w)
-    >>> print(E)
+    >>> print E
     3.23...
     
     """
@@ -1912,7 +1910,7 @@ def test083():
     """
     >>> dna1 = 'ATGCTTTAGAGGATGCGTAGATAGCTAAATAGCTCGCTAGA'
     >>> dna2 = 'GATAGGTACCACAATAATAAGGATAGCTCGCAAATCCTCGA'
-    >>> print(lcs(dna1,dna2))
+    >>> print lcs(dna1,dna2)
     26
     
     """
@@ -1967,16 +1965,16 @@ def test086():
 def test088():
     """
     >>> def f(x): return x*x-5.0*x
-    >>> print(f(0))
+    >>> print f(0)
     0.0
     >>> f1 = D(f) # first derivative
-    >>> print(f1(0))
+    >>> print f1(0)
     -5.0
     >>> f2 = DD(f) # second derivative
-    >>> print(f2(0))
+    >>> print f2(0)
     2.00000...
     >>> f2 = D(f1) # second derivative
-    >>> print(f2(0))
+    >>> print f2(0)
     1.99999...
     
     """
@@ -2053,18 +2051,18 @@ def test093():
 def test094():
     """
     >>> A = Matrix([[1.0,2.0],[3.0,4.0]])
-    >>> print(A + A)      # calls A.__add__(A)
+    >>> print A + A      # calls A.__add__(A)
     [[2.0, 4.0], [6.0, 8.0]]
-    >>> print(A + 2)      # calls A.__add__(2)
+    >>> print A + 2      # calls A.__add__(2)
     [[3.0, 2.0], [3.0, 6.0]]
-    >>> print(A - 1)      # calls A.__add__(1)
+    >>> print A - 1      # calls A.__add__(1)
     [[0.0, 2.0], [3.0, 3.0]]
-    >>> print(-A)         # calls A.__neg__()
+    >>> print -A         # calls A.__neg__()
     [[-1.0, -2.0], [-3.0, -4.0]]
-    >>> print(5 - A)      # calls A.__rsub__(5)
+    >>> print 5 - A      # calls A.__rsub__(5)
     [[4.0, -2.0], [-3.0, 1.0]]
     >>> b = Matrix([[1.0],[2.0],[3.0]])
-    >>> print(b + 2)      # calls b.__add__(2)
+    >>> print b + 2      # calls b.__add__(2)
     [[3.0], [4.0], [5.0]]
     
     """
@@ -2074,7 +2072,7 @@ def test094():
 def test095():
     """
     >>> A = Matrix([[1,2],[3,4]])
-    >>> print(A + 1j)
+    >>> print A + 1j
     [[(1+1j), (2+0j)], [(3+0j), (4+1j)]]
     
     """
@@ -2127,11 +2125,11 @@ def test097():
 def test098():
     """
     >>> A = Matrix([[1,2],[4,9]])
-    >>> print(1/A)
+    >>> print 1/A
     [[9.0, -2.0], [-4.0, 1.0]]
-    >>> print(A/A)
+    >>> print A/A
     [[1.0, 0.0], [0.0, 1.0]]
-    >>> print(A/2)
+    >>> print A/2
     [[0.5, 1.0], [2.0, 4.5]]
     
     """
@@ -2141,7 +2139,7 @@ def test098():
 def test099():
     """
     >>> A = Matrix([[1,2],[3,4]])
-    >>> print(A.T)
+    >>> print A.T
     [[1, 3], [2, 4]]
     
     """
@@ -2153,7 +2151,7 @@ def test100():
     >>> A = Matrix([[1,2,2],[4,4,2],[4,6,4]])
     >>> b = Matrix([[3],[6],[10]])
     >>> x = (1/A)*b
-    >>> print(x)
+    >>> print x
     [[-1.0], [3.0], [-1.0]]
     
     """
@@ -2163,10 +2161,10 @@ def test100():
 def test101():
     """
     >>> def f(x): return x*x-5.0*x
-    >>> print(condition_number(f,1))
+    >>> print condition_number(f,1)
     0.74999...
     >>> A = Matrix([[1,2],[3,4]])
-    >>> print(condition_number(A))
+    >>> print condition_number(A)
     21.0
     
     """
@@ -2176,7 +2174,7 @@ def test101():
 def test102():
     """
     >>> A = Matrix([[1,2],[3,4]])
-    >>> print(exp(A))
+    >>> print exp(A)
     [[51.96..., 74.73...], [112.10..., 164.07...]]
     
     """
@@ -2187,7 +2185,7 @@ def test103():
     """
     >>> A = Matrix([[4,2,1],[2,9,3],[1,3,16]])
     >>> L = Cholesky(A)
-    >>> print(is_almost_zero(A - L*L.T))
+    >>> print is_almost_zero(A - L*L.T)
     True
     
     """
@@ -2199,7 +2197,7 @@ def test104():
     >>> points = [(k,5+0.8*k+0.3*k*k+math.sin(k),2) for k in xrange(100)]
     >>> a,chi2,fitting_f = fit_least_squares(points,QUADRATIC)
     >>> for p in points[-10:]:
-    ...     print(p[0], round(p[1],2), round(fitting_f(p[0]),2))
+    ...     print p[0], round(p[1],2), round(fitting_f(p[0]),2)
     90 2507.89 2506.98
     91 2562.21 2562.08
     92 2617.02 2617.78
@@ -2224,11 +2222,11 @@ def test105():
     >>> from datetime import date
     >>> data = YStock('aapl').historical(
     ...        start=date(2011,1,1),stop=date(2011,12,31))
-    >>> print(Trader().simulate(data,cash=1000.0))
+    >>> print Trader().simulate(data,cash=1000.0)
     1120...
-    >>> print(1000.0*math.exp(0.03))
+    >>> print 1000.0*math.exp(0.03)
     1030...
-    >>> print(1000.0*data[-1]['adjusted_close']/data[0]['adjusted_close'])
+    >>> print 1000.0*data[-1]['adjusted_close']/data[0]['adjusted_close']
     1228...
     
     """
@@ -2243,7 +2241,7 @@ def test106():
     ...     for c in xrange(r,A.ncols):
     ...         A[r,c] = A[c,r] = random.gauss(10,10)
     >>> U,e = Jacobi_eigenvalues(A)
-    >>> print(is_almost_zero(U*Matrix.diagonal(e)*U.T-A))
+    >>> print is_almost_zero(U*Matrix.diagonal(e)*U.T-A)
     True
     
     """
@@ -2295,7 +2293,7 @@ def test108():
 def test109():
     """
     >>> def f(x): return (x-2)*(x-5)/10
-    >>> print(round(solve_fixed_point(f,1.0,rp=0),4))
+    >>> print round(solve_fixed_point(f,1.0,rp=0),4)
     2.0
     
     """
@@ -2305,7 +2303,7 @@ def test109():
 def test110():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(solve_bisection(f,1.0,3.0),4))
+    >>> print round(solve_bisection(f,1.0,3.0),4)
     2.0
     
     """
@@ -2315,7 +2313,7 @@ def test110():
 def test111():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(solve_newton(f,1.0),4))
+    >>> print round(solve_newton(f,1.0),4)
     2.0
     
     """
@@ -2325,7 +2323,7 @@ def test111():
 def test112():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(solve_secant(f,1.0),4))
+    >>> print round(solve_secant(f,1.0),4)
     2.0
     
     """
@@ -2335,7 +2333,7 @@ def test112():
 def test113():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(optimize_bisection(f,2.0,5.0),4))
+    >>> print round(optimize_bisection(f,2.0,5.0),4)
     3.5
     
     """
@@ -2345,7 +2343,7 @@ def test113():
 def test114():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(optimize_newton(f,3.0),3))
+    >>> print round(optimize_newton(f,3.0),3)
     3.5
     
     """
@@ -2355,7 +2353,7 @@ def test114():
 def test115():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(optimize_secant(f,3.0),3))
+    >>> print round(optimize_secant(f,3.0),3)
     3.5
     
     """
@@ -2365,7 +2363,7 @@ def test115():
 def test116():
     """
     >>> def f(x): return (x-2)*(x-5)
-    >>> print(round(optimize_golden_search(f,2.0,5.0),3))
+    >>> print round(optimize_golden_search(f,2.0,5.0),3)
     3.5
     
     """
@@ -2379,7 +2377,7 @@ def test117():
     >>> df1 = partial(f,1)
     >>> df2 = partial(f,2)
     >>> x = (1,1,1)
-    >>> print(round(df0(x),4), round(df1(x),4), round(df2(x),4))
+    >>> print round(df0(x),4), round(df1(x),4), round(df2(x),4)
     2.0 8.0 5.0
     
     """
@@ -2389,9 +2387,9 @@ def test117():
 def test118():
     """
     >>> def f(x): return 2.0*x[0]+3.0*x[1]+5.0*x[1]*x[2]
-    >>> print(gradient(f, x=(1,1,1)))
+    >>> print gradient(f, x=(1,1,1))
     [[1.999999...], [7.999999...], [4.999999...]]
-    >>> print(hessian(f, x=(1,1,1)))
+    >>> print hessian(f, x=(1,1,1))
     [[0.0, 0.0, 0.0], [0.0, 0.0, 5.000000...], [0.0, 5.000000..., 0.0]]
     
     """
@@ -2401,7 +2399,7 @@ def test118():
 def test119():
     """
     >>> def f(x): return (2.0*x[0]+3.0*x[1]+5.0*x[1]*x[2], 2.0*x[0])
-    >>> print(jacobian(f, x=(1,1,1)))
+    >>> print jacobian(f, x=(1,1,1))
     [[1.9999999..., 7.999999..., 4.9999999...], [1.9999999..., 0.0, 0.0]]
     
     """
@@ -2411,7 +2409,7 @@ def test119():
 def test120():
     """
     >>> def f(x): return [x[0]+x[1], x[0]+x[1]**2-2]
-    >>> print(solve_newton_multi(f, x=(0,0)))
+    >>> print solve_newton_multi(f, x=(0,0))
     [1.0..., -1.0...]
     
     """
@@ -2421,7 +2419,7 @@ def test120():
 def test121():
     """
     >>> def f(x): return (x[0]-2)**2+(x[1]-3)**2
-    >>> print(optimize_newton_multi(f, x=(0,0)))
+    >>> print optimize_newton_multi(f, x=(0,0))
     [2.0, 3.0]
     
     """
@@ -2433,7 +2431,7 @@ def test122():
     >>> data = [(i, i+2.0*i**2+300.0/(i+10), 2.0) for i in xrange(1,10)]
     >>> fs = [(lambda b,x: x), (lambda b,x: x*x), (lambda b,x: 1.0/(x+b[0]))]
     >>> ab, chi2 = fit(data,fs,[5])
-    >>> print(ab, chi2)
+    >>> print ab, chi2
     [0.999..., 2.000..., 300.000..., 10.000...] ...
     
     """
@@ -2443,15 +2441,15 @@ def test122():
 def test123():
     """
     >>> from math import sin, cos
-    >>> print(integrate_naive(sin,0,3,n=2))
+    >>> print integrate_naive(sin,0,3,n=2)
     1.6020...
-    >>> print(integrate_naive(sin,0,3,n=4))
+    >>> print integrate_naive(sin,0,3,n=4)
     1.8958...
-    >>> print(integrate_naive(sin,0,3,n=8))
+    >>> print integrate_naive(sin,0,3,n=8)
     1.9666...
-    >>> print(integrate(sin,0,3))
+    >>> print integrate(sin,0,3)
     1.9899...
-    >>> print(1.0-cos(3))
+    >>> print 1.0-cos(3)
     1.9899...
     
     """
@@ -2461,11 +2459,11 @@ def test123():
 def test124():
     """
     >>> from math import sin
-    >>> print(integrate_quadrature_naive(sin,0,3,n=2,order=2))
+    >>> print integrate_quadrature_naive(sin,0,3,n=2,order=2)
     1.60208248595
-    >>> print(integrate_quadrature_naive(sin,0,3,n=2,order=3))
+    >>> print integrate_quadrature_naive(sin,0,3,n=2,order=3)
     1.99373945223
-    >>> print(integrate_quadrature_naive(sin,0,3,n=2,order=4))
+    >>> print integrate_quadrature_naive(sin,0,3,n=2,order=4)
     1.99164529955
     
     """
@@ -2475,9 +2473,9 @@ def test124():
 def test128():
     """
     >>> S = [random.random()+random.random() for i in xrange(100)]
-    >>> print(mean(S))
+    >>> print mean(S)
     1.000...
-    >>> print(sd(S))
+    >>> print sd(S)
     0.4...
     
     """
@@ -2488,7 +2486,7 @@ def test129():
     """
     >>> S = [1,2,3,4,5,6]
     >>> def payoff(x): return 20.0 if x==6 else -5.0
-    >>> print(E(payoff,S))
+    >>> print E(payoff,S)
     -0.83333...
     
     """
@@ -2500,7 +2498,7 @@ def test130():
     >>> from math import sin, pi
     >>> def integrate_mc(f,a,b,N=1000):
     ...     return sum(f(random.uniform(a,b)) for i in xrange(N))/N*(b-a)
-    >>> print(integrate_mc(sin,0,pi,N=10000))
+    >>> print integrate_mc(sin,0,pi,N=10000)
     2.000....
     
     """
@@ -2515,17 +2513,17 @@ def test131():
     ...     u = random.random()
     ...     X.append(u+random.random())
     ...     Y.append(u+random.random())
-    >>> print(mean(X))
+    >>> print mean(X)
     0.989780352018
-    >>> print(sd(X))
+    >>> print sd(X)
     0.413861115381
-    >>> print(mean(Y))
+    >>> print mean(Y)
     1.00551523013
-    >>> print(sd(Y))
+    >>> print sd(Y)
     0.404909628555
-    >>> print(covariance(X,Y))
+    >>> print covariance(X,Y)
     0.0802804358268
-    >>> print(correlation(X,Y))
+    >>> print correlation(X,Y)
     0.479067813484
     
     """
