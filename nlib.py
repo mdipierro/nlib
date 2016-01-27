@@ -290,9 +290,9 @@ class memoize_persistent(object):
         self.storage = PersistentDictionary(memoize_persistent.STORAGE)
     def __call__ (self, *args, **kwargs):
         key = str((self.f.__name__, args, kwargs))
-        try:
+        if key in self.storage:
             value = self.storage[key]
-        except KeyError:
+        else:
             value = self.f(*args, **kwargs)
             self.storage[key] = value
         return value
@@ -973,7 +973,7 @@ def norm(A,p=1):
 def condition_number(f,x=None,h=1e-6):
     if callable(f) and not x is None:
         return D(f,h)(x)*x/f(x)
-    elif isinstance(f,Matrix): # if is the Matrix J
+    elif isinstance(f,Matrix): # if is the Matrix
         return norm(f)*norm(1/f)
     else:
         raise NotImplementedError
@@ -1017,7 +1017,7 @@ def is_positive_definite(A):
     try:
         Cholesky(A)
         return True
-    except RuntimeError:
+    except Exception:
         return False
 
 def Markowitz(mu, A, r_free):
