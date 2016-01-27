@@ -1,4 +1,5 @@
 # Created by Massimo Di Pierro - BSD License
+
 class YStock:
     """
     Class that downloads and stores data from Yahoo Finance
