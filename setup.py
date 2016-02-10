@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(name='nlib',
       version='0.3',
-      description=open("README.md").read(),
+      description="Python Library of Numerical Algorithms",
       author='Massimo DiPierro',
       author_email='massimo.dipierro@gmail.com',
       url='https://github.com/mdipierro/nlib',
