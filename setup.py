@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(name='nlib',
-      version='0.4',
+      version='0.5',
       description="Python Library of Numerical Algorithms",
       author='Massimo DiPierro',
       author_email='massimo.dipierro@gmail.com',

@@ -1,7 +1,4 @@
 # Created by Massimo Di Pierro - BSD License
-
-__all__ = ['CONSTANT', 'CUBIC', 'Canvas', 'Cholesky', 'Cluster', 'D', 'DD', 'Dijkstra', 'DisjointSets', 'E', 'Ellipse', 'Figure', 'FigureCanvasAgg', 'HAVE_MATPLOTLIB', 'Jacobi_eigenvalues', 'Kruskal', 'LINEAR', 'MCEngine', 'MCG', 'Markowitz', 'MarsenneTwister', 'Matrix', 'NeuralNetwork', 'POLYNOMIAL', 'PersistentDictionary', 'Prim', 'PrimVertex', 'QUADRATIC', 'QUARTIC', 'QuadratureIntegrator', 'RandomSource', 'Trader', 'YStock', 'bootstrap', 'breadth_first_search', 'compute_correlation', 'condition_number', 'confidence_intervals', 'continuum_knapsack', 'correlation', 'covariance', 'decode_huffman', 'depth_first_search', 'encode_huffman', 'fib', 'fit', 'fit_least_squares', 'gradient', 'hessian', 'integrate', 'integrate_naive', 'integrate_quadrature_naive', 'invert_bicgstab', 'invert_minimum_residual', 'is_almost_symmetric', 'is_almost_zero', 'is_positive_definite', 'jacobian', 'lcs', 'leapfrog', 'make_maze', 'mean', 'memoize', 'memoize_persistent', 'needleman_wunsch', 'norm', 'optimize_bisection', 'optimize_golden_search', 'optimize_newton', 'optimize_newton_multi', 'optimize_newton_multi_imporved', 'optimize_secant', 'partial', 'resample', 'sd', 'solve_bisection', 'solve_fixed_point', 'solve_newton', 'solve_newton_multi', 'solve_secant', 'variance']
-
 class YStock:
     """
     Class that downloads and stores data from Yahoo Finance
@@ -102,6 +99,7 @@ import os
 import uuid
 import sqlite3
 import cPickle as pickle
+import unittest
 
 class PersistentDictionary(object):
     """
@@ -125,14 +123,17 @@ class PersistentDictionary(object):
     SELECT_KEYS = "SELECT pkey FROM persistence WHERE pkey GLOB ?"
     SELECT_VALUE = "SELECT pvalue FROM persistence WHERE pkey GLOB ?"
     INSERT_KEY_VALUE = "INSERT INTO persistence(pkey, pvalue) VALUES (?,?)"
+    UPDATE_KEY_VALUE = "UPDATE persistence SET pvalue = ? WHERE pkey = ?"
     DELETE_KEY_VALUE = "DELETE FROM persistence WHERE pkey LIKE ?"
     SELECT_KEY_VALUE = "SELECT pkey,pvalue FROM persistence WHERE pkey GLOB ?"
 
     def __init__(self,
                  path='persistence.sqlite',
-                 autocommit=True):
+                 autocommit=True,
+                 serializer=pickle):
         self.path = path
         self.autocommit = autocommit
+        self.serializer = serializer
         create_table = not os.path.exists(path)
         self.connection  = sqlite3.connect(path)
         self.connection.text_factory = str # do not use unicode
@@ -150,33 +151,54 @@ class PersistentDictionary(object):
         return [row[0] for row in self.cursor.fetchall()]
 
     def __contains__(self,key):
-        return True if self[key] else False
+        return True if self.get(key)!=None else False
 
     def __iter__(self):
         for key in self:
             yield key
 
-    def __setitem__(self,key,value):
-        if value is None:
-            del self[key]
-            return
-        self.cursor.execute(self.INSERT_KEY_VALUE,
-                            (key, pickle.dumps(value)))
+    def __setitem__(self,key, value):
+        if key in self:
+            if value is None:
+                del self[key]
+            else:
+                svalue = self.serializer.dumps(value)
+                self.cursor.execute(self.UPDATE_KEY_VALUE, (svalue, key))
+        else:
+            svalue = self.serializer.dumps(value)
+            self.cursor.execute(self.INSERT_KEY_VALUE, (key, svalue))
         if self.autocommit: self.connection.commit()
 
-    def __getitem__(self,key):
+    def get(self,key):
         self.cursor.execute(self.SELECT_VALUE, (key,))
         row = self.cursor.fetchone()
-        return pickle.loads(row[0]) if row else None
+        return self.serializer.loads(row[0]) if row else None
 
-    def __delitem__(self,pattern):
+    def __getitem__(self, key):
+        self.cursor.execute(self.SELECT_VALUE, (key,))
+        row = self.cursor.fetchone()
+        if not row: raise KeyError
+        return self.serializer.loads(row[0])
+
+    def __delitem__(self, pattern):
         self.cursor.execute(self.DELETE_KEY_VALUE, (pattern,))
         if self.autocommit: self.connection.commit()
 
     def items(self,pattern='*'):
         self.cursor.execute(self.SELECT_KEY_VALUE, (pattern,))
-        return [(row[0],pickle.loads(row[1])) \
+        return [(row[0], self.serializer.loads(row[1])) \
                     for row in self.cursor.fetchall()]
+
+    def dumps(self,pattern='*'):
+        self.cursor.execute(self.SELECT_KEY_VALUE, (pattern,))
+        rows = self.cursor.fetchall()
+        return self.serializer.dumps(dict((row[0], self.serializer.loads(row[1]))
+                                          for row in rows))
+
+    def loads(self, raw):
+        data = self.serializer.loads(raw)
+        for key, value in data.iteritems():
+            self[key] = value
 
 import math
 import cmath
@@ -1073,7 +1095,8 @@ def fit_least_squares(points, f):
     chi = A*c-b
     chi2 = norm(chi,2)**2
     fitting_f = lambda x, c=c, f=f, q=eval_fitting_function: q(f,c,x)
-    return c.flatten(), chi2, fitting_f
+    cs = [c] if isinstance(c,float) else c.flatten()
+    return cs, chi2, fitting_f
 
 # examples of fitting functions
 def POLYNOMIAL(n):
@@ -1508,21 +1531,23 @@ class QuadratureIntegrator:
     Calculates the integral of the function f from points a to b
     using n Vandermonde weights and numerical quadrature.
     """
-    def __init__(self,delta,order=4):
-        h = float(delta)/(order-1)
+    def __init__(self,order=4):
+        h =1.0/(order-1)
         A = Matrix(order, order, fill = lambda r,c: (c*h)**r)
-        s = Matrix(order, 1, fill = lambda r,c: (delta**(r+1))/(r+1))
+        s = Matrix(order, 1, fill = lambda r,c: 1.0/(r+1))
         w = (1/A)*s
-        self.packed = (h, order, w)
-    def integrate(self,f,a):
-        (h, order, w) = self.packed
-        return sum(w[i,0]*f(a+i*h) for i in xrange(order))
+        self.w = w
+    def integrate(self,f,a,b):
+        w = self.w
+        order = len(w.rows)
+        h = float(b-a)/(order-1)
+        return (b-a)*sum(w[i,0]*f(a+i*h) for i in xrange(order))
 
 def integrate_quadrature_naive(f,a,b,n=20,order=4):
     a,b = float(a),float(b)
-    h = (b-a)/n
-    q = QuadratureIntegrator((b-a)/n,order=order)
-    return sum(q.integrate(f,a+i*h) for i in xrange(n))
+    h = float(b-a)/n
+    q = QuadratureIntegrator(order=order)
+    return sum(q.integrate(f,a+i*h,a+i*h+h) for i in xrange(n))
 
 def E(f,S): return float(sum(f(x) for x in S))/(len(S) or 1)
 def mean(X): return E(lambda x:x, X)
