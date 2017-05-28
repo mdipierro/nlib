@@ -1093,7 +1093,7 @@ def fit_least_squares(points, f):
         weight = 1.0/points[i][2] if len(points[i])>2 else 1.0
         b[i,0] = weight*float(points[i][1])
         for j in xrange(A.ncols):
-            A[i,j] = weight*f[j](float(points[i][0]))
+            A[i,j] = weight*f[j](points[i][0])
     c = (1.0/(A.T*A))*(A.T*b)
     chi = A*c-b
     chi2 = norm(chi,2)**2
@@ -1644,9 +1644,20 @@ class RandomSource(object):
         for k in xrange(n+1):
             if u<q+epsilon:
                 return k
-            else:
-                u = u - q
+            u = u - q
             q = q*(n-k)/(k+1)*p/(1.0-p)
+        raise ArithmeticError('invalid probability')
+
+    def negative_binomial(self,k,p,epsilon=1e-6):
+        u = self.random()
+        n = k
+        q = p**k
+        while True:
+            if u<q+epsilon:
+                return n
+            u = u - q
+            q = q*n/(n-k+1)*(1-p)
+            n = n + 1
         raise ArithmeticError('invalid probability')
 
     def poisson(self,lamb,epsilon=1e-6):
@@ -1656,8 +1667,7 @@ class RandomSource(object):
         while True:
             if u<q+epsilon:
                 return k
-            else:
-                u = u - q
+            u = u - q
             q = q*lamb/(k+1)
             k = k+1
         raise ArithmeticError('invalid probability')
