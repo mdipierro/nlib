@@ -1901,7 +1901,7 @@ The Python dictionary type is very useful, but it lacks persistence because it i
 
 Think for example of using the dictionary to store a bank account. The key is the account number and the value is a list of transactions. We want the dictionary to be safely stored on file. We want it to be accessible by multiple processes and applications. We want transaction safety: it should not be possible for an application to fail during a money transfer, resulting in the disappearance of money.
 
-Python provides a module called {\ft shelve} with the same interface as {\ft dict}, which is stored on disk instead of in RAM. One problem with this module is that the file is not locked when accessed. If two processes try to access it concurrently, the data become corrupted. This module also does not provide transactional safety.
+Python provides a module called {\ft shelve} with the same interface as {\ft dict}, which is stored on disk instead of in RAM. One problem with this module is that the file is not locked when accessed. If two processes try to access it concurrently, the data becomes corrupted. This module also does not provide transactional safety.
 
 The proper alternative consists of using a database. There are two types of databases: relational databases (which normally use SQL syntax) and non-relational databases (often referred to as NoSQL). Key-value persistent storage databases usually follow under the latter category. Relational databases excel at storing structured data (in the form of tables), establishing relations between rows of those tables, and searches involving multiple tables linked by references. NoSQL databases excel at storing and retrieving schemaless data and replication of data (redundancy for fail safety).
 
