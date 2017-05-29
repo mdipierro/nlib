@@ -1,10 +1,19 @@
-## nlib library
+## Annotated Algorithms in Python
 
-This is the library described and documented in this book:
+### With applications in Physics, Biology, and Finance
 
-http://www.amazon.com/Annotated-Algorithms-Python-Applications-Physics/dp/0991160401
+The complete book in PDF is now abailable under Creative Commons License:
 
-It is a pure python library for numerical computations. Does not require numpy.
+[DOWNLOAD BOOK IN PDF](https://raw.githubusercontent.com/mdipierro/nlib/master/docs/book_numerical.pdf)
+
+The Book is also available in printed form from Amazon:
+
+[Amazon](http://www.amazon.com/Annotated-Algorithms-Python-Applications-Physics/dp/0991160401)
+
+## The nlib library
+
+The book builds a numerical library from the ground up, called nlib.py.
+It is a pure python library for numerical computations. It Does not require numpy.
 
 ## Usage
 
