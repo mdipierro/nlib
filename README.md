@@ -2,18 +2,18 @@
 
 ### With applications in Physics, Biology, and Finance
 
-The complete book in PDF is now abailable under Creative Commons License:
+The complete book in PDF is now available under a [Creative Commons BY-NC-ND License](http://creativecommons.org/licenses/by- nc- nd/3.0/legalcode):
 
 [DOWNLOAD BOOK IN PDF](https://raw.githubusercontent.com/mdipierro/nlib/master/docs/book_numerical.pdf)
 
-The Book is also available in printed form from Amazon:
+The book is also available in printed form from Amazon:
 
 [Amazon](http://www.amazon.com/Annotated-Algorithms-Python-Applications-Physics/dp/0991160401)
 
 ## The nlib library
 
 The book builds a numerical library from the ground up, called nlib.py.
-It is a pure python library for numerical computations. It Does not require numpy.
+It is a pure python library for numerical computations. It doesn't require numpy.
 
 ## Usage
 
@@ -77,7 +77,7 @@ It is a pure python library for numerical computations. It Does not require nump
     >>> print d['key']
     >>> del d['key']
 
-d works like a drop-in preplacement for any normal Python dictionary except that the data is stored in a sqlite database in file "test.sqlite" so it is still there if you re-start the program. Kind of like the shelve module but shelve files cannot safely be accessed by multiple threads/processes unless locked and locking the entire file is not efficient.
+d works like a drop-in preplacement for any normal Python dictionary except that the data is stored in a sqlite database in a file called  "test.sqlite" so it is still there if you re-start the program. Kind of like the shelve module but shelve files cannot safely be accessed by multiple threads/processes unless locked and locking the entire file is not efficient.
 
 ## Neural Network
 
