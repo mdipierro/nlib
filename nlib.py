@@ -335,7 +335,7 @@ def timef(f, ns=1000, dt = 60):
     return (t-t0)/k
 
 def breadth_first_search(graph,start):
-    vertices, link = graph
+    vertices, links = graph
     blacknodes = []
     graynodes = [start]
     neighbors = [[] for vertex in vertices]
@@ -350,7 +350,7 @@ def breadth_first_search(graph,start):
     return blacknodes
 
 def depth_first_search(graph,start):
-    vertices, link = graph
+    vertices, links = graph
     blacknodes = []
     graynodes = [start]
     neighbors = [[] for vertex in vertices]

@@ -3737,7 +3737,7 @@ Here is the algorithm:
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
 def breadth_first_search(graph,start):
-    vertices, link = graph
+    vertices, links = graph
     blacknodes = []
     graynodes = [start]
     neighbors = [[] for vertex in vertices]
@@ -3773,7 +3773,7 @@ Here is a possible implementation:
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
 def depth_first_search(graph,start):
-    vertices, link = graph
+    vertices, links = graph
     blacknodes = []
     graynodes = [start]
     neighbors = [[] for vertex in vertices]
