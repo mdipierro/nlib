@@ -5699,16 +5699,16 @@ $f(\mathbf{y}+\mathbf{h}) - \mathbf{y} \simeq A \mathbf{h}$, yet we need to clar
 
 Given
 \begin{equation}
-\mathbf{x} \equiv \left(\begin{tabular}{c}$x_0$\\$x_1$\\\dots\\$x_{n-1}$\end{tabular}\right)\qquad
-\mathbf{y} \equiv \left(\begin{tabular}{c}$y_0$\\$y_1$\\\dots\\$y_{m-1}$\end{tabular}\right)
+\mathbf{x} \equiv \begin{pmatrix}x_0\\x_1\\\dots\\x_{n-1}\end{pmatrix}\qquad
+\mathbf{y} \equiv \begin{pmatrix}y_0\\y_1\\\dots\\y_{m-1}\end{pmatrix}
 \end{equation}
 \begin{equation}
-A \equiv \left(\begin{tabular}{cccc}
-$a_{00}$ & $a_{01}$ & \dots & $a_{0,n-1}$ \\
-$a_{10}$ & $a_{11}$ & \dots & $a_{1,n-1}$ \\
+A \equiv \begin{pmatrix}
+a_{00} & a_{01} & \dots & a_{0,n-1} \\
+a_{10} & a_{11} & \dots & a_{1,n-1} \\
 \dots & \dots & \dots & \dots \\
-$a_{m-1,0}$ & $a_{m-1,1}$ & \dots & $a_{m-1,n-1}$
-\end{tabular}\right)
+a_{m-1,0} & a_{m-1,1} & \dots & a_{m-1,n-1}
+\end{pmatrix}
 \end{equation}
 
 the following equation means
@@ -6186,17 +6186,17 @@ A \textrm{x} = \textrm{b}
 \end{equation}
 where
 \begin{equation}
-A = \left(\begin{tabular}{ccc}
+A = \begin{pmatrix}
 1 & 2 & 2 \\
 4 & 4 & 2 \\
 4 & 6 & 4 \\
-\end{tabular}\right) \qquad \text{and} \qquad
+\end{pmatrix} \qquad \text{and} \qquad
 b =
-\left(\begin{tabular}{c}
+\begin{pmatrix}
 3 \\
 6 \\
 10 \\
-\end{tabular}\right)
+\end{pmatrix}
 \end{equation}
 
 The solution of the equation can now be written as
@@ -6798,30 +6798,30 @@ A\mathbf{x}_i = e_i\mathbf{x}_i
 
 For example:
 \begin{equation}
-A = \left(\begin{tabular}{ccc}
+A = \begin{pmatrix}
 1 & -2  \\
 1 & 4  \\
-\end{tabular}\right) \qquad and \qquad
+\end{pmatrix} \qquad \text{and} \qquad
 x_i =
-\left(\begin{tabular}{c}
+\begin{pmatrix}
 -1 \\
 1 \\
-\end{tabular}\right)
+\end{pmatrix}
 \end{equation}
 
 \begin{equation}
-\left(\begin{tabular}{ccc}
+\begin{pmatrix}
 1 & -2  \\
 1 & 4  \\
-\end{tabular}\right) *
-\left(\begin{tabular}{c}
+\end{pmatrix} *
+\begin{pmatrix}
 -1 \\
 1 \\
-\end{tabular}\right) \qquad =  \qquad
-3 * \left(\begin{tabular}{c}
+\end{pmatrix} \qquad =  \qquad
+3 * \begin{pmatrix}
 -1 \\
 1 \\
-\end{tabular}\right)
+\end{pmatrix}
 \end{equation}
 
 In this case, $x_i$ is an eigenvector and the corresponding eigenvalue is $e=3$.
@@ -7522,36 +7522,34 @@ f(\mathbf{x}) = f(\mathbf{\bar x}) + \nabla_f(\mathbf{\bar x})(\mathbf{x}-\mathb
 where we introduce the gradient vector
 
 \begin{equation}
-\nabla_f(x) \equiv \left(
-\begin{tabular}{c}
-$\partial f(x)/\partial x_0$ \\
-$\partial f(x)/\partial x_1$ \\
-$\partial f(x)/\partial x_2$ \\
+\nabla_f(x) \equiv 
+\begin{pmatrix}
+\partial f(x)/\partial x_0 \\
+\partial f(x)/\partial x_1 \\
+\partial f(x)/\partial x_2 \\
 \dots
-\end{tabular}
-\right)
+\end{pmatrix}
 \end{equation}
 
 and the Hessian matrix
 
 \begin{equation}
-H_f(x) \equiv \left(
-\begin{tabular}{cccc}
-$\partial^2 f(x)/\partial x_0\partial x_0$ &
-$\partial^2 f(x)/\partial x_0\partial x_1$ &
-$\partial^2 f(x)/\partial x_0\partial x_2$ &
+H_f(x) \equiv 
+\begin{pmatrix}
+\partial^2 f(x)/\partial x_0\partial x_0 &
+\partial^2 f(x)/\partial x_0\partial x_1 &
+\partial^2 f(x)/\partial x_0\partial x_2 &
 \dots \\
-$\partial^2 f(x)/\partial x_1\partial x_0$ &
-$\partial^2 f(x)/\partial x_1\partial x_1$ &
-$\partial^2 f(x)/\partial x_1\partial x_2$ &
+\partial^2 f(x)/\partial x_1\partial x_0 &
+\partial^2 f(x)/\partial x_1\partial x_1 &
+\partial^2 f(x)/\partial x_1\partial x_2 &
 \dots \\
-$\partial^2 f(x)/\partial x_2\partial x_0$ &
-$\partial^2 f(x)/\partial x_2\partial x_1$ &
-$\partial^2 f(x)/\partial x_2\partial x_2$ &
+\partial^2 f(x)/\partial x_2\partial x_0 &
+\partial^2 f(x)/\partial x_2\partial x_1 &
+\partial^2 f(x)/\partial x_2\partial x_2 &
 \dots \\
 \dots & \dots & \dots &\dots 
-\end{tabular}
-\right)
+\end{pmatrix}
 \end{equation}
 
 Given the definition of partial, we can compute the gradient and the Hessian using the two functions
@@ -7585,22 +7583,19 @@ we need to Taylor expand each component:
 
 \begin{equation}
 f(\mathbf{x}) =
-\left(
-\begin{tabular}{c}
-$f_0(\mathbf{x})$ \\
-$f_1(\mathbf{x})$ \\
-$f_2(\mathbf{x})$ \\
+\begin{pmatrix}
+f_0(\mathbf{x}) \\
+f_1(\mathbf{x}) \\
+f_2(\mathbf{x}) \\
 \dots
-\end{tabular}
-\right) =
-\left(
-\begin{tabular}{c}
-$f_0(\mathbf{\bar x}) + \nabla_{f_0}(\mathbf{x}-\mathbf{\bar x}) + \dots$ \\
-$f_1(\mathbf{\bar x}) + \nabla_{f_1}(\mathbf{x}-\mathbf{\bar x}) + \dots$ \\
-$f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + \dots$ \\
+\end{pmatrix}
+ =
+\begin{pmatrix}
+f_0(\mathbf{\bar x}) + \nabla_{f_0}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
+f_1(\mathbf{\bar x}) + \nabla_{f_1}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
+f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
 \dots
-\end{tabular}
-\right)
+\end{pmatrix}
 \end{equation}
 
 which we can rewrite as
@@ -7613,23 +7608,21 @@ where $J_f$ is called Jacobian and is defined as
 
 \begin{equation}
 J_f \equiv
-\left(
-\begin{tabular}{cccc}
-$\partial f_0(x)/\partial x_0$ &
-$\partial f_0(x)/\partial x_1$ &
-$\partial f_0(x)/\partial x_2$ &
+\begin{pmatrix}
+\partial f_0(x)/\partial x_0 &
+\partial f_0(x)/\partial x_1 &
+\partial f_0(x)/\partial x_2 &
 \dots \\
-$\partial f_1(x)/\partial x_0$ &
-$\partial f_1(x)/\partial x_1$ &
-$\partial f_1(x)/\partial x_2$ &
+\partial f_1(x)/\partial x_0 &
+\partial f_1(x)/\partial x_1 &
+\partial f_1(x)/\partial x_2 &
 \dots \\
-$\partial f_2(x)/\partial x_0$ &
-$\partial f_2(x)/\partial x_1$ &
-$\partial f_2(x)/\partial x_2$ &
+\partial f_2(x)/\partial x_0 &
+\partial f_2(x)/\partial x_1 &
+\partial f_2(x)/\partial x_2 &
 \dots \\
 \dots & \dots & \dots &\dots 
-\end{tabular}
-\right)
+\end{pmatrix}
 \end{equation}
 
 which we can implement as follows:
@@ -7791,33 +7784,31 @@ The goal of our algorithm is to efficiently determine the parameters $\mathbf{a}
 We proceed by defining the following two quantities:
 
 \begin{equation}
-\mathbf{z} = \left(
-\begin{tabular}{c}
-$y_0$ / $\delta y_0$ \\
-$y_1$ / $\delta y_1$ \\
-$y_2$ / $\delta y_2$ \\
+\mathbf{z} = 
+\begin{pmatrix}
+y_0 / \delta y_0 \\
+y_1 / \delta y_1 \\
+y_2 / \delta y_2 \\
 \dots
-\end{tabular}
-\right)
+\end{pmatrix}
 \end{equation}
 
 and
 
 \begin{equation}
-A(\mathbf{b}) = \left(
-\begin{tabular}{cccc}
-$f_0(x_0,\mathbf{b})/\delta y_0$ &
-$f_1(x_0,\mathbf{b})/\delta y_0$ &
-$f_2(x_0,\mathbf{b})/\delta y_0$ & \dots \\
-$f_0(x_1,\mathbf{b})/\delta y_1$ &
-$f_1(x_1,\mathbf{b})/\delta y_1$ &
-$f_2(x_1,\mathbf{b})/\delta y_1$ & \dots \\
-$f_0(x_2,\mathbf{b})/\delta y_2$ &
-$f_1(x_2,\mathbf{b})/\delta y_2$ &
-$f_2(x_2,\mathbf{b})/\delta y_2$ & \dots \\
+A(\mathbf{b}) = 
+\begin{pmatrix}
+f_0(x_0,\mathbf{b})/\delta y_0 &
+f_1(x_0,\mathbf{b})/\delta y_0 &
+f_2(x_0,\mathbf{b})/\delta y_0 & \dots \\
+f_0(x_1,\mathbf{b})/\delta y_1 &
+f_1(x_1,\mathbf{b})/\delta y_1 &
+f_2(x_1,\mathbf{b})/\delta y_1 & \dots \\
+f_0(x_2,\mathbf{b})/\delta y_2 &
+f_1(x_2,\mathbf{b})/\delta y_2 &
+f_2(x_2,\mathbf{b})/\delta y_2 & \dots \\
 \dots & \dots & \dots &\dots 
-\end{tabular}
-\right)
+\end{pmatrix}
 \end{equation}
 
 In terms of $A$ and $z$, the $\chi^2$ can be rewritten as
@@ -8289,13 +8280,13 @@ or equivalently
 where
 
 \begin{equation}
-F(\mathbf{y}) = \mathbf{y}+\left(\begin{tabular}{c}
-$y_1$ \\
-$y_2$ \\
-$y_3$ \\
+F(\mathbf{y}) = \mathbf{y}+\begin{pmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
 \dots \\
-$(g(x)-\sum_{k<N} a_k(x)y_k(x))/a_N(x)$
-\end{tabular}\right)
+(g(x)-\sum_{k<N} a_k(x)y_k(x))/a_N(x)
+\end{pmatrix}
 \end{equation}
 
 \index{Euler method}
@@ -9014,12 +9005,11 @@ type of atom. One characteristic of this distribution is that it is a memoryless
 Given the sequence $\{t_i\}$ with exponential distribution, we can build a
 random sequence of zeros and ones (Bernoulli distribution) by applying the following formula, known as the Von Neumann procedure~\cite{bits}:
 \begin{equation}
-x_i=\left\{
-\begin{array}{ll}
+x_i=
+\begin{cases}
 1 & \text{if }t_{i}>t_{i-1} \\
 0 & \text{otherwise}
-\end{array}
-\right.
+\end{cases}
 \end{equation}
 
 Note that the procedure can be applied to map any random sequence into
@@ -9583,13 +9573,12 @@ a discrete probability distribution that takes value 1 with
 probability of success $p$ and value 0 with probability of failure $q=1-p$:
 
 \begin{equation}
-p(k) \equiv \left\{
-\begin{array}{ll}
+p(k) \equiv 
+\begin{cases}
 p & \text{if }k=1 \\
 1-p & \text{if }k=0 \\
 0 & \text{if not }k \in \{0,1\}
-\end{array}
-\right\}
+\end{cases}
 \end{equation}
 A Bernoulli random variable has an expected value of $p$ and variance of $pq$.
 
@@ -9692,14 +9681,13 @@ Note that $0\leq i<t$ and $\forall i\geq 0$,$0\leq j<2^{t-i}$, where $t=\log
 _2n$. The array of arrays $a$ can be represented as follows:
 
 \begin{equation}
-a_{ij}=\left(
-\begin{array}{lllll}
+a_{ij}=
+\begin{pmatrix}
 a_{00} & a_{01} & a_{02} & \dots & a_{0,n-1} \\
 \dots & \dots & \dots & \dots &  \\
 a_{t-2,0} & a_{t-2,1} & a_{t-2,2} & a_{t-2,3} &  \\
 a_{t-1,0} & a_{t-1,1} &  &  &
-\end{array}
-\right)
+\end{pmatrix}
 \end{equation}
 In other words, we can say that
 
@@ -9711,7 +9699,7 @@ In other words, we can say that
 
 \item  $a_{1j}$ represents the probability
 \begin{equation}
-\textrm{Prob}(X=x_{2j}orX=x_{2j+1})
+\textrm{Prob}(X=x_{2j}\text{ or }X=x_{2j+1})
 \end{equation}
 
 \item  $a_{4j}$ represents the probability
