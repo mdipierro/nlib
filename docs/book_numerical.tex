@@ -178,7 +178,7 @@ We use this approach in almost all our numerical algorithms because any differen
 \begin{equation}
 f(x+\delta x) \simeq f(x) + f'(x)\delta x
 \end{equation}
-We use this formula in the Newton method to solve nonlinear equations and optimization problems, in one or more dimensions.
+We use this formula in the Newton's method to solve nonlinear equations and optimization problems, in one or more dimensions.
 
 We use the same approximation in the fix point method, which we use to solve equations like $f(x)=0$; in the minimum residual and conjugate gradient methods; and to solve the Laplace equation in the last chapter of the book. In all these algorithms, we start with a random guess for the solution, and we iteratively find a better one until convergence.
 
@@ -214,7 +214,7 @@ In the ultimate analysis, we can even try to understand ourselves as a parallel 
 
 The programming language used in this book is Python~\cite{python} version 2.7. This is because Python algorithms are very similar to the corresponding pseudo-code, and therefore this language is easy to read and understand compared to other languages such as C++ or Java. Moreover, Python is a popular language in many Universities and Companies (including Google).
 
-The goal of the book is to explain the algorithms by building them from scratch. It is not our goal to teach the user about existing libraries that may be (and often are) faster than our implementation. Two notable examples are NumPy~\cite{numpy} and SciPy~\cite{scipy}. These libraries provide a Python interface to the BLAS and LaPack libraries for linear algebra and applications. Although we wholeheartedly recommend using them when developing production code, we believe they are not appropriate for teaching the algorithms themselves because those algorithms are written in C, FORTRAN, and assembly languages and are not easy to read.
+The goal of the book is to explain the algorithms by building them from scratch. It is not our goal to teach the user about existing libraries that may be (and often are) faster than our implementation. Two notable examples are NumPy~\cite{numpy} and SciPy~\cite{scipy}. These libraries provide a Python interface to the BLAS and LAPACK libraries for linear algebra and applications. Although we wholeheartedly recommend using them when developing production code, we believe they are not appropriate for teaching the algorithms themselves because those algorithms are written in C, FORTRAN, and assembly languages and are not easy to read.
 
 \section{Book Structure}
 
@@ -256,7 +256,7 @@ We also utilize the following third party libraries:
 
 All the code included in these notes is released by the author under the three-clause BSD License.
 
-\section*{Acknowledgements}
+\section*{Acknowledgments}
 
 Many thanks to Alan Etkins, Brian Fox, Dan Bowker, Ethan Sudman, Holly Monteith, Konstantinos Moutselos, Michael Gheith, Paula Mikrut, Sean Neilan, and John Plamondon for reviewing different editions of this book. We also thank all the students of our classes for their useful comments and suggestions. Finally, we thank Wikipedia, from which we borrowed a few ideas and examples.
 
@@ -1018,8 +1018,6 @@ Another useful command is {\ft enumerate}, which counts while looping and return
 3 python
 \end{lstlisting}
 
-There is also a keyword {\ft range(a, b, c)} that returns a list of integers starting with the value {\ft a}, incrementing by {\ft c}, and ending with the last value smaller than {\ft b}, where {\ft a} defaults to 0 and {\ft c} defaults to 1.
-
 You can jump out of a loop using {\ft break}:
 %%% META:FILE:test.py
 \begin{lstlisting}
@@ -1639,8 +1637,6 @@ Here is a sampling of some of the methods available in the {\ft math} and {\ft c
 \item {\ft math.cos(x)},{\ft math.sin(x)},{\ft math.tan(x)} returns the cos, sin, tan of the value of {\ft x};  {\ft x} is in radians
 
 \item {\ft math.pi}, {\ft math.e} are the constants for {\ft pi} and {\ft e} to available precision
-
-\item {\ft math.isinf(x)} can be used to check if a number is {\it infinity}.
 \end{itemize}
 
 
@@ -1901,7 +1897,7 @@ The Python dictionary type is very useful, but it lacks persistence because it i
 
 Think for example of using the dictionary to store a bank account. The key is the account number and the value is a list of transactions. We want the dictionary to be safely stored on file. We want it to be accessible by multiple processes and applications. We want transaction safety: it should not be possible for an application to fail during a money transfer, resulting in the disappearance of money.
 
-Python provides a module called {\ft shelve} with the same interface as {\ft dict}, which is stored on disk instead of in RAM. One problem with this module is that the file is not locked when accessed. If two processes try to access it concurrently, the data become corrupted. This module also does not provide transactional safety.
+Python provides a module called {\ft shelve} with the same interface as {\ft dict}, which is stored on disk instead of in RAM. One problem with this module is that the file is not locked when accessed. If two processes try to access it concurrently, the data becomes corrupted. This module also does not provide transactional safety.
 
 The proper alternative consists of using a database. There are two types of databases: relational databases (which normally use SQL syntax) and non-relational databases (often referred to as NoSQL). Key-value persistent storage databases usually follow under the latter category. Relational databases excel at storing structured data (in the form of tables), establishing relations between rows of those tables, and searches involving multiple tables linked by references. NoSQL databases excel at storing and retrieving schemaless data and replication of data (redundancy for fail safety).
 
@@ -2186,7 +2182,7 @@ The {\ft numpy} module also implements common linear algebra operations:
  [ 1.5 -0.5]]
 \end{lstlisting}
 
-These operations are particularly efficient because they are implemented on top of the BLAS and LaPack libraries.
+These operations are particularly efficient because they are implemented on top of the BLAS and LAPACK libraries.
 
 There are many other functions in the {\ft numpy} module, and you can read more about it in the official documentation.
 
@@ -2194,7 +2190,7 @@ There are many other functions in the {\ft numpy} module, and you can read more 
 
 \index{matplotlib}\index{plot}\index{hist}\index{scatter}\index{color2d}
 
-Library {\ft matplotlib}~\cite{matplotlib} is the de facto standard plotting library for Python. It is one of the best and most versatile plotting libraries available. It has two modes of operation. One mode of operation, called {\ft pylab}, follows a Matlab-like syntax. The other mode follows a more Python-style syntax. Here we use the latter.
+Library {\ft matplotlib}~\cite{matplotlib} is the de facto standard plotting library for Python. It is one of the best and most versatile plotting libraries available. It has two modes of operation. One mode of operation, called {\ft pylab}, follows a MATLAB-like syntax. The other mode follows a more Python-style syntax. Here we use the latter.
 
 You can install {\ft matplotlib} with
 \begin{lstlisting}
@@ -2340,7 +2336,7 @@ As an example, we can plot the adjusted closing price for AAPL:
 
 \begin{figure}[ht]
 \centering\includegraphics[width=4in]{images/aapl2011.png}
-\caption{Example of a line plot. Adjusted closing price for the APPL stock in 2011 (source: Yahoo! Finance).}
+\caption{Example of a line plot. Adjusted closing price for the AAPL stock in 2011 (source: Yahoo! Finance).}
 \end{figure}
 
 Here is an example of a histogram of daily arithmetic returns for the AAPL stock in 2011:
@@ -2355,7 +2351,7 @@ Here is an example of a histogram of daily arithmetic returns for the AAPL stock
 
 \begin{figure}[ht]
 \centering\includegraphics[width=4in]{images/aapl2011hist.png}
-\caption{Example of a histogram plot. Distribution of daily arithmetic returns for the APPL stock in 2011 (source: Yahoo! Finance).}
+\caption{Example of a histogram plot. Distribution of daily arithmetic returns for the AAPL stock in 2011 (source: Yahoo! Finance).}
 \end{figure}
 
 Here is a scatter plot for random data points:
@@ -2569,8 +2565,8 @@ Here is an example:
 
 Given $f(n) = n\log n+3n$ and $g(n) = n^2$
 \begin{equation}
-\lim_{n\rightarrow \infty }\frac{n\log n+3n}{n^2}\stackrel{l^{\prime }Hopital%
-}{\longrightarrow }\lim_{n\rightarrow \infty }\frac{1/n}2=0
+\lim_{n\rightarrow \infty }\frac{n\log n+3n}{n^2} \xrightarrow{\text{\emph{L'H\^{o}pital}}%
+} \lim_{n\rightarrow \infty }\frac{1/n}2=0
 \end{equation}
 we conclude that $n\log n+3n$ is in $O(n^2)$.
 
@@ -3574,7 +3570,7 @@ class BinarySearchTree(object):
                  self.right = BinarySearchTree(key,value)
      def __getitem__(self,key):
          if self.key == None:
-             retur None
+             return None
          elif key == self.key:
              return self.value
          elif key<self.key and self.left:
@@ -7207,7 +7203,7 @@ We can compute the distance between $x_i$ and $x$ as
           &=& |g(x)+g'(\xi)(x_{i-1}-x)-g(x)| \\
           &=& |g'(\xi)||x_{i-1}-x|
 \end{eqnarray}
-where we use {\it de l'Hopital rule} and $\xi$ is a point in between $x$ and $x_{i-1}$.
+where we use {\it L'H\^{o}pital's rule} and $\xi$ is a point in between $x$ and $x_{i-1}$.
 
 If the magnitude of the first derivative of $g$, $|g'|$, is less than 1 in a neighborhood of $x$, and if $x_0$ is in such a neighborhood, then
 
@@ -7274,7 +7270,7 @@ Here is how to use it:
 2.0
 \end{lstlisting}
 
-\goodbreak\subsection{Newton method}
+\goodbreak\subsection{Newton's method}
 
 \index{Newton solver}
 
@@ -7316,7 +7312,7 @@ Here is an example:
 
 \index{secant method}
 
-The secant method is very similar to the Newton method, except that $f'(x)$ is replaced by a numerical estimate computed using the current point $x$ and the previous point visited by the algorithm:
+The secant method is very similar to the Newton's method, except that $f'(x)$ is replaced by a numerical estimate computed using the current point $x$ and the previous point visited by the algorithm:
 \begin{eqnarray}
 f'(x_i) &=& \frac{f(x_i)-f(x_{i-1})}{x_i-x_{i-1}} \\
 x_{i+i} &=& x_i - \frac{f(x_i)}{f'(x_i)}
@@ -7374,7 +7370,7 @@ Here is an example:
 3.5
 \end{lstlisting}
 
-\goodbreak\subsection{Newton method}
+\goodbreak\subsection{Newton's method}
 
 \index{Newton optimization}
 
@@ -7664,7 +7660,7 @@ Here is an example:
 [[1.9999999..., 7.999999..., 4.9999999...], [1.9999999..., 0.0, 0.0]]
 \end{lstlisting}
 
-\goodbreak\subsection{Newton method (solver)}
+\goodbreak\subsection{Newton's method (solver)}
 
 \index{Newton solver!multidimensional}
 
@@ -7703,7 +7699,7 @@ Here is an example:
 [1.0..., -1.0...]
 \end{lstlisting}
 
-\goodbreak\subsection{Newton method (optimize)}
+\goodbreak\subsection{Newton's method (optimize)}
 
 \index{Newton optimizer!multi-dimensional}
 
@@ -7747,13 +7743,13 @@ def optimize_newton_multi(f, x, ap=1e-6, rp=1e-4, ns=20):
 [2.0, 3.0]
 \end{lstlisting}
 
-\goodbreak\subsection{Improved Newton method (optimize)}
+\goodbreak\subsection{Improved Newton's method (optimize)}
 
 We can further improve the Newton multidimensional optimizer by using the following technique. At each step, if the next guess does not reduce the value of $f$, we revert to the previous point, and we perform a one-dimensional Newton optimization along the direction of the gradient. This method greatly increases the stability of the multidimensional Newton optimizer:
 
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
-def optimize_newton_multi_imporved(f, x, ap=1e-6, rp=1e-4, ns=20, h=10.0):
+def optimize_newton_multi_improved(f, x, ap=1e-6, rp=1e-4, ns=20, h=10.0):
     """
     Finds the extreme of multidimensional function f near point x.
 
@@ -7870,7 +7866,7 @@ def fit(data, fs, b=None, ap=1e-6, rp=1e-4, ns=200, constraint=None):
             if constraint: chi2+=constraint(b)
             return chi2
         if isinstance(b,(list,tuple)):
-            b = optimize_newton_multi_imporved(g,b,ap,rp,ns)
+            b = optimize_newton_multi_improved(g,b,ap,rp,ns)
         else:
             b = optimize_newton(g,b,ap,rp,ns)
         return b, g(b,data,constraint=None)
@@ -7891,7 +7887,7 @@ def fit(data, fs, b=None, ap=1e-6, rp=1e-4, ns=200, constraint=None):
             if constraint:
                 chi += constraint(b)
             return chi2
-        b = optimize_newton_multi_imporved(g,b,ap,rp,ns)
+        b = optimize_newton_multi_improved(g,b,ap,rp,ns)
         a, chi2 = core(b,data,fs)
         return a+b,chi2
 \end{lstlisting}
@@ -8096,7 +8092,7 @@ Given a fixed $N$, we can always find $N$ vectors $\mathbf{b}_0,\mathbf{b}_1...\
 \mathbf{b}_i \cdot \mathbf{b}_j = \sum_k b_{ik} b_{ik} = \delta_{ij}
 \end{equation}
 
-Here $b_{jk}$ is the $k$ component of vector $\mathbf{b}_j$ and $\delta_{ij}$ is the Kroneker delta defined as 0 when $i\neq j$ and 1 when $i==j$.
+Here $b_{jk}$ is the $k$ component of vector $\mathbf{b}_j$ and $\delta_{ij}$ is the Kronecker delta defined as 0 when $i\neq j$ and 1 when $i==j$.
 
 Any set of vectors $\{\mathbf{b}_j\}$ meeting the preceding condition is called an orthonormal basis. Any other vector $\mathbf{u}$ can be represented by its projections over the basis vectors:
 
@@ -8323,11 +8319,11 @@ The naive solution is due to Euler:
 
 The solution is found by iterating the latest equation. Here $h$ is an arbitrary discretization step. Euler's method works even if the $a_k$ coefficients depend on $x$.
 
-\index{Runge--Katta method}
- Although the Euler integrator works in theory, its systematic error adds up and does not disappear in the limit $h\rightarrow 0$. More accurate integrators are the Runge--Katta and the Adam--Bashforth. In the fourth-order Runge--Katta, the {\it classical Runge--Katta method}, we also solve the differential equation by iteration, except that eq.~\ref{euler} is replaced with
+\index{Runge--Kutta method}
+ Although the Euler integrator works in theory, its systematic error adds up and does not disappear in the limit $h\rightarrow 0$. More accurate integrators are the Runge--Kutta and the Adam--Bashforth. In the fourth-order Runge--Kutta, the {\it classical Runge--Kutta method}, we also solve the differential equation by iteration, except that eq.~\ref{euler} is replaced with
 
 \begin{equation}
-\mathbf{y}(x+h) = \mathbf{y}(x) + h/6 (\mathbf{k}_1+2\mathbf{k}_2+2\mathbf{k}_3+\mathbf{k}_4)\label{rungekatta}
+\mathbf{y}(x+h) = \mathbf{y}(x) + h/6 (\mathbf{k}_1+2\mathbf{k}_2+2\mathbf{k}_3+\mathbf{k}_4)\label{rungekutta}
 \end{equation}
 where
 \begin{eqnarray}
@@ -9194,9 +9190,9 @@ number generator. An optimal choice is the one with the longest period.
 
 For a linear congruential generator, because of the {\ft mod} operation, the period is always less than or equal to $m$. When $c$ is nonzero, the period is equal to $m$ only if $c$ and $m$ are relatively prime, $a-1$ is divisible by all prime factors of $m$, and $a-1$ is a multiple of 4 when $m$ is a multiple of $4$.
 
-In the case of RANDU, the period is $m/4$. A better choice is using $a=7^5$ and $m=2^{31}-1$ (known as the Marsenne prime number) because it can be proven that $m$ is in fact the period of the generator:
+In the case of RANDU, the period is $m/4$. A better choice is using $a=7^5$ and $m=2^{31}-1$ (known as the Mersenne prime number) because it can be proven that $m$ is in fact the period of the generator:
 \begin{equation}
-x_i=(7^5x_{i-1})\textrm{mod}(2^{31}-1)  \label{Marsenne}
+x_i=(7^5x_{i-1})\textrm{mod}(2^{31}-1)  \label{Mersenne}
 \end{equation}
 
 Here are some examples of MCG used by various systems:
@@ -9319,7 +9315,7 @@ x_i=x_{i-1}^2\textrm{mod}m
 
 Random numbers find many applications in cryptography. For example, consider
 the problem of generating a random password, a digital signature, or random
-encryption keys for the Diffie--Hellmann and the RSA encryption schemes.
+encryption keys for the Diffie--Hellman and the RSA encryption schemes.
 
 A cryptographically secure pseudo random number generator (CSPRNG) is a
 pseudo random number generator (PRNG) with properties that make it suitable
@@ -9374,19 +9370,19 @@ where $x_{i-1}^{-1}$ is the multiplicative inverse of $x_{i-1}$ modulo $m$,
 for example, $x_{i-1}x_{i-1}^{-1}=1\textrm{mod}m$.
 
 
-\goodbreak\subsection{Marsenne twister}
+\goodbreak\subsection{Mersenne twister}
 
-One of the best PRNG algorithms (because of its long period, uniform distribution, and speed) is the Marsenne twister, which produces a 53-bit random number,
+One of the best PRNG algorithms (because of its long period, uniform distribution, and speed) is the Mersenne twister, which produces a 53-bit random number,
 and it has a period of $2^{19937}-1$ (this number is 6002 digits long!).
-The Python {\ft random} module uses the Marsenne twister.
+The Python {\ft random} module uses the Mersenne twister.
 Although discussing the inner working of this algorithm is beyond the scope of these notes, we provide a
-pure Python implementation of the Marsenne twister:
+pure Python implementation of the Mersenne twister:
 
-\index{class!MarsenneTwister}
+\index{class!MersenneTwister}
 
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
-class MarsenneTwister(object):
+class MersenneTwister(object):
     """
     based on:
     Knuth 1981, The Art of Computer Programming
@@ -9527,7 +9523,7 @@ Here is an example of usage:
 ...        print k,'\t',i,'\t',x
 \end{lstlisting}
 
-The Marsenne twister algorithm implemented in {\ft os.random} has leapfrogging built in. In fact, the module includes a {\ft random.jumpahead(n)} method that allows us to efficiently skip $n$ numbers.
+The Mersenne twister algorithm implemented in {\ft os.random} has leapfrogging built in. In fact, the module includes a {\ft random.jumpahead(n)} method that allows us to efficiently skip $n$ numbers.
 
 \goodbreak\subsection{Lehmer trees}
 
@@ -9587,7 +9583,7 @@ class RandomSource(object):
         return int(a+(b-a+1)*self.random())
 \end{lstlisting}
 
-Notice that the random {\ft RandomSource} constructor expects a generator such as {\ft MCG}, {\ft MarsenneTwister}, or simply {\ft random} (default value). The {\ft random()} method is a proxy method for the equivalent method of the underlying generator object.
+Notice that the random {\ft RandomSource} constructor expects a generator such as {\ft MCG}, {\ft MersenneTwister}, or simply {\ft random} (default value). The {\ft random()} method is a proxy method for the equivalent method of the underlying generator object.
 
 We can use {\ft randint} to generate a random choice from a finite set when each option has the same probability:
 
@@ -10947,7 +10943,7 @@ Fig.~\ref{nuclear} provides a representation of the process.
 \caption{Probability of chain reaction in uranium.\label{nuclear2}}
 \end{figure}
 
-Here is a possible implementation of the process. We store each event that happens inside the material in a queue ({\ft events}). For each simulation, the queue starts with one event, and from it we generate two more, and so on. If the new events happen inside the material, we place the new events back in the queue. If the size of the queue shrinks to zero, then we are subcritical. If the size of the queue grows exponentially, we have a self-sustained chain reaction. We detect this by measuring the size of the queue and wether it exceeds a threshold (which we arbitrarily set to 200). The average free flight distance for a neutron in  uranium is 1.91 cm. We use this number in our simulation. Given the radius of the material, {\ft simulate\_once} returns 1.0 if it detects a chain reaction and 0.0 if it does not. The output of {\ft simulate\_many} is the probability of a chain reaction:
+Here is a possible implementation of the process. We store each event that happens inside the material in a queue ({\ft events}). For each simulation, the queue starts with one event, and from it we generate two more, and so on. If the new events happen inside the material, we place the new events back in the queue. If the size of the queue shrinks to zero, then we are subcritical. If the size of the queue grows exponentially, we have a self-sustained chain reaction. We detect this by measuring the size of the queue and whether it exceeds a threshold (which we arbitrarily set to 200). The average free flight distance for a neutron in  uranium is 1.91 cm. We use this number in our simulation. Given the radius of the material, {\ft simulate\_once} returns 1.0 if it detects a chain reaction and 0.0 if it does not. The output of {\ft simulate\_many} is the probability of a chain reaction:
 
 \index{class!NuclearReactor}
 
@@ -12013,7 +12009,7 @@ The tree topology looks like a tree where the computer may be associated with ev
 Tree networks are ideal for global operations such as broadcasting and for sharing IO devices such as disks. If the IO device is connected to the root node, every other computer can communicate with it using only $\log p$ links (where $p$ is the number of computers connected). Moreover, each subset of a tree network is also a tree network. This makes it easy to distribute subtasks to different subsets of the same architecture.
 
 \item{\bf Hypercube:}
-This network assumes $2^d$ nodes, and each node corresponds to a vertex of a hypercube. Nodes are connected by direct links, which correspond to the edges of the hypercube. Its importance is more academical than practical, although some ideas from hypercube networks are implemented in some algorithms.
+This network assumes $2^d$ nodes, and each node corresponds to a vertex of a hypercube. Nodes are connected by direct links, which correspond to the edges of the hypercube. Its importance is more academic than practical, although some ideas from hypercube networks are implemented in some algorithms.
 \end{itemize}
 
 If we identify each node on the network with a unique integer number called its rank, we write explicit code to determine if two nodes $i$ and $j$ are connected for each network topology:
@@ -12207,7 +12203,7 @@ Or in other words, looking for the $p(n)$ such that
 \lim_{n\rightarrow\infty} p(n) T_{p(n)}(n) / T_1(n) = const. \ne 0
 \end{equation}
 
-\goodbreak\subsection{Admahl's law}\index{Admahl's law}
+\goodbreak\subsection{Amdahl's law}\index{Amdahl's law}
 
 Consider an algorithm that can be parallelized, but one faction $\alpha$ of its total sequential running time $\alpha T_1$ cannot be parallelized. That means that $T_p = \alpha T_1 + (1-\alpha) T_1/p$, and this yields~\cite{admhal}
 
@@ -12489,7 +12485,7 @@ message = comm.one2all_broadcast(0, message)
 print message
 \end{lstlisting}
 
-Notice how before the broadcast, only the process with rank 0 has knowledge of the message. After broadcast, all nodes are aware of it. Also notice that {\ft one2all\_broadcast} is a global communication function, and all processes must call it. Its first argument is the rank of the broadcasting process (0), while the second argument is the message to be broadcasted (only the value from node 0 is actually used).
+Notice how before the broadcast, only the process with rank 0 has knowledge of the message. After broadcast, all nodes are aware of it. Also notice that {\ft one2all\_broadcast} is a global communication function, and all processes must call it. Its first argument is the rank of the broadcasting process (0), while the second argument is the message to be broadcast (only the value from node 0 is actually used).
 
 \goodbreak\subsection{Scatter and collect}\index{scatter}\index{collect}
 
@@ -13338,7 +13334,7 @@ B}\}
 {\cal A}\cup ({\cal A}\cap {\cal B}) &=&{\cal A}
 \end{eqnarray}
 
-\item  DeMorgan laws
+\item  De Morgan's laws
 \begin{eqnarray}
 {\cal A}-({\cal B}\cup {\cal C}) &=&({\cal A}-{\cal B})\cap ({\cal A}-{\cal C%
 }) \\
@@ -13558,7 +13554,7 @@ First compute limits of the numerator and denominator separately:
 \end{equation}
 
 \item  If $(a=0$ and $b=0)$ or $(a={\Bbb \infty }$ and $b={\Bbb \infty })$
-use de l'Hopital rule
+use L'H\^{o}pital's rule
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=\lim_{n\rightarrow \infty }%
 \frac{f^{\prime }(n)}{g^{\prime }(n)}
