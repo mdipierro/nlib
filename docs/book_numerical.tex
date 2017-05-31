@@ -2664,7 +2664,7 @@ def loop2(n):
 Here the time for the inner loop is directly determined by $n$ and does not depend on the outer loop's counter; therefore
 
 \begin{equation}
-T(n)=\sum_{i=0}^{i<n}\sum_{j=0}^{j<n}1=\sum_{i=0}^{i<n}n=n^2+...\in \Theta
+T(n)=\sum_{i=0}^{i<n}\sum_{j=0}^{j<n}1=\sum_{i=0}^{i<n}n=n^2+\ldots\in \Theta
 (n^2)\Rightarrow \text{{\tt loop2}}\in \Theta (n^2)
 \end{equation}
 
@@ -4303,11 +4303,11 @@ Assume you want to fill your knapsack such that you will maximize the value of i
 The continuous knapsack problem can be formulated as the problem of
 maximizing
 \begin{equation}
-f(x)=a_0x_0+a_1x_1+...+a_nx_n
+f(x)=a_0x_0+a_1x_1+\dots+a_nx_n
 \end{equation}
 given the constraint
 \begin{equation}
-b_0x_0+b_1x_1+...+b_nx_n\leq c
+b_0x_0+b_1x_1+\dots+b_nx_n\leq c
 \end{equation}
 where coefficients $a_i$, $b_i$, and $c$ are provided and $x_i\in [0,1]$ are
 to be determined.
@@ -4315,7 +4315,7 @@ to be determined.
 Using financial terms, we can say that
 
 \begin{itemize}
-\item  The set $\{x_0,x_1,...,x_n\}$ forms a portfolio
+\item  The set $\{x_0,x_1,\dots,x_n\}$ forms a portfolio
 
 \item  $b_i$ is the cost of investment $i$
 
@@ -4323,7 +4323,7 @@ Using financial terms, we can say that
 
 \item  $a_i$ is the expected return of investment for investment $i$
 
-\item  $f(x)$ is the expected value of our portfolio $\{x_0,x_1,...,x_n\}$
+\item  $f(x)$ is the expected value of our portfolio $\{x_0,x_1,\dots,x_n\}$
 \end{itemize}
 
 Here is the solving algorithm:
@@ -4925,30 +4925,30 @@ The proof proceeds as follows:
 possible to associate each of them to an integer
 \begin{equation}
 \begin{tabular}{lll}
-1 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-2 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-3 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-4 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-5 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-... & ... & ...
+1 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+2 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+3 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+4 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+5 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+\dots & \dots &\dots 
 \end{tabular}
 \label{cantor}
 \end{equation}
 (here $x$ represent a decimal digit of a real numbers)
 
-\item  Now construct a number $\alpha =0.yyyyyyyy....$ where the first
+\item  Now construct a number $\alpha =0.yyyyyyyy\dots$ where the first
 decimal digit differs from the first decimal digit of the first real number
 of table \ref{cantor}, the second decimal digit differs from the second
 decimal digit of the second real number of table \ref{cantor}, and so on and
 so on for all the infinite decimal digits:
 \begin{equation}
 \begin{tabular}{lll}
-1 & $\longleftrightarrow $ & $0.\overline{x}xxxxxxxxxx...$ \\
-2 & $\longleftrightarrow $ & $0.x\overline{x}xxxxxxxxx...$ \\
-3 & $\longleftrightarrow $ & $0.xx\overline{x}xxxxxxxx...$ \\
-4 & $\longleftrightarrow $ & $0.xxx\overline{x}xxxxxxx...$ \\
-5 & $\longleftrightarrow $ & $0.xxxx\overline{x}xxxxxx...$ \\
-... & ... & ...
+1 & $\longleftrightarrow $ & $0.\overline{x}xxxxxxxxxx\dots$ \\
+2 & $\longleftrightarrow $ & $0.x\overline{x}xxxxxxxxx\dots$ \\
+3 & $\longleftrightarrow $ & $0.xx\overline{x}xxxxxxxx\dots$ \\
+4 & $\longleftrightarrow $ & $0.xxx\overline{x}xxxxxxx\dots$ \\
+5 & $\longleftrightarrow $ & $0.xxxx\overline{x}xxxxxx\dots$ \\
+\dots & \dots &\dots 
 \end{tabular}
 \label{cantor2}
 \end{equation}
@@ -5299,7 +5299,7 @@ Expanding on the previous example, consider the following code:
 0.1 0.0998334166... 0.099833... 0.000083
 \end{lstlisting}
 
-Notice that the third column $s = x - x^3/6$ is very close to $\sin(x)$. In fact, the difference is less than one part in 10,000 (fourth column). Therefore, for $x \in [-1,+1]$, it is possible to replace the $sin(x)$ function with the $x-x^3/6$ polynomial. Here we just went one step further in the Taylor expansion, replacing the first order with the third order. The error committed in this approximation is very small.
+Notice that the third column $s = x - x^3/6$ is very close to $\sin(x)$. In fact, the difference is less than one part in 10,000 (fourth column). Therefore, for $x \in [-1,+1]$, it is possible to replace the $\sin(x)$ function with the $x-x^3/6$ polynomial. Here we just went one step further in the Taylor expansion, replacing the first order with the third order. The error committed in this approximation is very small.
 
 
 \goodbreak\subsection{Transform a problem into a different one}
@@ -5373,7 +5373,7 @@ A function $f(x):{\Bbb R}\rightarrow{\Bbb R}$ is said to be a {\it real analytic
 When this is the case, the function can be locally approximated with a local power series:
 
 \begin{equation}
-f(x) = f(\bar x) + f^{(0)}(\bar x)(x-\bar x) + ... + \frac{f^{(k)}(\bar x)}{n!}(x-\bar x)^k + R_k
+f(x) = f(\bar x) + f^{(0)}(\bar x)(x-\bar x) + \dots + \frac{f^{(k)}(\bar x)}{n!}(x-\bar x)^k + R_k
 \end{equation}
 
 The remainder $R_k$ can be proven to be (Taylor's theorem):
@@ -5394,20 +5394,20 @@ Exponential for $\bar x = 0$:
 \begin{align}
 f(x) &= e^x \\
 f^{(1)}(x) &= e^x \\
-... &= ... \\
+\dots &= \dots \\
 f^{(k)}(x) &= e^x \\
-e^x &=  1 + x + \frac12 x^2 + ... + \frac1{k!}x^k + ...
+e^x &=  1 + x + \frac12 x^2 + \dots + \frac1{k!}x^k +\dots 
 \end{align}
 
 Sin for $\bar x = 0$:
 
 \begin{align}
-f(x) &= sin(x) \\
-f^{(1)}(x) &= cos(x) \\
-f^{(2)}(x) &= -sin(x) \\
-f^{(3)}(x) &= -cos(x) \\
-... &= ... \\
-sin(x) &=  x - \frac1{3!}x^3 + ... + \frac{(-1)^n}{(2k+1)!}x^{(2k+1)} + ...
+f(x) &= \sin(x) \\
+f^{(1)}(x) &= \cos(x) \\
+f^{(2)}(x) &= -\sin(x) \\
+f^{(3)}(x) &= -\cos(x) \\
+\dots &= \dots \\
+\sin(x) &=  x - \frac1{3!}x^3 + \dots + \frac{(-1)^n}{(2k+1)!}x^{(2k+1)} +\dots 
 \end{align}
 
 We can show the effects of the various terms:
@@ -5435,7 +5435,7 @@ We can show the effects of the various terms:
 Notice that we can very well expand in Taylor around any other point, for example, $\bar x = \pi/2$, and we get
 
 \begin{equation}
-sin(x) =  1 - \frac1{2}(x-\frac{\pi}{2})^2 + ... + \frac{(-1)^n}{(2k)!}(x-\frac{\pi}{2})^{(2k)} + ...
+\sin(x) =  1 - \frac1{2}(x-\frac{\pi}{2})^2 + \dots + \frac{(-1)^n}{(2k)!}(x-\frac{\pi}{2})^{(2k)} +\dots 
 \end{equation}
 
 and a plot would show:
@@ -5464,12 +5464,12 @@ and a plot would show:
 Similarly we can expand the $\cos$ function around $\bar x = 0$. Not accidentally, we would get the same coefficients as the Taylor expansion of the $\sin$ function around $\bar x = \pi/2$. In fact, $\sin(x) = \cos(x-\pi/2)$:
 
 \begin{align}
-f(x) &= cos(x) \\
-f^{(1)}(x) &= -sin(x) \\
-f^{(2)}(x) &= -cos(x) \\
-f^{(3)}(x) &= sin(x) \\
-... &= ... \\
-cos(x) &=  1 - \frac1{2}x^2 + ... + \frac{(-1)^n}{(2k)!}x^{(2k)} + ...
+f(x) &= \cos(x) \\
+f^{(1)}(x) &= -\sin(x) \\
+f^{(2)}(x) &= -\cos(x) \\
+f^{(3)}(x) &= \sin(x) \\
+\dots &= \dots \\
+\cos(x) &=  1 - \frac1{2}x^2 + \dots + \frac{(-1)^n}{(2k)!}x^{(2k)} +\dots 
 \end{align}
 
 With a simple replacement, it is easy to prove that
@@ -5699,15 +5699,15 @@ $f(\mathbf{y}+\mathbf{h}) - \mathbf{y} \simeq A \mathbf{h}$, yet we need to clar
 
 Given
 \begin{equation}
-\mathbf{x} \equiv \left(\begin{tabular}{c}$x_0$\\$x_1$\\...\\$x_{n-1}$\end{tabular}\right)\qquad
-\mathbf{y} \equiv \left(\begin{tabular}{c}$y_0$\\$y_1$\\...\\$y_{m-1}$\end{tabular}\right)
+\mathbf{x} \equiv \left(\begin{tabular}{c}$x_0$\\$x_1$\\\dots\\$x_{n-1}$\end{tabular}\right)\qquad
+\mathbf{y} \equiv \left(\begin{tabular}{c}$y_0$\\$y_1$\\\dots\\$y_{m-1}$\end{tabular}\right)
 \end{equation}
 \begin{equation}
 A \equiv \left(\begin{tabular}{cccc}
-$a_{00}$ & $a_{01}$ & ... & $a_{0,n-1}$ \\
-$a_{10}$ & $a_{11}$ & ... & $a_{1,n-1}$ \\
-... & ... & ... & ... \\
-$a_{m-1,0}$ & $a_{m-1,1}$ & ... & $a_{m-1,n-1}$
+$a_{00}$ & $a_{01}$ & \dots & $a_{0,n-1}$ \\
+$a_{10}$ & $a_{11}$ & \dots & $a_{1,n-1}$ \\
+\dots & \dots & \dots & \dots \\
+$a_{m-1,0}$ & $a_{m-1,1}$ & \dots & $a_{m-1,n-1}$
 \end{tabular}\right)
 \end{equation}
 
@@ -5717,11 +5717,11 @@ the following equation means
 \end{equation}
 which means
 \begin{alignat}{2}
-y_0 &= f_0(\mathbf{x}) &&\simeq a_{00} x_0 + a_{01} x_1 + ... + a_{0,n-1}x_{n-1} \\
-y_1 &= f_1(\mathbf{x}) &&\simeq a_{10} x_0 + a_{11} x_1 + ... + a_{1,n-1}x_{n-1} \\
-y_2 &= f_2(\mathbf{x}) &&\simeq a_{20} x_0 + a_{21} x_1 + ... + a_{2,n-1}x_{n-1} \\
-... &= ... &&\simeq ... \\
-y_{m-1} &= f_{m-1}(\mathbf{x}) &&\simeq a_{m-1,0} x_0 + a_{m-1,1} x_1 + ...
+y_0 &= f_0(\mathbf{x}) &&\simeq a_{00} x_0 + a_{01} x_1 + \dots + a_{0,n-1}x_{n-1} \\
+y_1 &= f_1(\mathbf{x}) &&\simeq a_{10} x_0 + a_{11} x_1 + \dots + a_{1,n-1}x_{n-1} \\
+y_2 &= f_2(\mathbf{x}) &&\simeq a_{20} x_0 + a_{21} x_1 + \dots + a_{2,n-1}x_{n-1} \\
+\dots &= \dots &&\simeq \dots \\
+y_{m-1} &= f_{m-1}(\mathbf{x}) &&\simeq a_{m-1,0} x_0 + a_{m-1,1} x_1 +\dots 
 a_{m-1,n-1}x_{n-1}
 \end{alignat}
 which says that every output variable $y_j$ is approximated with a function proportional to each of the input variables $x_i$.
@@ -6051,12 +6051,12 @@ where $B=1$, the identity matrix. This equation remains true if we multiply both
 \begin{equation}
 S_0 A \mathbf{x} = S_0 B \mathbf{b}
 \end{equation}
-The trick of the Gauss--Jordan elimination consists in finding a series of matrices $S_0$, $S_1$,..., $S_{n-1}$ so that
+The trick of the Gauss--Jordan elimination consists in finding a series of matrices $S_0$, $S_1$,\dots, $S_{n-1}$ so that
 \begin{equation}
-S_{n-1} ... S_1 S_0 A \mathbf{x} = S_{n-1} ... S_1 S_0 B \mathbf{b} = \mathbf{x}
+S_{n-1} \dots S_1 S_0 A \mathbf{x} = S_{n-1} \dots S_1 S_0 B \mathbf{b} = \mathbf{x}
 \end{equation}
 Because the preceding expression must be true for every $b$ and because $x$ is the solution of $A x=b$, by definition,
-$S_{n-1} \ldots S_1 S_0 B \equiv A^{-1}$.
+$S_{n-1} \dots S_1 S_0 B \equiv A^{-1}$.
 
 The Gauss-Jordan algorithm works exactly this way: given $A$, it computes $A^{-1}$:
 
@@ -6416,7 +6416,7 @@ p(\mathbf{x}) \propto \exp\left(-\frac12 \mathbf{u}^t \mathbf{u}\right)
 \end{equation}
 and
 \begin{equation}
-p(\mathbf{x}) \propto e^{-\frac12 u_0^2}e^{-\frac12 u_1^2}e^{-\frac12 u_2^2}...
+p(\mathbf{x}) \propto e^{-\frac12 u_0^2}e^{-\frac12 u_1^2}e^{-\frac12 u_2^2\dots}
 \end{equation}
 Therefore the $u_i$ components are Gaussian random variables.
 
@@ -6563,10 +6563,10 @@ We can determine $\alpha$ by deciding how much risk we are willing to take, and 
 Consider a set of data points $(x_J,y_j) = (t_j,o_j \pm do_j)$. We want to fit them with a linear combination of linear independent functions $f_i$ so that
 
 \begin{align}
-c_0 f_0(t_0) + c_1 f_1(t_0) + c_2 f_2(t_0) +  ... &= e_0 \simeq o_0 \pm do_0\\
-c_0 f_0(t_1) + c_1 f_1(t_1) + c_2 f_2(t_1) +  ... &= e_1 \simeq o_1 \pm do_1\\
-c_0 f_0(t_2) + c_1 f_1(t_2) + c_2 f_2(t_2) +  ... &= e_2 \simeq o_2 \pm do_2\\
-... &= ...
+c_0 f_0(t_0) + c_1 f_1(t_0) + c_2 f_2(t_0) +  \dots &= e_0 \simeq o_0 \pm do_0\\
+c_0 f_0(t_1) + c_1 f_1(t_1) + c_2 f_2(t_1) +  \dots &= e_1 \simeq o_1 \pm do_1\\
+c_0 f_0(t_2) + c_1 f_1(t_2) + c_2 f_2(t_2) +  \dots &= e_2 \simeq o_2 \pm do_2\\
+\dots &=\dots 
 \end{align}
 
 We want to find the $\{c_i\}$ that minimizes the sum of the squared distances between the actual ``observed'' data $o_j$ and the predicted ``expected'' data $e_j$, in units of $do_j$. This metric is called $\chi^2$ in general~\cite{chi2}. An algorithm that minimizes the $\chi^2$  and is linear in the $c_i$ coefficients (our case here) is called {\it linear least squares} or {\it linear regression}.
@@ -6580,10 +6580,10 @@ If we define the matrix $A$ and $B$ as
 \begin{equation}
 A=\left(
 \begin{tabular}{cccc}
-$\frac{f_0(t_0)}{do_0}$ & $\frac{f_1(t_0)}{do_0}$ & $\frac{f_2(t_0)}{do_0}$ &...\\
-$\frac{f_0(t_1)}{do_1}$ & $\frac{f_1(t_1)}{do_1}$ & $\frac{f_2(t_1)}{do_1}$ &...\\
-$\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &...\\
-...& ...& ... & ...
+$\frac{f_0(t_0)}{do_0}$ & $\frac{f_1(t_0)}{do_0}$ & $\frac{f_2(t_0)}{do_0}$ &\dots\\
+$\frac{f_0(t_1)}{do_1}$ & $\frac{f_1(t_1)}{do_1}$ & $\frac{f_2(t_1)}{do_1}$ &\dots\\
+$\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &\dots\\
+\dots& \dots& \dots &\dots 
 \end{tabular}
 \right) \qquad b =
 \left(
@@ -6591,7 +6591,7 @@ $\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &...
 $\frac{o_0}{do_0}$ \\
 $\frac{o_1}{do_1}$ \\
 $\frac{o_2}{do_2}$ \\
-...
+\dots
 \end{tabular}
 \right)
 \end{equation}
@@ -6665,10 +6665,10 @@ As an example, we can use it to perform a polynomial fit: given a set of points,
 
 In other words, we want to find the $c_i$ such that, given $t_j$ and $o_j$,
 \begin{align}
-c_0  + c_1 t_0^{1} + c_2 t_0^{2} +  ... &= e_0 \simeq o_0 \pm do_0 \\
-c_0  + c_1 t_1^{1} + c_2 t_1^{2} +  ... &= e_1 \simeq o_1 \pm do_1\\
-c_0  + c_1 t_2^{1} + c_2 t_2^{2} +  ... &= e_2 \simeq o_2 \pm do_2\\
-... &=  ...
+c_0  + c_1 t_0^{1} + c_2 t_0^{2} +  \dots &= e_0 \simeq o_0 \pm do_0 \\
+c_0  + c_1 t_1^{1} + c_2 t_1^{2} +  \dots &= e_1 \simeq o_1 \pm do_1\\
+c_0  + c_1 t_2^{1} + c_2 t_2^{2} +  \dots &= e_2 \simeq o_2 \pm do_2\\
+\dots &= \dots 
 \end{align}
 
 Here is how we can generate some random points and solve the problem for a polynomial of degree 2 (or quadratic fit):
@@ -7035,7 +7035,7 @@ K(f,y,i) = \{y, f(y), f(f(y)), f(f(f(y))), (f^i)(y)\}
 \end{equation}
 The {\it minimum residual}~\cite{minres} algorithm works by solving $x=f^{-1}(y)$ iteratively. At each iteration, it computes a new orthogonal basis vector $q_i$ for the Krylov space $K(f,y,i)$ and computes the coefficients $\alpha_i$ that project $x_i$ into component $i$ of the Krylov space:
 \begin{equation}
-x_i = y + \alpha_1 q_1 + \alpha_2 q_2 + ... + \alpha_i q_i \in K(f,y,i+1)
+x_i = y + \alpha_1 q_1 + \alpha_2 q_2 + \dots + \alpha_i q_i \in K(f,y,i+1)
 \end{equation}
 which minimizes the norm of the residue defined as:
 \begin{equation}
@@ -7185,7 +7185,7 @@ We start at $x_0$, an arbitrary point in the domain, and close to the solution w
 x_1 &= g(x_0) \\
 x_2 &= g(x_1) \\
 x_3 &= g(x_2) \\
-... &= ...
+\dots &=\dots 
 \end{align}
 We can compute the distance between $x_i$ and $x$ as
 \begin{align}
@@ -7504,19 +7504,19 @@ Here is an example:
 
 \index{Jacobian}\index{Gradient}\index{Hessian}
 
-A generic function $f(x_0,x_1,x_2,...)$ of multiple variables $\mathbf{x}=(x_0,x_1,x_2,..)$ can be expanded in Taylor series to the second order as
+A generic function $f(x_0,x_1,x_2,\dots)$ of multiple variables $\mathbf{x}=(x_0,x_1,x_2,..)$ can be expanded in Taylor series to the second order as
 
 \begin{align}
-f(x_0,x_1,x_2,...) &= f(\bar x_0,\bar x_1, \bar x_2,...) + 
+f(x_0,x_1,x_2,\dots) &= f(\bar x_0,\bar x_1, \bar x_2,\dots) + 
                      \sum_i \frac{\partial f(\mathbf{\bar x})}{\partial x_i}(x_i-\bar x_i) \notag\\ 
-                   &\quad + \sum_{ij} \frac12 \frac{\partial^2 f}{\partial x_i\partial x_j}(\mathbf{\bar x})(x_i-\bar x_i)(x_j-\bar x_j) + ...
+                   &\quad + \sum_{ij} \frac12 \frac{\partial^2 f}{\partial x_i\partial x_j}(\mathbf{\bar x})(x_i-\bar x_i)(x_j-\bar x_j) +\dots 
 \end{align}
 
 We can rewrite the above expression in terms of the vector $\mathbf{x}$ as follows:
 
 \begin{equation}
 f(\mathbf{x}) = f(\mathbf{\bar x}) + \nabla_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x})
-+ \frac12 (\mathbf{x}-\mathbf{\bar x})^t H_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + ...
++ \frac12 (\mathbf{x}-\mathbf{\bar x})^t H_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) +\dots 
 \end{equation}
 
 where we introduce the gradient vector
@@ -7527,7 +7527,7 @@ where we introduce the gradient vector
 $\partial f(x)/\partial x_0$ \\
 $\partial f(x)/\partial x_1$ \\
 $\partial f(x)/\partial x_2$ \\
-...
+\dots
 \end{tabular}
 \right)
 \end{equation}
@@ -7540,16 +7540,16 @@ H_f(x) \equiv \left(
 $\partial^2 f(x)/\partial x_0\partial x_0$ &
 $\partial^2 f(x)/\partial x_0\partial x_1$ &
 $\partial^2 f(x)/\partial x_0\partial x_2$ &
-... \\
+\dots \\
 $\partial^2 f(x)/\partial x_1\partial x_0$ &
 $\partial^2 f(x)/\partial x_1\partial x_1$ &
 $\partial^2 f(x)/\partial x_1\partial x_2$ &
-... \\
+\dots \\
 $\partial^2 f(x)/\partial x_2\partial x_0$ &
 $\partial^2 f(x)/\partial x_2\partial x_1$ &
 $\partial^2 f(x)/\partial x_2\partial x_2$ &
-... \\
-... & ... & ... & ...
+\dots \\
+\dots & \dots & \dots &\dots 
 \end{tabular}
 \right)
 \end{equation}
@@ -7578,7 +7578,7 @@ Here is an example:
 
 When dealing with functions returning multiple values like
 \begin{equation}
-f(\mathbf{x}) = (f_0(\mathbf{x}), f_1(\mathbf{x}), f_2(\mathbf{x}), ...)
+f(\mathbf{x}) = (f_0(\mathbf{x}), f_1(\mathbf{x}), f_2(\mathbf{x}), \dots)
 \end{equation}
 
 we need to Taylor expand each component:
@@ -7590,15 +7590,15 @@ f(\mathbf{x}) =
 $f_0(\mathbf{x})$ \\
 $f_1(\mathbf{x})$ \\
 $f_2(\mathbf{x})$ \\
-...
+\dots
 \end{tabular}
 \right) =
 \left(
 \begin{tabular}{c}
-$f_0(\mathbf{\bar x}) + \nabla_{f_0}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
-$f_1(\mathbf{\bar x}) + \nabla_{f_1}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
-$f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
-...
+$f_0(\mathbf{\bar x}) + \nabla_{f_0}(\mathbf{x}-\mathbf{\bar x}) + \dots$ \\
+$f_1(\mathbf{\bar x}) + \nabla_{f_1}(\mathbf{x}-\mathbf{\bar x}) + \dots$ \\
+$f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + \dots$ \\
+\dots
 \end{tabular}
 \right)
 \end{equation}
@@ -7606,7 +7606,7 @@ $f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
 which we can rewrite as
 
 \begin{equation}
-f(\mathbf{x}) = f(\mathbf{\bar x}) + J_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + ... \label{jacobian2}
+f(\mathbf{x}) = f(\mathbf{\bar x}) + J_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + \dots \label{jacobian2}
 \end{equation}
 
 where $J_f$ is called Jacobian and is defined as
@@ -7618,16 +7618,16 @@ J_f \equiv
 $\partial f_0(x)/\partial x_0$ &
 $\partial f_0(x)/\partial x_1$ &
 $\partial f_0(x)/\partial x_2$ &
-... \\
+\dots \\
 $\partial f_1(x)/\partial x_0$ &
 $\partial f_1(x)/\partial x_1$ &
 $\partial f_1(x)/\partial x_2$ &
-... \\
+\dots \\
 $\partial f_2(x)/\partial x_0$ &
 $\partial f_2(x)/\partial x_1$ &
 $\partial f_2(x)/\partial x_2$ &
-... \\
-... & ... & ... & ...
+\dots \\
+\dots & \dots & \dots &\dots 
 \end{tabular}
 \right)
 \end{equation}
@@ -7778,13 +7778,13 @@ Here we consider a generic experiment or simulated experiment that generates poi
 \frac{y_i - f(x_i,\mathbf{a},\mathbf{b})}{\delta y_i}
 \right|^2
 \end{equation}
-where the function $f$ is known but depends on unknown parameters $\mathbf{a}=(a_0,a_1,...)$ and $\mathbf{b}=(b_0,b_1,...)$. In terms of these parameters, the function $f$ can be written as follows:
+where the function $f$ is known but depends on unknown parameters $\mathbf{a}=(a_0,a_1,\dots)$ and $\mathbf{b}=(b_0,b_1,\dots)$. In terms of these parameters, the function $f$ can be written as follows:
 \begin{equation}
 f(x,\mathbf{a},\mathbf{b}) = \sum_j a_j f_j(x, \mathbf{b})
 \end{equation}
 Here is an example:
 \begin{equation}
-f(x,\mathbf{a},\mathbf{b}) = a_0 e^{-b_0 x} + a_1 e^{-b_1 x} + a_2 e^{-b_2 x} + ...
+f(x,\mathbf{a},\mathbf{b}) = a_0 e^{-b_0 x} + a_1 e^{-b_1 x} + a_2 e^{-b_2 x} +\dots 
 \end{equation}
 The goal of our algorithm is to efficiently determine the parameters $\mathbf{a}$ and $\mathbf{b}$ that minimize the $\chi^2$.
 
@@ -7796,7 +7796,7 @@ We proceed by defining the following two quantities:
 $y_0$ / $\delta y_0$ \\
 $y_1$ / $\delta y_1$ \\
 $y_2$ / $\delta y_2$ \\
-...
+\dots
 \end{tabular}
 \right)
 \end{equation}
@@ -7808,14 +7808,14 @@ A(\mathbf{b}) = \left(
 \begin{tabular}{cccc}
 $f_0(x_0,\mathbf{b})/\delta y_0$ &
 $f_1(x_0,\mathbf{b})/\delta y_0$ &
-$f_2(x_0,\mathbf{b})/\delta y_0$ & ... \\
+$f_2(x_0,\mathbf{b})/\delta y_0$ & \dots \\
 $f_0(x_1,\mathbf{b})/\delta y_1$ &
 $f_1(x_1,\mathbf{b})/\delta y_1$ &
-$f_2(x_1,\mathbf{b})/\delta y_1$ & ... \\
+$f_2(x_1,\mathbf{b})/\delta y_1$ & \dots \\
 $f_0(x_2,\mathbf{b})/\delta y_2$ &
 $f_1(x_2,\mathbf{b})/\delta y_2$ &
-$f_2(x_2,\mathbf{b})/\delta y_2$ & ... \\
-... & ... & ... & ...
+$f_2(x_2,\mathbf{b})/\delta y_2$ & \dots \\
+\dots & \dots & \dots &\dots 
 \end{tabular}
 \right)
 \end{equation}
@@ -7998,7 +7998,7 @@ This is the basic idea of quadrature. For a subdomain delimited by $(0,1)$, we c
 \begin{alignat}{2}
 \int_0^1 1\textrm{d}x &= h &&= \sum_i c_i (i/n)^0 \\
 \int_0^1 x\textrm{d}x &= h^2/2 &&= \sum_i c_i (i/n)^1 \\
-... &= ... &&= ... \\
+\dots &= \dots &&= \dots \\
 \int_0^1 x^{n-1}\textrm{d}x &= h^n/n &&= \sum_i c_i (i/n)^2
 \end{alignat}
 where $c_i$ are coefficients to be determined:
@@ -8049,7 +8049,7 @@ Here is an example of usage:
 
 A function with a domain over a finite interval $[a,b]$ can be approximated with a vector. For example, consider a function $f(x)$ with domain $[0,T]$. We can sample the function at points $x_k = a+(b-a)k/N$ and represent the discretized function with a vector
 \begin{equation}
-\mathbf{u}_f \equiv \{cf(x_0), cf(x_1), cf(x_2), ... cf(x_N)\}
+\mathbf{u}_f \equiv \{cf(x_0), cf(x_1), cf(x_2), \dots cf(x_N)\}
 \end{equation}
 where $c$ is an arbitrary constant that we choose to be $c=\sqrt{(b-a)/N}$. This choice simplifies our later algebra.
 Summarizing, we define
@@ -8076,7 +8076,7 @@ From now on, we will omit the $f$ subscript in $\mathbf{u}$ and simply use diffe
 
 Because we are interested in numerical algorithms, we will keep $N$ finite and work with the sum instead of the integral.
 
-Given a fixed $N$, we can always find $N$ vectors $\mathbf{b}_0,\mathbf{b}_1...\mathbf{b}_{N_1}$ that are linearly independent, normalized, and orthogonal, that is,
+Given a fixed $N$, we can always find $N$ vectors $\mathbf{b}_0,\mathbf{b}_1\dots\mathbf{b}_{N_1}$ that are linearly independent, normalized, and orthogonal, that is,
 
 \begin{equation}
 \mathbf{b}_i \cdot \mathbf{b}_j = \sum_k b_{ik} b_{ik} = \delta_{ij}
@@ -8225,13 +8225,13 @@ i^j: 10000011001110
 In this section, we deal specifically with differential equations of the following form:
 
 \begin{equation}
-a_0 f(x) + a_1 f'(x) + a_2 f''(x) + ... = g(x) \label{diffeq}
+a_0 f(x) + a_1 f'(x) + a_2 f''(x) + \dots = g(x) \label{diffeq}
 \end{equation}
 
 where $f(x)$ is an unknown function to be determined; $f'$, $f''$, and so on, are its derivatives; $a_i$ are known input coefficients; and $g(x)$ is a known input function:
 
 \begin{equation}
-f''(x) - 4 f'(x) + f(x) = sin(x)
+f''(x) - 4 f'(x) + f(x) = \sin(x)
 \end{equation}
 
 In this case, $a_2(x) = 1$, $a_1(x) = -4$, $a_0(x) = 1$, and $g(x) = \sin(x)$.
@@ -8276,7 +8276,7 @@ and we rewrite the differential equation as
 y'_0 &= y_1 \\
 y'_1 &= y_2 \\
 y'_2 &= y_3 \\
-... &= ... \\
+\dots &= \dots \\
 y'_{N-1} &= y_N = (g(x)-\sum_{k<N} a_k y_k(x))/a_N(x)
 \end{align}
 
@@ -8293,7 +8293,7 @@ F(\mathbf{y}) = \mathbf{y}+\left(\begin{tabular}{c}
 $y_1$ \\
 $y_2$ \\
 $y_3$ \\
-... \\
+\dots \\
 $(g(x)-\sum_{k<N} a_k(x)y_k(x))/a_N(x)$
 \end{tabular}\right)
 \end{equation}
@@ -8525,7 +8525,7 @@ As another example, let's consider a simple bet on a dice. We roll the dice once
 -0.83333...
 \end{lstlisting}
 
-The average expected payoff is $-0.83...$, which means that on average, we should expect to lose 83 cents at this game.
+The average expected payoff is $-0.83\dots$, which means that on average, we should expect to lose 83 cents at this game.
 
 \goodbreak\subsection{Continuous random variables}
 \index{continuous random variable}
@@ -8706,10 +8706,10 @@ Here is an example:
 
 \goodbreak\subsection{Strong law of large numbers}
 
-If $X_1,X_2,...X_n$ are a sequence of independent and identically
+If $X_1,X_2,\dots,X_n$ are a sequence of independent and identically
 distributed random variables with $E[X_i]=$ $\mu $ and finite variance, then
 \begin{equation}
-\lim_{n\rightarrow \infty }\frac{X_1+X_2+...+X_n}n=\mu
+\lim_{n\rightarrow \infty }\frac{X_1+X_2+\dots+X_n}n=\mu
 \end{equation}
 
 This theorem means that ``the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.'' The name of this law is due to Poisson~\cite{largenumbers}.
@@ -8717,7 +8717,7 @@ This theorem means that ``the average of the results obtained from a large numbe
 \goodbreak\subsection{Central limit theorem}
 
 This is one of the most important theorems concerning distributions~\cite{central}:
-if $X_1,X_2,...X_n$ are a sequence of random variables with finite means, $\mu_i$, and finite variance, $\sigma^2_i$, then
+if $X_1,X_2,\dots,X_n$ are a sequence of random variables with finite means, $\mu_i$, and finite variance, $\sigma^2_i$, then
 \begin{equation}
 Y = \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} X_i
 \end{equation}
@@ -8804,7 +8804,7 @@ consider the second socket, and we can select any of the remaining $n-1$
 plugs ($n-1$ combinations), and so on, until we are left with no free sockets
 and $n-m$ unused plugs; therefore there are
 \begin{equation}
-n!/(n-m)!=n(n-1)(n-2)...(n-m+1)
+n!/(n-m)!=n(n-1)(n-2)\dots(n-m+1)
 \end{equation}
 combinations.
 
@@ -8814,7 +8814,7 @@ consider the second plug, and we can select any of the remaining $m-1$
 sockets ($m-1$ combinations), and so on, until we are left with no spare
 plugs and $m-n$ free sockets; therefore there are
 \begin{equation}
-m!/(m-n)!=m(m-1)(m-2)...(m-n+1)
+m!/(m-n)!=m(m-1)(m-2)\dots(m-n+1)
 \end{equation}
 combinations. Note that if $m=n\,$ then case 1 and case 2 agree, as
 expected.
@@ -8993,7 +8993,7 @@ uniform distribution. We assemble a system consisting of many
 atoms, and we record the time when we observe atoms decay:
 
 \begin{equation}
-t_0,t_1,t_2,t_3,t_4,t_5,...
+t_0,t_1,t_2,t_3,t_4,t_5\dots,
 \end{equation}
 
 One could study the probability distribution of the $t_i$ and find
@@ -9058,7 +9058,7 @@ and we perform the following steps:
 thus obtaining:
 
 \begin{equation}
-0.3671875 - 0.83203125 - 0.4609375 - ...
+0.3671875 - 0.83203125 - 0.4609375 -\dots 
 \end{equation}
 \end{itemize}
 
@@ -9223,7 +9223,7 @@ An example of pattern/bias is discussed in ref.~\cite{randu} and can be seen in 
 Another modification of the multiplicative congruential generator is the following:
 
 \begin{equation}
-x_i=(a_1x_{i-1}+a_2x_{i-2}+...+a_kx_{i-k})\textrm{mod}m
+x_i=(a_1x_{i-1}+a_2x_{i-2}+\dots+a_kx_{i-k})\textrm{mod}m
 \end{equation}
 
 The advantage of this generator is that if $m$ is prime, the period of this
@@ -9267,12 +9267,12 @@ otherwise.
 The Marsaglia's subtract-and-borrow is a very popular generator, but it is known
 to have some problems. For example, if we construct vector
 \begin{equation}
-v_i=(x_i,x_{i+1},...,x_{i+k})
+v_i=(x_i,x_{i+1},\dots,x_{i+k})
 \end{equation}
 and the coordinates of the point $v_i$ are numbers closer to each other then
 the coordinates of the point $v_{i+k}$ are also close to each other. This
 indicates that there is an unwanted correlation between the points $%
-x_i,x_{i+1},...,x_{i+k}$. L\"uscher observed~\cite{lusher} that the Marsaglia's
+x_i,x_{i+1},\dots,x_{i+k}$. L\"uscher observed~\cite{lusher} that the Marsaglia's
 subtract-and-borrow is equivalent to a chaotic discrete dynamic system, and
 the preceding correlation dies off for points that distance themselves more than $k$. Therefore
 he proposed to modify the generator as follows: instead of taking all $x_i$
@@ -9326,15 +9326,15 @@ proofs, though it is slow.
 
 Many pseudo random number generators have the form
 \begin{equation}
-x_i=f(x_{i-1},x_{i-2},...,x_{i-k})
+x_i=f(x_{i-1},x_{i-2},\dots,x_{i-k})
 \end{equation}
 For example, the next random number depends on the past $k$ numbers. Requirements for CSPRNGs used in cryptography are that
 
 \begin{itemize}
-\item  Given $x_{i-1},x_{i-2},...,x_{i-k}$, $x_i$ can be computed in
+\item  Given $x_{i-1},x_{i-2},\dots,x_{i-k}$, $x_i$ can be computed in
 polynomial time, while
 
-\item  Given $x_i,x_{i-2},...,x_{i-k}$, $x_{i-1}$ must not be computable in
+\item  Given $x_i,x_{i-2},\dots,x_{i-k}$, $x_{i-1}$ must not be computable in
 polynomial time.
 \end{itemize}
 
@@ -9428,7 +9428,7 @@ $y_1$ & 0.0235412092879 & 0.992022250779 \\
 $y_2$ & 0.867315522395 & 0.146293803118 \\
 $y_3$ & 0.992022250779 & 0.949562561698 \\
 $y_4$ & 0.146293803118 & 0.380731142126 \\
-$y_5$ & ... & ...
+$y_5$ & \dots &\dots 
 \end{tabular}
 \end{equation}
 
@@ -9442,14 +9442,14 @@ non-overlapping blocks, leapfrogging, and Lehmer trees.
 
 Let's consider one sequence of pseudo random numbers:
 \begin{equation}
-x_0,x_1,...,x_k,x_{k+1},...,x_{2k},x_{2k+1},...,x_{3k},x_{3k+1},...,
+x_0,x_1,\dots,x_k,x_{k+1},\dots,x_{2k},x_{2k+1},\dots,x_{3k},x_{3k+1},\dots,
 \end{equation}
 One can break it into subsequences of $k$ numbers:
 \begin{align}
-&x_0,x_1,...,x_{k-1} \\
-&x_k,x_{k+1},...,x_{2k-1} \\
-&x_{2k},x_{2k+1},...,x_{3k-1} \\
-&...
+&x_0,x_1,\dots,x_{k-1} \\
+&x_k,x_{k+1},\dots,x_{2k-1} \\
+&x_{2k},x_{2k+1},\dots,x_{3k-1} \\
+&\dots
 \end{align}
 If the original sequence is created with a multiplicative congruential
 generator
@@ -9460,7 +9460,7 @@ the subsequences can be generated independently because
 \begin{equation}
 x_{nk-1}=a^{nk-1}x_0\textrm{mod}m
 \end{equation}
-if the seed of the arbitrary sequence is $x_{nk},x_{nk+1},...,x_{nk-1}$. This
+if the seed of the arbitrary sequence is $x_{nk},x_{nk+1},\dots,x_{nk-1}$. This
 is particularly convenient for parallel computers where one computer
 generates the seeds for the subsequences and the processing nodes,
 independently, generated the subsequences.
@@ -9470,14 +9470,14 @@ independently, generated the subsequences.
 Another and probably more popular technique is leapfrogging.
 Let's consider one sequence of pseudo random numbers:
 \begin{equation}
-x_0,x_1,...,x_k,x_{k+1},...,x_{2k},x_{2k+1},...,x_{3k},x_{3k+1},...,
+x_0,x_1,\dots,x_k,x_{k+1},\dots,x_{2k},x_{2k+1},\dots,x_{3k},x_{3k+1},\dots,
 \end{equation}
 One can break it into subsequences of $k$ numbers:
 \begin{align}
-&x_0,x_k,x_{2k},x_{3k},... \\
-&x_1,x_{1+k},x_{1+2k},x_{1+3k},... \\
-&x_2,x_{2+k},x_{2+2k},x_{2+3k},... \\
-&...
+&x_0,x_k,x_{2k},x_{3k},\dots \\
+&x_1,x_{1+k},x_{1+2k},x_{1+3k},\dots \\
+&x_2,x_{2+k},x_{2+2k},x_{2+3k},\dots \\
+\dots&
 \end{align}
 
 The seeds $x_1,x_2,..x_{k-1}$ are generated from $x_0$, and the independent
@@ -9660,7 +9660,7 @@ The answer to this question is given by the $\chi^2$ and its distribution. We di
 
 In some sense, we can think of the table lookup as an application of the
 linear search. We start with a segment of length 1, and we break it into smaller
-contiguous intervals of length $\textrm{Prob}(X=0),\textrm{Prob}(X=1),...,\textrm{Prob}(x=n-1)$ so that $\sum
+contiguous intervals of length $\textrm{Prob}(X=0),\textrm{Prob}(X=1),\dots,\textrm{Prob}(x=n-1)$ so that $\sum
 \textrm{Prob}(X=i)=1.$ We then generate a random point on the initial segment, and we ask
 in which of the $n$ intervals it falls. The table lookup method linearly
 searches the interval.
@@ -9694,8 +9694,8 @@ _2n$. The array of arrays $a$ can be represented as follows:
 \begin{equation}
 a_{ij}=\left(
 \begin{array}{lllll}
-a_{00} & a_{01} & a_{02} & ... & a_{0,n-1} \\
-... & ... & ... & ... &  \\
+a_{00} & a_{01} & a_{02} & \dots & a_{0,n-1} \\
+\dots & \dots & \dots & \dots &  \\
 a_{t-2,0} & a_{t-2,1} & a_{t-2,2} & a_{t-2,3} &  \\
 a_{t-1,0} & a_{t-1,1} &  &  &
 \end{array}
@@ -9797,7 +9797,7 @@ given by
 \begin{equation}
 p(k)=\textrm{Prob}(X=k) \equiv  \binom nkp^k(1-p)^{n-k}
 \end{equation}
-for $k=0,1,2,...,n$.
+for $k=0,1,2,\dots,n$.
 
 The formula can be understood as follows: we want $k$ successes ($p^k$) and $%
 n-k$ failures ($(1-p)^{n-k}$). However, the $k$ successes can occur anywhere
@@ -9925,14 +9925,14 @@ by Sim\'{e}on-Denis Poisson. It describes a random variable
 $X$ that counts, among other things, the number of
 discrete occurrences (sometimes called {\it arrivals}) that take place during
 a time interval of given length. The probability that there are exactly $x$
-occurrences ($x$ being a natural number including 0, $k=0,1,2,...$) is
+occurrences ($x$ being a natural number including 0, $k=0,1,2,\dots$) is
 \begin{equation}
 p(k)=\textrm{Prob}(X=k)=e^{-\lambda }\frac{\lambda ^k}{k!}
 \end{equation}
 
 The Poisson distribution arises in connection with Poisson processes. It
 applies to various phenomena of discrete nature (i.e., those that may
-happen 0, 1, 2, 3,..., times during a given period of time or in a given
+happen 0, 1, 2, 3,\dots, times during a given period of time or in a given
 area) whenever the probability of the phenomenon happening is constant in
 time or space. The Poisson distribution differs from the other distributions
 considered in this chapter because it is different than zero for any natural
@@ -10426,8 +10426,8 @@ derive an exact formula:
 The arctan has the following Taylor series expansion:\footnote{%
 Taylor expansion:
 \begin{equation}
-f(x)=f(0)+f^{\prime }(0)x+\frac 1{2!}f^{\prime \prime }(0)x^2+...+\frac
-1{i!}f^{(i)}(0)x^2+....
+f(x)=f(0)+f^{\prime }(0)x+\frac 1{2!}f^{\prime \prime }(0)x^2+\dots+\frac
+1{i!}f^{(i)}(0)x^2+\dots.
 \end{equation}
 \par
 and if $f(x)=\arctan x$ then:
@@ -10436,10 +10436,10 @@ f^{\prime }(x) &= \frac{d\arctan x}{dx}=\frac 1{1+x^2}\rightarrow f^{\prime
 }(0)=1 \\
 f^{\prime \prime }(x) &= \frac{d^2\arctan x}{d^2x}=\frac d{dx}\frac
 1{1+x^2}=-\frac{2x}{(1+x^2)^2} \\
-... &= ... \\
-f^{(2i+1)}(x) &= (-1)^i\frac{(2i)!}{(1+x^2)^{2i+1}}+x...\rightarrow
+\dots &= \dots \\
+f^{(2i+1)}(x) &= (-1)^i\frac{(2i)!}{(1+x^2)^{2i+1}}+x\dots\rightarrow
 f^{(2i+1)}(0)=(-1)(2i)! \\
-f^{(2i)}(x) &= x...\rightarrow f^{(2i)}(0)=0
+f^{(2i)}(x) &= x\dots\rightarrow f^{(2i)}(0)=0
 \end{align}
 }:
 
@@ -10497,7 +10497,7 @@ def pi_Plauffe(n):
 
 The preceding formula works and converges very fast and already in 100 iterations produces
 \begin{equation}
-\pi = 3.1415926535897932384626433...
+\pi = 3.1415926535897932384626433\dots
 \end{equation}
 
 There is a different approach based on the fact that $\pi$ is also the
@@ -11124,39 +11124,39 @@ I = E[g(X_0,X_1)] = \frac 1N\sum_{i=0}^{i<N}g(x_{i0},x_{i1})
 
 The technique described earlier can also be extended to $n$-dimensional integrals
 \begin{equation}
-I=\int_{{\mathfrak D}}f(x_0,...,x_{n-1})dx_0...dx_{n-1}
+I=\int_{{\mathfrak D}}f(x_0,\dots,x_{n-1})dx_0\dots dx_{n-1}
 \end{equation}
 where ${\mathfrak D}$ is some $n$-dimensional domain identified by a function $%
-domain(x_0,...,x_{n-1})$ equal to 1 if ${\bf x}=(x_0,...,x_{n-1})$ is in the
-domain, 0 otherwise. We determine two functions $g(x_0,...,x_{n-1})$ and $%
-p(x_0,...,x_{n-1})$ such that
+domain(x_0,\dots,x_{n-1})$ equal to 1 if ${\bf x}=(x_0,\dots,x_{n-1})$ is in the
+domain, 0 otherwise. We determine two functions $g(x_0,\dots,x_{n-1})$ and $%
+p(x_0,\dots,x_{n-1})$ such that
 \begin{equation}
-p(x_0,...,x_{n-1})=0\text{ for }x\notin {\mathfrak D}
+p(x_0,\dots,x_{n-1})=0\text{ for }x\notin {\mathfrak D}
 \end{equation}
 and
 \begin{equation}
-\int p(x_0,...,x_{n-1})dx_0...dx_{n-1}=1
+\int p(x_0,\dots,x_{n-1})dx_0\dots dx_{n-1}=1
 \end{equation}
 and
 \begin{equation}
-g(x_0,...,x_{n-1})=f(x_0,...,x_{n-1})/p(x_0,...,x_{n-1})
+g(x_0,\dots,x_{n-1})=f(x_0,\dots,x_{n-1})/p(x_0,\dots,x_{n-1})
 \end{equation}
 
-We can interpret $p(x_0,...,x_{n-1})$ as a probability mass function for $n$
-independent random variables $X_0$...$X_{n-1}$ and
+We can interpret $p(x_0,\dots,x_{n-1})$ as a probability mass function for $n$
+independent random variables $X_0$\dots$X_{n-1}$ and
 \begin{align}
-E[g(X_0,...,X_{n-1})] &= \int g(x_0,...,x_{n-1})p(x_0,...,x_{n-1})dx \\
-&= \int_{{\mathfrak D}}f(x_0,...,x_{n-1})dx_0...dx_{n-1}=I
+E[g(X_0,\dots,X_{n-1})] &= \int g(x_0,\dots,x_{n-1})p(x_0,\dots,x_{n-1})dx \\
+&= \int_{{\mathfrak D}}f(x_0,\dots,x_{n-1})dx_0\dots dx_{n-1}=I
 \end{align}
 Therefore
 \begin{equation}
 I=E[g(X_0,..,X_{n-1})] = \frac 1N\sum_{i=0}^{i<N}g({\bf x}_i)
 \end{equation}
-where for every point ${\bf x}_i$ is a tuple $(x_{i0},x_{i1},...,x_{i,n-1})$.
+where for every point ${\bf x}_i$ is a tuple $(x_{i0},x_{i1},\dots,x_{i,n-1})$.
 
 As an example, we consider the integral
 \begin{equation}
-I = \int_0^1 dx_0 \int_0^1 dx_1 \int_0^1 dx_2 \int_0^1 dx_3 sin(x_0+x_1+x_2+x_3)
+I = \int_0^1 dx_0 \int_0^1 dx_1 \int_0^1 dx_2 \int_0^1 dx_3 \sin(x_0+x_1+x_2+x_3)
 \end{equation}
 
 Here is the Python code:
@@ -11599,12 +11599,12 @@ variables. This means that we were able to generate each random number
 independently of the others because all the random variables were
 uncorrelated. There are cases when we have the following problem.
 
-We have to generate ${\bf x}=x_0,x_1,...,x_{n-1}$, where $x_0,x_1,...,x_{n-1}$
+We have to generate ${\bf x}=x_0,x_1,\dots,x_{n-1}$, where $x_0,x_1,\dots,x_{n-1}$
 are $n$ correlated random variables whose probability mass function
 \begin{equation}
-p({\bf x})=p(x_0,x_1,...,x_{n-1})
+p({\bf x})=p(x_0,x_1,\dots,x_{n-1})
 \end{equation}
-cannot be factored, as in $p(x_0,x_1,...,x_{n-1})=p(x_0)p(x_1)...p(x_{n-1})$. Consider for example the simple case of generating two random numbers $x_0$
+cannot be factored, as in $p(x_0,x_1,\dots,x_{n-1})=p(x_0)p(x_1)\dots p(x_{n-1})$. Consider for example the simple case of generating two random numbers $x_0$
 and $x_1$ both in $[0,1]$ with probability mass function $%
 p(x_0,x_1)=6(x_0-x_1)^2$ (note that $\int_0^1\int_0^16p(x_0,x_1)dx_0dx_1=1$,
 as it should be).
@@ -11614,20 +11614,20 @@ In the case where each of the $x_i$ has a Gaussian distribution and the only dep
 The Metropolis algorithm provides a general and simpler solution to this problem. It is not always the most efficient, but more sophisticated algorithms are nothing but refinements and extensions of its simple idea.
 
 Let's formulate the problem once more: we want to generate ${\bf x}%
-=x_0,x_1,...,x_{n-1}$ where $x_0,x_1,...,x_{n-1}$ are $n$ correlated random
+=x_0,x_1,\dots,x_{n-1}$ where $x_0,x_1,\dots,x_{n-1}$ are $n$ correlated random
 variables whose probability mass function is given by
 \begin{equation}
-p({\bf x})=p(x_0,x_1,...,x_{n-1})
+p({\bf x})=p(x_0,x_1,\dots,x_{n-1})
 \end{equation}
 
 The procedure works as follows:
 
 \begin{description}
 \item[1]  Start with a set of independent random numbers ${\bf x}%
-^{(0)}=(x_0^{(0)},x_1^{(0)},...,x_{n-1}^{(0)})$ in the domain.
+^{(0)}=(x_0^{(0)},x_1^{(0)},\dots,x_{n-1}^{(0)})$ in the domain.
 
 \item[2]  Generate another set of independent random numbers ${\bf x}%
-^{(i+1)}=(x_0^{(i+1)},x_1^{(i+1)},...,x_{n-1}^{(i+1)})$ in the domain. This can be done by an arbitrary random function $Q({\bf x}^{(i)})$. The only requirement for this function $Q$ is that the probability of moving from a current point $x$ to a new point $y$ be the same as that of moving from a current point $y$ to a new point $x$.
+^{(i+1)}=(x_0^{(i+1)},x_1^{(i+1)},\dots,x_{n-1}^{(i+1)})$ in the domain. This can be done by an arbitrary random function $Q({\bf x}^{(i)})$. The only requirement for this function $Q$ is that the probability of moving from a current point $x$ to a new point $y$ be the same as that of moving from a current point $y$ to a new point $x$.
 
 \item[3]  Generate a uniform random number $z$.
 
@@ -13242,9 +13242,9 @@ iff & if and only if \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 ${\bf 0}$ & empty set \\ \hline
-${\Bbb N}$ & natural numbers \{0,1,2,3,...\} \\ \hline
-${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,...\} \\ \hline
-${\Bbb Z}$ & all integers \{...,-3,-2,-1,0,1,2,3,...\} \\ \hline
+${\Bbb N}$ & natural numbers \{0,1,2,3,\dots\} \\ \hline
+${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,\dots\} \\ \hline
+${\Bbb Z}$ & all integers \{\dots,-3,-2,-1,0,1,2,3,\dots\} \\ \hline
 ${\Bbb R}$ & all real numbers \\ \hline
 ${\Bbb R}^{+}$ & positive real numbers (not including 0) \\ \hline
 ${\Bbb R}^{0}$ & positive numbers including 0 \\ \hline
@@ -13334,8 +13334,8 @@ B}\}
 \item  ${\cal A}$ is a {\bf proper subset} of ${\cal B}$ iff $\forall x\in
 {\cal A},x\in {\cal B}$ and $\exists x\in {\cal B},x\notin {\cal A}$
 
-\item  $P=\{S_i,i=1,...,N\}$ (a set of sets $S_i$) is a {\bf partition} of $%
-{\cal A}$ iff $S_1\cup S_2\cup ...\cup S_N={\cal A}$ and $\forall
+\item  $P=\{S_i,i=1,\dots,N\}$ (a set of sets $S_i$) is a {\bf partition} of $%
+{\cal A}$ iff $S_1\cup S_2\cup \dots\cup S_N={\cal A}$ and $\forall
 i,j,S_i\cap S_j={\bf 0}$
 
 \item  The number of elements in a set ${\cal A}$ is called the {\bf %
@@ -13445,7 +13445,7 @@ not a surjection and is a bijection (in fact it is invertible)
 
 If $x=a^y$ with $a>0$, then $y=\log _ax$ with domain $x\in (0,\infty )$ and
 codomain $y=(-\infty ,\infty )$. If the base $a$ is not indicated, the
-natural log $a=e=\allowbreak 2.\,7183...$ is assumed.
+natural log $a=e=\allowbreak 2.\,7183\dots$ is assumed.
 
 Properties of logarithms:
 \begin{align}
@@ -13460,7 +13460,7 @@ Properties of logarithms:
 \subsubsection{Definition}
 
 \begin{equation}
-\sum_{i=0}^{i<n}f(i)\equiv f(0)+f(1)+...+f(n-1)
+\sum_{i=0}^{i<n}f(i)\equiv f(0)+f(1)+\dots+f(n-1)
 \end{equation}
 
 \subsubsection{Properties}
@@ -13482,10 +13482,10 @@ Properties of logarithms:
 
 Proof:
 \begin{align}
-\sum_{i=0}^{i<n}af(i)+bg(i) &= \left( af(0)+bg(0)\right) +...+\left(
+\sum_{i=0}^{i<n}af(i)+bg(i) &= \left( af(0)+bg(0)\right) +\dots+\left(
 af(n-1)+bg(n-1)\right)  \nonumber \\
-&= af(0)+...+af(n-1)+bg(0)+...+bg(n-1)  \nonumber \\
-&= a\left( f(0)+...+f(n-1)\right) +b\left( g(0)+...+g(n-1)\right)  \nonumber
+&= af(0)+\dots+af(n-1)+bg(0)+\dots+bg(n-1)  \nonumber \\
+&= a\left( f(0)+\dots+f(n-1)\right) +b\left( g(0)+\dots+g(n-1)\right)  \nonumber
 \\
 &= a\left( \sum_{i=0}^{i<n}f(i)\right) +b\left( \sum_{i=0}^{i<n}g(i)\right)
 \end{align}
@@ -13542,7 +13542,7 @@ use L'H\^{o}pital's rule
 \end{equation}
 and start again!
 
-\item  Else ... the limit does not exist (typically oscillating functions or
+\item  Else \dots the limit does not exist (typically oscillating functions or
 non-analytic functions).
 \end{itemize}
 
