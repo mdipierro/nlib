@@ -2526,15 +2526,15 @@ n\rightarrow \infty $
 
 We can rewrite the preceding definitions in a more formal way:
 
-\begin{eqnarray}
-&&O(g(n))\equiv \left\{ f(n):\exists n_0,c_0,\ \forall n>n_0,\
+\begin{align}
+O(g(n)) &\equiv \left\{ f(n):\exists n_0,c_0,\ \forall n>n_0,\
 0\leq f(n)<c_0g(n)\right\} \\
-&&\Omega (g(n))\equiv \left\{ f(n):\exists n_0,c_0,\ \forall
+\Omega (g(n)) &\equiv \left\{ f(n):\exists n_0,c_0,\ \forall
 n>n_0,\ 0\leq c_0g(n)<f(n)\right\} \\
-&&\Theta (g(n))\equiv O(g(n))\cap \Omega (g(n)) \\
-&&o(g(n))\equiv O(g(n))-\Omega (g(n)) \\
-&&\omega (g(n))\equiv \Omega (g(n))-O(g(n))
-\end{eqnarray}
+\Theta (g(n)) &\equiv O(g(n))\cap \Omega (g(n)) \\
+o(g(n)) &\equiv O(g(n))-\Omega (g(n)) \\
+\omega (g(n)) &\equiv \Omega (g(n))-O(g(n))
+\end{align}
 
 We can also provide a practical rule to determine if a function $f$ belongs to one of the previous sets defined by $g$.
 
@@ -2545,17 +2545,17 @@ Compute the limit
 and look up the result in the following table:
 
 \begin{equation}
-\begin{tabular}{lll}
-$a$ is positive or zero & $\Longrightarrow $ & $f(n)\in O(g(n))$ $%
-\Leftrightarrow $ $f\preceq g$ \\
-$a$ is positive or infinity & $\Longrightarrow $ & $f(n)\in \Omega (g(n))$ $%
-\Leftrightarrow $ $f\succeq g$ \\
-$a$ is positive & $\Longrightarrow $ & $f(n)\in \Theta (g(n))$ $%
-\Leftrightarrow $ $f\sim g$ \\
-$a$ is zero & $\Longrightarrow $ & $f(n)\in o(g(n))$ $\Leftrightarrow $ $%
+\begin{tabular}{lllll}
+$a$ is positive or zero & $\Longrightarrow $ & $f(n)\in O(g(n))$ & $%
+\Leftrightarrow $ & $f\preceq g$ \\
+$a$ is positive or infinity & $\Longrightarrow $ & $f(n)\in \Omega (g(n))$ & $%
+\Leftrightarrow $ & $f\succeq g$ \\
+$a$ is positive & $\Longrightarrow $ & $f(n)\in \Theta (g(n))$ & $%
+\Leftrightarrow $ & $f\sim g$ \\
+$a$ is zero & $\Longrightarrow $ & $f(n)\in o(g(n))$ & $\Leftrightarrow $ & $%
 f\prec g$ \\
-$a$ is infinity & $\Longrightarrow $ & $f(n)\in \omega (g(n))$ $%
-\Leftrightarrow $ $f\succ g$%
+$a$ is infinity & $\Longrightarrow $ & $f(n)\in \omega (g(n))$ & $%
+\Leftrightarrow $ & $f\succ g$%
 \end{tabular}
 \end{equation}
 
@@ -2576,11 +2576,11 @@ Given an algorithm $A$ that acts on input of size $n$, we say that the algorithm
 
 More formally, we can write the following:
 
-\begin{eqnarray}
-T_{worst}(n) \in O(g(n)) &\Rightarrow& A \in O(g(n)) \\
-T_{best}(n) \in \Omega(g(n)) &\Rightarrow& A \in \Omega(g(n)) \\
-A \in O(g(n)) \textrm{and} A \in O(g(n))  &\Rightarrow& A \in \Theta(g(n)) \\
-\end{eqnarray}
+\begin{align}
+T_{worst}(n) \in O(g(n)) &\Rightarrow A \in O(g(n)) \\
+T_{best}(n) \in \Omega(g(n)) &\Rightarrow A \in \Omega(g(n)) \\
+A \in O(g(n)) \text{ and } A \in O(g(n))  &\Rightarrow A \in \Theta(g(n))
+\end{align}
 
 We still have not solved the problem of computing the best, average, and worst running times.
 
@@ -2664,7 +2664,7 @@ def loop2(n):
 Here the time for the inner loop is directly determined by $n$ and does not depend on the outer loop's counter; therefore
 
 \begin{equation}
-T(n)=\sum_{i=0}^{i<n}\sum_{j=0}^{j<n}1=\sum_{i=0}^{i<n}n=n^2+...\in \Theta
+T(n)=\sum_{i=0}^{i<n}\sum_{j=0}^{j<n}1=\sum_{i=0}^{i<n}n=n^2+\ldots\in \Theta
 (n^2)\Rightarrow \text{{\tt loop2}}\in \Theta (n^2)
 \end{equation}
 
@@ -2698,11 +2698,11 @@ def loop4(n):
 
 Therefore the formula for the running time is more complicated:
 
-\begin{eqnarray}
-T(n) &=&\sum_{i=0}^{i<n}\sum_{j=0}^{j<i^2}1=\sum_{i=0}^{i<n}i^2=\frac
+\begin{align}
+T(n) &= \sum_{i=0}^{i<n}\sum_{j=0}^{j<i^2}1=\sum_{i=0}^{i<n}i^2=\frac
 16n(n-1)(2n-1)\in \Theta (n^3) \\
-&\Rightarrow &\text{{\tt loop4}}\in \Theta (n^3)
-\end{eqnarray}
+&\Rightarrow \text{{\tt loop4}}\in \Theta (n^3)
+\end{align}
 
 If the algorithm does not contain nested loops, then we need to compute the running time of each loop and take the maximum:
 
@@ -2732,21 +2732,18 @@ def concatenate1(n):
             print j
 \end{lstlisting}
 
-\begin{equation}
-T_{worst}(n)=\Theta (\max (n^2,n^3))\Rightarrow \text{{\tt concatenate1}}\in \O(n^3)
-\end{equation}
-
-\begin{equation}
-T_{best}(n)=\Theta (\min (n^2,n^3))\Rightarrow \text{{\tt concatenate1}}\in \Omega(n^2)
-\end{equation}
+\begin{alignat}{2}
+T_{worst}(n) &= \Theta (\max (n^2,n^3)) &&\Rightarrow \text{{\tt concatenate1}}\in O(n^3) \\
+T_{best}(n) &= \Theta (\min (n^2,n^3)) &&\Rightarrow \text{{\tt concatenate1}}\in \Omega(n^2)
+\end{alignat}
 
 This can be expressed more formally as follows:
 
-\begin{eqnarray}
-O(f(n))+\Theta (g(n)) &=&\Theta (g(n))\text{ iff }f(n)\in O(g(n)) \\
-\Theta (f(n))+\Theta (g(n)) &=&\Theta (g(n))\text{ iff }f(n)\in O(g(n)) \\
-\Omega (f(n))+\Theta (g(n)) &=&\Omega (f(n))\text{ iff }f(n)\in \Omega (g(n))
-\end{eqnarray}
+\begin{align}
+O(f(n))+\Theta (g(n)) &= \Theta (g(n))\text{ iff }f(n)\in O(g(n)) \\
+\Theta (f(n))+\Theta (g(n)) &= \Theta (g(n))\text{ iff }f(n)\in O(g(n)) \\
+\Omega (f(n))+\Theta (g(n)) &= \Omega (f(n))\text{ iff }f(n)\in \Omega (g(n))
+\end{align}
 
 which we can apply as in the following example:
 \begin{equation}
@@ -2819,31 +2816,31 @@ We cannot compute the running time of the {\ft mergesort} function using the sam
 
 We can summarize this into
 
-\begin{eqnarray}
+\begin{equation}
 T(n) = 2T(n/2) + n
-\end{eqnarray}
+\end{equation}
 
 This is called a {\it recurrence relation}. We turned the problem of computing the running time of the algorithm into the problem of solving the recurrence relation. This is now a math problem.
 
 Some recurrence relations can be difficult to solve, but most of them follow in one of these categories:
 
-\begin{eqnarray}
-T(n) \!\!\!&=&\!\!\!aT(n-b)+\Theta (f(n))\Rightarrow T(n)\in \Theta (max(a^n,nf(n))) \\
-T(n) \!\!\!&=&\!\!\!T(b)+T(n-b-a)+\Theta(f(n))\Rightarrow T(n)\in \Theta (nf(n)) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (n^m)\text{ and }a<b^m\Rightarrow T(n)\in \Theta (n^m) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (n^m)\text{ and }a=b^m\Rightarrow T(n)\in \Theta
+\begin{align}
+T(n)  &= aT(n-b)+\Theta (f(n))\Rightarrow T(n)\in \Theta (max(a^n,nf(n))) \\
+T(n)  &= T(b)+T(n-b-a)+\Theta(f(n))\Rightarrow T(n)\in \Theta (nf(n)) \\
+T(n)  &= aT(n/b)+\Theta (n^m)\text{ and }a<b^m\Rightarrow T(n)\in \Theta (n^m) \\
+T(n)  &=aT(n/b)+\Theta (n^m)\text{ and }a=b^m\Rightarrow T(n)\in \Theta
 (n^m\log n) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (n^m)\text{ and }a>b^m\Rightarrow T(n)\in \Theta
+T(n)  &= aT(n/b)+\Theta (n^m)\text{ and }a>b^m\Rightarrow T(n)\in \Theta
 (n^{\log _ba}) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (n^m\log ^pn)\text{ and }a<b^m\Rightarrow T(n)\in
+T(n)  &= aT(n/b)+\Theta (n^m\log ^pn)\text{ and }a<b^m\Rightarrow T(n)\in
 \Theta (n^m\log ^pn) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (n^m\log ^pn)\text{ and }a=b^m\Rightarrow T(n)\in
+T(n)  &= aT(n/b)+\Theta (n^m\log ^pn)\text{ and }a=b^m\Rightarrow T(n)\in
 \Theta (n^m\log ^{p+1}n) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (n^m\log ^pn)\text{ and }a>b^m\Rightarrow T(n)\in
+T(n)  &= aT(n/b)+\Theta (n^m\log ^pn)\text{ and }a>b^m\Rightarrow T(n)\in
 \Theta (n^{\log _ba}) \\
-T(n) \!\!\!&=&\!\!\!aT(n/b)+\Theta (q^n)\Rightarrow T(n)\in \Theta (q^n) \\
-T(n) \!\!\!&=&\!\!\!aT(n/a-b)+\Theta (f(n)) \Rightarrow T(n)\in \Theta (f(n)\log(n))
-\end{eqnarray}
+T(n)  &= aT(n/b)+\Theta (q^n)\Rightarrow T(n)\in \Theta (q^n) \\
+T(n)  &= aT(n/a-b)+\Theta (f(n)) \Rightarrow T(n)\in \Theta (f(n)\log(n))
+\end{align}
 (they work for $m\geq 0$, $p$ $\geq 0$, and $q>1$).
 
 \index{master theorem}
@@ -2855,22 +2852,15 @@ These results are a practical simplification of a theorem known as the {\it mast
 Other recurrence relations do not immediately fit one of the preceding patterns, but often they can be reduced (transformed) to fit.
 
 Consider the following recurrence relation:
-\begin{equation}
-T(n)=
-2T(\sqrt{n})+\log n
+\begin{align}
 \label{otherrr}
-\end{equation}
-
-We can replace $n$ with $e^k=n$ in eq. (\ref{otherrr}) and obtain
-\begin{equation}
-T(e^k)=
-2T(e^{k/2})+k
-\end{equation}
-If we also replace $T(e^k)$ with $S(k)=T(e^k)$, we obtain
-\begin{equation}
-\stackunder{T(e^k)}{\underbrace{S(k)}}=
+T(n) &= 2T(\sqrt{n})+\log n \\
+\intertext{We can replace $n$ with $e^k=n$ in eq. (\ref{otherrr}) and obtain}
+T(e^k) &= 2T(e^{k/2})+k \\
+\intertext{If we also replace $T(e^k)$ with $S(k)=T(e^k)$, we obtain}
+\stackunder{T(e^k)}{\underbrace{S(k)}} &=
 2\stackunder{T(e^{k/2})}{\underbrace{S(k/2)}}+k
-\end{equation}
+\end{align}
 so that we can now apply the master theorem to $S$. We obtain that $S(k)\in
 \Theta (k\log k)$. Once we have the order of growth of $S$, we can determine
 the order of growth of $T(n)$ by substitution:
@@ -3034,12 +3024,12 @@ def mergesort_nonrecursive(A):
 
 Notice that this has the same running time as the original {\ft mergesort} because, although it is not recursive, it performs the same operations:
 
-\begin{eqnarray}
-T_{best} &\in &\Theta (n\log n) \\
-T_{average} &\in &\Theta (n\log n) \\
-T_{worst} &\in &\Theta (n\log n) \\
-T_{memory} &\in &\Theta (1)
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (n\log n) \\
+T_{average} &\in \Theta (n\log n) \\
+T_{worst} &\in \Theta (n\log n) \\
+T_{memory} &\in \Theta (1)
+\end{align}
 
 \index{greedy algorithms}
 
@@ -3082,11 +3072,11 @@ One case of a top-down approach that is very general and falls under the umbrell
 
 Consider, for example, Fibonacci numbers:
 
-\begin{eqnarray}
-\textrm{Fib}(0)&=&0\\
-\textrm{Fib}(1)&=&1\\
-\textrm{Fib}(n)&=&\textrm{Fib}(n-1)+\textrm{Fib}(n-2)\textrm{ for }n>1
-\end{eqnarray}
+\begin{align}
+\textrm{Fib}(0) &= 0\\
+\textrm{Fib}(1) &= 1\\
+\textrm{Fib}(n) &= \textrm{Fib}(n-1)+\textrm{Fib}(n-2)\textrm{ for }n>1
+\end{align}
 
 which we can implement using divide-and-conquer as follows:
 
@@ -3337,11 +3327,11 @@ def partition(A,i,j):
 
 The running time of the quicksort is given by
 
-\begin{eqnarray}
-T_{best} &\in &\Theta (n\log n) \\
-T_{average} &\in &\Theta (n\log n) \\
-T_{worst} &\in &\Theta (n^2) \\
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (n\log n) \\
+T_{average} &\in \Theta (n\log n) \\
+T_{worst} &\in \Theta (n^2)
+\end{align}
 
 The quicksort can also be randomized by picking the pivot, {\ft A[r]}, at random:
 \begin{lstlisting}
@@ -3377,12 +3367,12 @@ def countingsort(A):
 \end{lstlisting}
 
 If we define $k=max(A)-min(A)+1$ and $n=len(A)$, we see
-\begin{eqnarray}
-T_{best} &\in &\Theta (k+n) \\
-T_{average} &\in &\Theta (k+n) \\
-T_{worst} &\in &\Theta (k+n) \\
-T_{memory} &\in &\Theta (k)
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (k+n) \\
+T_{average} &\in \Theta (k+n) \\
+T_{worst} &\in \Theta (k+n) \\
+T_{memory} &\in \Theta (k)
+\end{align}
 Notice that here we have also computed $T_{memory}$, for example, the order of growth of memory (not of time) as a function of the input size. In fact, this algorithm differs from the previous ones because it requires a temporary array $C$.
 
 \goodbreak\section{Tree algorithms}
@@ -3462,12 +3452,12 @@ def heapsort(A):
 
 In the average and worst cases, it runs as fast as the quicksort, but in the best case, it is linear:
 
-\begin{eqnarray}
-T_{best} &\in &\Theta (n) \\
-T_{average} &\in &\Theta (n\log n) \\
-T_{worst} &\in &\Theta (n\log n) \\
-T_{memory} &\in &\Theta (1)
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (n) \\
+T_{average} &\in \Theta (n\log n) \\
+T_{worst} &\in \Theta (n\log n) \\
+T_{memory} &\in \Theta (1)
+\end{align}
 
 \index{priority queue}
 
@@ -3498,12 +3488,12 @@ def heap_push(A,value):
 
 The running times for {\ft heap\_pop} and {\ft heap\_push} are the same:
 
-\begin{eqnarray}
-T_{best} &\in &\Theta (1) \\
-T_{average} &\in &\Theta (\log n) \\
-T_{worst} &\in &\Theta (\log n) \\
-T_{memory} &\in &\Theta (1)
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (1) \\
+T_{average} &\in \Theta (\log n) \\
+T_{worst} &\in \Theta (\log n) \\
+T_{memory} &\in \Theta (1)
+\end{align}
 
 Here is an example:
 
@@ -3620,11 +3610,11 @@ height of the left subtree minus the height of the right subtree is more or less
 
 For an AVL tree, the time for inserting or removing an element is given by
 
-\begin{eqnarray}
-T_{best} &\in &\Theta (1) \\
-T_{average} &\in &\Theta (\log n) \\
-T_{worst} &\in &\Theta (\log n) \\
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (1) \\
+T_{average} &\in \Theta (\log n) \\
+T_{worst} &\in \Theta (\log n)
+\end{align}
 
 \index{k-tree}\index{B-tree}
 
@@ -3749,12 +3739,12 @@ def breadth_first_search(graph,start):
 \end{lstlisting}
 
 The BFS algorithm scales as follows:
-\begin{eqnarray}
-T_{best} &\in &\Theta (n_E+n_V) \\
-T_{average} &\in &\Theta (n_E+n_V) \\
-T_{worst} &\in &\Theta (n_E+n_V) \\
-T_{memory} &\in &\Theta (n)
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (n_E+n_V) \\
+T_{average} &\in \Theta (n_E+n_V) \\
+T_{worst} &\in \Theta (n_E+n_V) \\
+T_{memory} &\in \Theta (n)
+\end{align}
 
 \subsection{Depth-first search}
 
@@ -3787,12 +3777,12 @@ def depth_first_search(graph,start):
 Notice that the BFS and the DFS differ for a single line, which determines whether graynodes is a queue (BSF) or a stack (DFS). When graynodes is a queue, the first vertex discovered is the first visited. When it is a stack, the last vertex discovered is the first visited.
 
 The DFS algorithm goes as follows:
-\begin{eqnarray}
-T_{best} &\in &\Theta (n_E+n_V) \\
-T_{average} &\in &\Theta (n_E+n_V) \\
-T_{worst} &\in &\Theta (n_E+n_V) \\
-T_{memory} &\in &\Theta (1)
-\end{eqnarray}
+\begin{align}
+T_{best} &\in \Theta (n_E+n_V) \\
+T_{average} &\in \Theta (n_E+n_V) \\
+T_{worst} &\in \Theta (n_E+n_V) \\
+T_{memory} &\in \Theta (1)
+\end{align}
 
 \subsection{Disjoint sets}
 
@@ -3894,10 +3884,10 @@ def Kruskal(graph):
 \end{lstlisting}
 
 The Kruskal algorithm goes as follows:
-\begin{eqnarray}
-T_{worst} &\in &\Theta (n_E\log n_V) \\
-T_{memory} &\in &\Theta (n_E)
-\end{eqnarray}
+\begin{align}
+T_{worst} &\in \Theta (n_E\log n_V) \\
+T_{memory} &\in \Theta (n_E)
+\end{align}
 
 We provide an example of application in the next subsection.
 
@@ -3954,10 +3944,10 @@ def Prim(graph, start):
 \end{lstlisting}
 
 The Prim algorithm, when using a priority queue for $Q$, goes as follows:
-\begin{eqnarray}
-T_{worst} &\in &\Theta (n_E+n_V\log n_V) \\
-T_{memory} &\in &\Theta (n_E)
-\end{eqnarray}
+\begin{align}
+T_{worst} &\in \Theta (n_E+n_V\log n_V) \\
+T_{memory} &\in \Theta (n_E)
+\end{align}
 
 One important application of the minimum spanning tree is in evolutionary biology. Consider, for example, the DNA for the genes that produce hemoglobin, a molecule responsible for the transport of oxygen in blood. This protein is present in every animal, and the gene is also present in the DNA of every known animal. Yet its DNA structure is a little different. One can select a pool of animals and, for each two of them, compute the similarity of the DNA of their hemoglobin genes using the {\ft lcs} algorithm discussed later. One can then link each two animals by a metric that represents how similar the two animals are. We can then run the Prim or the Kruskal algorithm to find the minimum spanning tree. The tree represents the most likely evolutionary tree connecting those animal species. Actually, three genes are responsible for hemoglobin ({\it HBA1}, {\it HBA2}, and {\it HBB}). By performing the analysis on different genes and comparing the results, it is possible to establish a consistency check of the results.~\cite{evolutionary}
 
@@ -4013,10 +4003,10 @@ def Dijkstra(graph, start):
 \end{lstlisting}
 
 The Dijkstra algorithm goes as follows:
-\begin{eqnarray}
-T_{worst} &\in &\Theta (n_E+n_V\log n_V) \\
-T_{memory} &\in &\Theta (n_E)
-\end{eqnarray}
+\begin{align}
+T_{worst} &\in \Theta (n_E+n_V\log n_V) \\
+T_{memory} &\in \Theta (n_E)
+\end{align}
 
 An application of the Dijkstra is in solving a maze such as the one built when discussing disjoint sets. To use the Dijkstra algorithm, we need to generate a maze, take the links representing torn-down walls, and use them to build an undirected graph. This is done by symmetrizing the links (if $i$ and $j$ are connected, $j$ and $i$ are also connected) and adding to each link a length (1, because all links connect next-neighbor cells):
 
@@ -4313,11 +4303,11 @@ Assume you want to fill your knapsack such that you will maximize the value of i
 The continuous knapsack problem can be formulated as the problem of
 maximizing
 \begin{equation}
-f(x)=a_0x_0+a_1x_1+...+a_nx_n
+f(x)=a_0x_0+a_1x_1+\dots+a_nx_n
 \end{equation}
 given the constraint
 \begin{equation}
-b_0x_0+b_1x_1+...+b_nx_n\leq c
+b_0x_0+b_1x_1+\dots+b_nx_n\leq c
 \end{equation}
 where coefficients $a_i$, $b_i$, and $c$ are provided and $x_i\in [0,1]$ are
 to be determined.
@@ -4325,7 +4315,7 @@ to be determined.
 Using financial terms, we can say that
 
 \begin{itemize}
-\item  The set $\{x_0,x_1,...,x_n\}$ forms a portfolio
+\item  The set $\{x_0,x_1,\dots,x_n\}$ forms a portfolio
 
 \item  $b_i$ is the cost of investment $i$
 
@@ -4333,7 +4323,7 @@ Using financial terms, we can say that
 
 \item  $a_i$ is the expected return of investment for investment $i$
 
-\item  $f(x)$ is the expected value of our portfolio $\{x_0,x_1,...,x_n\}$
+\item  $f(x)$ is the expected value of our portfolio $\{x_0,x_1,\dots,x_n\}$
 \end{itemize}
 
 Here is the solving algorithm:
@@ -4935,30 +4925,30 @@ The proof proceeds as follows:
 possible to associate each of them to an integer
 \begin{equation}
 \begin{tabular}{lll}
-1 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-2 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-3 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-4 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-5 & $\longleftrightarrow $ & $0.xxxxxxxxxxx...$ \\
-... & ... & ...
+1 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+2 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+3 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+4 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+5 & $\longleftrightarrow $ & $0.xxxxxxxxxxx\dots$ \\
+\dots & \dots &\dots 
 \end{tabular}
 \label{cantor}
 \end{equation}
 (here $x$ represent a decimal digit of a real numbers)
 
-\item  Now construct a number $\alpha =0.yyyyyyyy....$ where the first
+\item  Now construct a number $\alpha =0.yyyyyyyy\dots$ where the first
 decimal digit differs from the first decimal digit of the first real number
 of table \ref{cantor}, the second decimal digit differs from the second
 decimal digit of the second real number of table \ref{cantor}, and so on and
 so on for all the infinite decimal digits:
 \begin{equation}
 \begin{tabular}{lll}
-1 & $\longleftrightarrow $ & $0.\overline{x}xxxxxxxxxx...$ \\
-2 & $\longleftrightarrow $ & $0.x\overline{x}xxxxxxxxx...$ \\
-3 & $\longleftrightarrow $ & $0.xx\overline{x}xxxxxxxx...$ \\
-4 & $\longleftrightarrow $ & $0.xxx\overline{x}xxxxxxx...$ \\
-5 & $\longleftrightarrow $ & $0.xxxx\overline{x}xxxxxx...$ \\
-... & ... & ...
+1 & $\longleftrightarrow $ & $0.\overline{x}xxxxxxxxxx\dots$ \\
+2 & $\longleftrightarrow $ & $0.x\overline{x}xxxxxxxxx\dots$ \\
+3 & $\longleftrightarrow $ & $0.xx\overline{x}xxxxxxxx\dots$ \\
+4 & $\longleftrightarrow $ & $0.xxx\overline{x}xxxxxxx\dots$ \\
+5 & $\longleftrightarrow $ & $0.xxxx\overline{x}xxxxxx\dots$ \\
+\dots & \dots &\dots 
 \end{tabular}
 \label{cantor2}
 \end{equation}
@@ -5309,7 +5299,7 @@ Expanding on the previous example, consider the following code:
 0.1 0.0998334166... 0.099833... 0.000083
 \end{lstlisting}
 
-Notice that the third column $s = x - x^3/6$ is very close to $\sin(x)$. In fact, the difference is less than one part in 10,000 (fourth column). Therefore, for $x \in [-1,+1]$, it is possible to replace the $sin(x)$ function with the $x-x^3/6$ polynomial. Here we just went one step further in the Taylor expansion, replacing the first order with the third order. The error committed in this approximation is very small.
+Notice that the third column $s = x - x^3/6$ is very close to $\sin(x)$. In fact, the difference is less than one part in 10,000 (fourth column). Therefore, for $x \in [-1,+1]$, it is possible to replace the $\sin(x)$ function with the $x-x^3/6$ polynomial. Here we just went one step further in the Taylor expansion, replacing the first order with the third order. The error committed in this approximation is very small.
 
 
 \goodbreak\subsection{Transform a problem into a different one}
@@ -5383,7 +5373,7 @@ A function $f(x):{\Bbb R}\rightarrow{\Bbb R}$ is said to be a {\it real analytic
 When this is the case, the function can be locally approximated with a local power series:
 
 \begin{equation}
-f(x) = f(\bar x) + f^{(0)}(\bar x)(x-\bar x) + ... + \frac{f^{(k)}(\bar x)}{n!}(x-\bar x)^k + R_k
+f(x) = f(\bar x) + f^{(0)}(\bar x)(x-\bar x) + \dots + \frac{f^{(k)}(\bar x)}{n!}(x-\bar x)^k + R_k
 \end{equation}
 
 The remainder $R_k$ can be proven to be (Taylor's theorem):
@@ -5401,24 +5391,24 @@ Some Taylor series are very easy to compute:
 
 Exponential for $\bar x = 0$:
 
-\begin{eqnarray}
-f(x) &=& e^x \\
-f^{(1)}(x) &=& e^x \\
-... && ... \\
-f^{(k)}(x) &=& e^x \\
-e^x &=&  1 + x + \frac12 x^2 + ... + \frac1{k!}x^k + ...
-\end{eqnarray}
+\begin{align}
+f(x) &= e^x \\
+f^{(1)}(x) &= e^x \\
+\dots &= \dots \\
+f^{(k)}(x) &= e^x \\
+e^x &=  1 + x + \frac12 x^2 + \dots + \frac1{k!}x^k +\dots 
+\end{align}
 
 Sin for $\bar x = 0$:
 
-\begin{eqnarray}
-f(x) &=& sin(x) \\
-f^{(1)}(x) &=& cos(x) \\
-f^{(2)}(x) &=& -sin(x) \\
-f^{(3)}(x) &=& -cos(x) \\
-... && ... \\
-sin(x) &=&  x - \frac1{3!}x^3 + ... + \frac{(-1)^n}{(2k+1)!}x^{(2k+1)} + ...
-\end{eqnarray}
+\begin{align}
+f(x) &= \sin(x) \\
+f^{(1)}(x) &= \cos(x) \\
+f^{(2)}(x) &= -\sin(x) \\
+f^{(3)}(x) &= -\cos(x) \\
+\dots &= \dots \\
+\sin(x) &=  x - \frac1{3!}x^3 + \dots + \frac{(-1)^n}{(2k+1)!}x^{(2k+1)} +\dots 
+\end{align}
 
 We can show the effects of the various terms:
 
@@ -5445,7 +5435,7 @@ We can show the effects of the various terms:
 Notice that we can very well expand in Taylor around any other point, for example, $\bar x = \pi/2$, and we get
 
 \begin{equation}
-sin(x) =  1 - \frac1{2}(x-\frac{\pi}{2})^2 + ... + \frac{(-1)^n}{(2k)!}(x-\frac{\pi}{2})^{(2k)} + ...
+\sin(x) =  1 - \frac1{2}(x-\frac{\pi}{2})^2 + \dots + \frac{(-1)^n}{(2k)!}(x-\frac{\pi}{2})^{(2k)} +\dots 
 \end{equation}
 
 and a plot would show:
@@ -5473,14 +5463,14 @@ and a plot would show:
 
 Similarly we can expand the $\cos$ function around $\bar x = 0$. Not accidentally, we would get the same coefficients as the Taylor expansion of the $\sin$ function around $\bar x = \pi/2$. In fact, $\sin(x) = \cos(x-\pi/2)$:
 
-\begin{eqnarray}
-f(x) &=& cos(x) \\
-f^{(1)}(x) &=& -sin(x) \\
-f^{(2)}(x) &=& -cos(x) \\
-f^{(3)}(x) &=& sin(x) \\
-... && ... \\
-cos(x) &=&  1 - \frac1{2}x^2 + ... + \frac{(-1)^n}{(2k)!}x^{(2k)} + ...
-\end{eqnarray}
+\begin{align}
+f(x) &= \cos(x) \\
+f^{(1)}(x) &= -\sin(x) \\
+f^{(2)}(x) &= -\cos(x) \\
+f^{(3)}(x) &= \sin(x) \\
+\dots &= \dots \\
+\cos(x) &=  1 - \frac1{2}x^2 + \dots + \frac{(-1)^n}{(2k)!}x^{(2k)} +\dots 
+\end{align}
 
 With a simple replacement, it is easy to prove that
 \begin{equation}
@@ -5709,16 +5699,16 @@ $f(\mathbf{y}+\mathbf{h}) - \mathbf{y} \simeq A \mathbf{h}$, yet we need to clar
 
 Given
 \begin{equation}
-\mathbf{x} \equiv \left(\begin{tabular}{c}$x_0$\\$x_1$\\...\\$x_{n-1}$\end{tabular}\right)\qquad
-\mathbf{y} \equiv \left(\begin{tabular}{c}$y_0$\\$y_1$\\...\\$y_{m-1}$\end{tabular}\right)
+\mathbf{x} \equiv \begin{pmatrix}x_0\\x_1\\\dots\\x_{n-1}\end{pmatrix}\qquad
+\mathbf{y} \equiv \begin{pmatrix}y_0\\y_1\\\dots\\y_{m-1}\end{pmatrix}
 \end{equation}
 \begin{equation}
-A \equiv \left(\begin{tabular}{cccc}
-$a_{00}$ & $a_{01}$ & ... & $a_{0,n-1}$ \\
-$a_{10}$ & $a_{11}$ & ... & $a_{1,n-1}$ \\
-... & ... & ... & ... \\
-$a_{m-1,0}$ & $a_{m-1,1}$ & ... & $a_{m-1,n-1}$
-\end{tabular}\right)
+A \equiv \begin{pmatrix}
+a_{00} & a_{01} & \dots & a_{0,n-1} \\
+a_{10} & a_{11} & \dots & a_{1,n-1} \\
+\dots & \dots & \dots & \dots \\
+a_{m-1,0} & a_{m-1,1} & \dots & a_{m-1,n-1}
+\end{pmatrix}
 \end{equation}
 
 the following equation means
@@ -5726,14 +5716,14 @@ the following equation means
 \mathbf{y} = f(\mathbf{x}) \simeq A \mathbf{x}
 \end{equation}
 which means
-\begin{eqnarray}
-y_0 &= f_0(\mathbf(x) &\simeq a_{00} x_0 + a_{01} x_1 + ... + a_{0,n-1}x_{n-1} \\
-y_1 &= f_1(\mathbf(x) &\simeq a_{10} x_0 + a_{11} x_1 + ... + a_{1,n-1}x_{n-1} \\
-y_2 &= f_2(\mathbf(x) &\simeq a_{20} x_0 + a_{21} x_1 + ... + a_{2,n-1}x_{n-1} \\
-... &=& ... \\
-y_{m-1} &= f_{m-1}(\mathbf(x) &\simeq a_{m-1,0} x_0 + a_{m-1,1} x_1 + ...
+\begin{alignat}{2}
+y_0 &= f_0(\mathbf{x}) &&\simeq a_{00} x_0 + a_{01} x_1 + \dots + a_{0,n-1}x_{n-1} \\
+y_1 &= f_1(\mathbf{x}) &&\simeq a_{10} x_0 + a_{11} x_1 + \dots + a_{1,n-1}x_{n-1} \\
+y_2 &= f_2(\mathbf{x}) &&\simeq a_{20} x_0 + a_{21} x_1 + \dots + a_{2,n-1}x_{n-1} \\
+\dots &= \dots &&\simeq \dots \\
+y_{m-1} &= f_{m-1}(\mathbf{x}) &&\simeq a_{m-1,0} x_0 + a_{m-1,1} x_1 +\dots 
 a_{m-1,n-1}x_{n-1}
-\end{eqnarray}
+\end{alignat}
 which says that every output variable $y_j$ is approximated with a function proportional to each of the input variables $x_i$.
 
 A system is linear if the $\simeq$ relations turn out to be exact and can be replaced by $=$ symbols.
@@ -6061,12 +6051,12 @@ where $B=1$, the identity matrix. This equation remains true if we multiply both
 \begin{equation}
 S_0 A \mathbf{x} = S_0 B \mathbf{b}
 \end{equation}
-The trick of the Gauss--Jordan elimination consists in finding a series of matrices $S_0$, $S_1$,..., $S_{n-1}$ so that
+The trick of the Gauss--Jordan elimination consists in finding a series of matrices $S_0$, $S_1$,\dots, $S_{n-1}$ so that
 \begin{equation}
-S_{n-1} ... S_1 S_0 A \mathbf{x} = S_{n-1} ... S_1 S_0 B \mathbf{b} = \mathbf{x}
+S_{n-1} \dots S_1 S_0 A \mathbf{x} = S_{n-1} \dots S_1 S_0 B \mathbf{b} = \mathbf{x}
 \end{equation}
 Because the preceding expression must be true for every $b$ and because $x$ is the solution of $A x=b$, by definition,
-$S_{n-1} \ldots S_1 S_0 B \equiv A^{-1}$.
+$S_{n-1} \dots S_1 S_0 B \equiv A^{-1}$.
 
 The Gauss-Jordan algorithm works exactly this way: given $A$, it computes $A^{-1}$:
 
@@ -6185,28 +6175,28 @@ def is_almost_zero(A, ap=1e-6, rp=1e-4):
 
 Linear algebra is fundamental for solving systems of linear equations such as the following:
 
-\begin{eqnarray}
-&x_0+2x_1+2x_2=&3 \\
-&4x_0+4x_1+2x_2=&6 \\
-&4x_0+6x_1+4x_2=&10
-\end{eqnarray}
+\begin{align}
+x_0+2x_1+2x_2 &=3 \\
+4x_0+4x_1+2x_2&=6 \\
+4x_0+6x_1+4x_2&=10
+\end{align}
 This can be rewritten using the equivalent linear algebra notation:
 \begin{equation}
 A \textrm{x} = \textrm{b}
 \end{equation}
 where
 \begin{equation}
-A = \left(\begin{tabular}{ccc}
+A = \begin{pmatrix}
 1 & 2 & 2 \\
 4 & 4 & 2 \\
 4 & 6 & 4 \\
-\end{tabular}\right) \qquad and \qquad
+\end{pmatrix} \qquad \text{and} \qquad
 b =
-\left(\begin{tabular}{c}
+\begin{pmatrix}
 3 \\
 6 \\
 10 \\
-\end{tabular}\right)
+\end{pmatrix}
 \end{equation}
 
 The solution of the equation can now be written as
@@ -6426,7 +6416,7 @@ p(\mathbf{x}) \propto \exp\left(-\frac12 \mathbf{u}^t \mathbf{u}\right)
 \end{equation}
 and
 \begin{equation}
-p(\mathbf{x}) \propto e^{-\frac12 u_0^2}e^{-\frac12 u_1^2}e^{-\frac12 u_2^2}...
+p(\mathbf{x}) \propto e^{-\frac12 u_0^2}e^{-\frac12 u_1^2}e^{-\frac12 u_2^2\dots}
 \end{equation}
 Therefore the $u_i$ components are Gaussian random variables.
 
@@ -6572,12 +6562,12 @@ We can determine $\alpha$ by deciding how much risk we are willing to take, and 
 
 Consider a set of data points $(x_J,y_j) = (t_j,o_j \pm do_j)$. We want to fit them with a linear combination of linear independent functions $f_i$ so that
 
-\begin{eqnarray}
-c_0 f_0(t_0) + c_1 f_1(t_0) + c_2 f_2(t_0) +  ... & = & e_0 \simeq o_0 \pm do_0\\
-c_0 f_0(t_1) + c_1 f_1(t_1) + c_2 f_2(t_1) +  ... & = & e_1 \simeq o_1 \pm do_1\\
-c_0 f_0(t_2) + c_1 f_1(t_2) + c_2 f_2(t_2) +  ... & = & e_2 \simeq o_2 \pm do_2\\
-... &=& ...
-\end{eqnarray}
+\begin{align}
+c_0 f_0(t_0) + c_1 f_1(t_0) + c_2 f_2(t_0) +  \dots &= e_0 \simeq o_0 \pm do_0\\
+c_0 f_0(t_1) + c_1 f_1(t_1) + c_2 f_2(t_1) +  \dots &= e_1 \simeq o_1 \pm do_1\\
+c_0 f_0(t_2) + c_1 f_1(t_2) + c_2 f_2(t_2) +  \dots &= e_2 \simeq o_2 \pm do_2\\
+\dots &=\dots 
+\end{align}
 
 We want to find the $\{c_i\}$ that minimizes the sum of the squared distances between the actual ``observed'' data $o_j$ and the predicted ``expected'' data $e_j$, in units of $do_j$. This metric is called $\chi^2$ in general~\cite{chi2}. An algorithm that minimizes the $\chi^2$  and is linear in the $c_i$ coefficients (our case here) is called {\it linear least squares} or {\it linear regression}.
 
@@ -6590,10 +6580,10 @@ If we define the matrix $A$ and $B$ as
 \begin{equation}
 A=\left(
 \begin{tabular}{cccc}
-$\frac{f_0(t_0)}{do_0}$ & $\frac{f_1(t_0)}{do_0}$ & $\frac{f_2(t_0)}{do_0}$ &...\\
-$\frac{f_0(t_1)}{do_1}$ & $\frac{f_1(t_1)}{do_1}$ & $\frac{f_2(t_1)}{do_1}$ &...\\
-$\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &...\\
-...& ...& ... & ...
+$\frac{f_0(t_0)}{do_0}$ & $\frac{f_1(t_0)}{do_0}$ & $\frac{f_2(t_0)}{do_0}$ &\dots\\
+$\frac{f_0(t_1)}{do_1}$ & $\frac{f_1(t_1)}{do_1}$ & $\frac{f_2(t_1)}{do_1}$ &\dots\\
+$\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &\dots\\
+\dots& \dots& \dots &\dots 
 \end{tabular}
 \right) \qquad b =
 \left(
@@ -6601,24 +6591,24 @@ $\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &...
 $\frac{o_0}{do_0}$ \\
 $\frac{o_1}{do_1}$ \\
 $\frac{o_2}{do_2}$ \\
-...
+\dots
 \end{tabular}
 \right)
 \end{equation}
 
 then the problem is reduced to
 
-\begin{eqnarray}
-\min_{\mathbf{c}}\chi^2 &=& \min_{\mathbf{c}} |A\mathbf{c}-\mathbf{b}|^2 \\
-  &=& \min_{\mathbf{c}} (A\mathbf{c}-\mathbf{b})^t (A\mathbf{c}-\mathbf{b}) \\
-  &=& \min_{\mathbf{c}} (\mathbf{c}^t A^t A \mathbf x - 2\mathbf{b}^t A \mathbf{c} + \mathbf{b}^t \mathbf{b})
-\end{eqnarray}
+\begin{align}
+\min_{\mathbf{c}}\chi^2 &= \min_{\mathbf{c}} |A\mathbf{c}-\mathbf{b}|^2 \\
+  &= \min_{\mathbf{c}} (A\mathbf{c}-\mathbf{b})^t (A\mathbf{c}-\mathbf{b}) \\
+  &= \min_{\mathbf{c}} (\mathbf{c}^t A^t A \mathbf x - 2\mathbf{b}^t A \mathbf{c} + \mathbf{b}^t \mathbf{b})
+\end{align}
 This is the same as solving the following equation:
 
-\begin{eqnarray}
-\nabla_{c} (\mathbf{c}^t A^t A \mathbf x - 2\mathbf{c}^t A^t \mathbf{b} + \mathbf{b}^t\mathbf{b}) &=& 0 \\
-A^t A \mathbf{c} - A^t \mathbf{b} &=& 0
-\end{eqnarray}
+\begin{align}
+\nabla_{c} (\mathbf{c}^t A^t A \mathbf x - 2\mathbf{c}^t A^t \mathbf{b} + \mathbf{b}^t\mathbf{b}) &= 0 \\
+A^t A \mathbf{c} - A^t \mathbf{b} &= 0
+\end{align}
 
 Its solution is
 
@@ -6674,12 +6664,12 @@ QUARTIC   = POLYNOMIAL(4)
 As an example, we can use it to perform a polynomial fit: given a set of points, we want to find the coefficients of a polynomial that best approximate those points.
 
 In other words, we want to find the $c_i$ such that, given $t_j$ and $o_j$,
-\begin{eqnarray}
-c_0  + c_1 t_0^{1} + c_2 t_0^{2} +  ... & = & e_0 \simeq o_0 \pm do_0 \\
-c_0  + c_1 t_1^{1} + c_2 t_1^{2} +  ... & = & e_1 \simeq o_1 \pm do_1\\
-c_0  + c_1 t_2^{1} + c_2 t_2^{2} +  ... & = & e_2 \simeq o_2 \pm do_2\\
-... &  &... \\
-\end{eqnarray}
+\begin{align}
+c_0  + c_1 t_0^{1} + c_2 t_0^{2} +  \dots &= e_0 \simeq o_0 \pm do_0 \\
+c_0  + c_1 t_1^{1} + c_2 t_1^{2} +  \dots &= e_1 \simeq o_1 \pm do_1\\
+c_0  + c_1 t_2^{1} + c_2 t_2^{2} +  \dots &= e_2 \simeq o_2 \pm do_2\\
+\dots &= \dots 
+\end{align}
 
 Here is how we can generate some random points and solve the problem for a polynomial of degree 2 (or quadratic fit):
 
@@ -6808,30 +6798,30 @@ A\mathbf{x}_i = e_i\mathbf{x}_i
 
 For example:
 \begin{equation}
-A = \left(\begin{tabular}{ccc}
+A = \begin{pmatrix}
 1 & -2  \\
 1 & 4  \\
-\end{tabular}\right) \qquad and \qquad
+\end{pmatrix} \qquad \text{and} \qquad
 x_i =
-\left(\begin{tabular}{c}
+\begin{pmatrix}
 -1 \\
 1 \\
-\end{tabular}\right)
+\end{pmatrix}
 \end{equation}
 
 \begin{equation}
-\left(\begin{tabular}{ccc}
+\begin{pmatrix}
 1 & -2  \\
 1 & 4  \\
-\end{tabular}\right) *
-\left(\begin{tabular}{c}
+\end{pmatrix} *
+\begin{pmatrix}
 -1 \\
 1 \\
-\end{tabular}\right) \qquad =  \qquad
-3 * \left(\begin{tabular}{c}
+\end{pmatrix} \qquad =  \qquad
+3 * \begin{pmatrix}
 -1 \\
 1 \\
-\end{tabular}\right)
+\end{pmatrix}
 \end{equation}
 
 In this case, $x_i$ is an eigenvector and the corresponding eigenvalue is $e=3$.
@@ -7018,11 +7008,11 @@ r_{it} = \beta_i p_t + \alpha_{it}
 \end{equation}
 where $p$ is the principal component given by
 
-\begin{eqnarray}
-p_t &=& \sum_i U_{n-1,j} r_{jt} \\
-\beta_i &=& \sum_t r_{it} p_t \\
-\alpha_{it} &=& r_{it} - \beta_i p_t
-\end{eqnarray}
+\begin{align}
+p_t &= \sum_i U_{n-1,j} r_{jt} \\
+\beta_i &= \sum_t r_{it} p_t \\
+\alpha_{it} &= r_{it} - \beta_i p_t
+\end{align}
 
 Here $\mathbf{p}$ is the vector of adjusted arithmetic returns that better correlates with the returns of the individual assets and therefore best represents the market. The $\beta_i$ coefficient tells us how much $\mathbf{r}_i$ overlaps with $\mathbf{p}$; $\alpha$, at first approximation, measures leftover noise.
 
@@ -7045,7 +7035,7 @@ K(f,y,i) = \{y, f(y), f(f(y)), f(f(f(y))), (f^i)(y)\}
 \end{equation}
 The {\it minimum residual}~\cite{minres} algorithm works by solving $x=f^{-1}(y)$ iteratively. At each iteration, it computes a new orthogonal basis vector $q_i$ for the Krylov space $K(f,y,i)$ and computes the coefficients $\alpha_i$ that project $x_i$ into component $i$ of the Krylov space:
 \begin{equation}
-x_i = y + \alpha_1 q_1 + \alpha_2 q_2 + ... + \alpha_i q_i \in K(f,y,i+1)
+x_i = y + \alpha_1 q_1 + \alpha_2 q_2 + \dots + \alpha_i q_i \in K(f,y,i+1)
 \end{equation}
 which minimizes the norm of the residue defined as:
 \begin{equation}
@@ -7191,18 +7181,18 @@ It is always possible to reformulate $f(x)=0$ as $g(x)=x$ using, for example, on
 \end{itemize}
 
 We start at $x_0$, an arbitrary point in the domain, and close to the solution we seek. We compute
-\begin{eqnarray}
-x_1 &=& g(x_0) \\
-x_2 &=& g(x_1) \\
-x_3 &=& g(x_2) \\
-... &=& ...
-\end{eqnarray}
+\begin{align}
+x_1 &= g(x_0) \\
+x_2 &= g(x_1) \\
+x_3 &= g(x_2) \\
+\dots &=\dots 
+\end{align}
 We can compute the distance between $x_i$ and $x$ as
-\begin{eqnarray}
-|x_i - x| &=& |g(x_{i-1})-g(x)| \\
-          &=& |g(x)+g'(\xi)(x_{i-1}-x)-g(x)| \\
-          &=& |g'(\xi)||x_{i-1}-x|
-\end{eqnarray}
+\begin{align}
+|x_i - x| &= |g(x_{i-1})-g(x)| \\
+          &= |g(x)+g'(\xi)(x_{i-1}-x)-g(x)| \\
+          &= |g'(\xi)||x_{i-1}-x|
+\end{align}
 where we use {\it L'H\^{o}pital's rule} and $\xi$ is a point in between $x$ and $x_{i-1}$.
 
 If the magnitude of the first derivative of $g$, $|g'|$, is less than 1 in a neighborhood of $x$, and if $x_0$ is in such a neighborhood, then
@@ -7313,10 +7303,10 @@ Here is an example:
 \index{secant method}
 
 The secant method is very similar to the Newton's method, except that $f'(x)$ is replaced by a numerical estimate computed using the current point $x$ and the previous point visited by the algorithm:
-\begin{eqnarray}
-f'(x_i) &=& \frac{f(x_i)-f(x_{i-1})}{x_i-x_{i-1}} \\
-x_{i+i} &=& x_i - \frac{f(x_i)}{f'(x_i)}
-\end{eqnarray}
+\begin{align}
+f'(x_i) &= \frac{f(x_i)-f(x_{i-1})}{x_i-x_{i-1}} \\
+x_{i+i} &= x_i - \frac{f(x_i)}{f'(x_i)}
+\end{align}
 As the algorithm approaches the exact solution, the numerical derivative becomes a better and better approximation for the derivative:
 
 %%% META:FILE:nlib.py
@@ -7514,54 +7504,52 @@ Here is an example:
 
 \index{Jacobian}\index{Gradient}\index{Hessian}
 
-A generic function $f(x_0,x_1,x_2,...)$ of multiple variables $\mathbf{x}=(x_0,x_1,x_2,..)$ can be expanded in Taylor series to the second order as
+A generic function $f(x_0,x_1,x_2,\dots)$ of multiple variables $\mathbf{x}=(x_0,x_1,x_2,..)$ can be expanded in Taylor series to the second order as
 
-\begin{eqnarray}
-f(x_0,x_1,x_2,...) &=& f(\bar x_0,\bar x_1, \bar x_2,...) + \\
-&& \sum_i \frac{\partial f(\mathbf{\bar x})}{\partial x_i}(x_i-\bar x_i) + \\
-&& \sum_{ij} \frac12 \frac{\partial^2 f}{\partial x_i\partial x_j}(\mathbf{\bar x})(x_i-\bar x_i)(x_j-\bar x_j) + ...
-\end{eqnarray}
+\begin{align}
+f(x_0,x_1,x_2,\dots) &= f(\bar x_0,\bar x_1, \bar x_2,\dots) + 
+                     \sum_i \frac{\partial f(\mathbf{\bar x})}{\partial x_i}(x_i-\bar x_i) \notag\\ 
+                   &\quad + \sum_{ij} \frac12 \frac{\partial^2 f}{\partial x_i\partial x_j}(\mathbf{\bar x})(x_i-\bar x_i)(x_j-\bar x_j) +\dots 
+\end{align}
 
 We can rewrite the above expression in terms of the vector $\mathbf{x}$ as follows:
 
 \begin{equation}
 f(\mathbf{x}) = f(\mathbf{\bar x}) + \nabla_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x})
-+ \frac12 (\mathbf{x}-\mathbf{\bar x})^t H_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + ...
++ \frac12 (\mathbf{x}-\mathbf{\bar x})^t H_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) +\dots 
 \end{equation}
 
 where we introduce the gradient vector
 
 \begin{equation}
-\nabla_f(x) \equiv \left(
-\begin{tabular}{c}
-$\partial f(x)/\partial x_0$ \\
-$\partial f(x)/\partial x_1$ \\
-$\partial f(x)/\partial x_2$ \\
-...
-\end{tabular}
-\right)
+\nabla_f(x) \equiv 
+\begin{pmatrix}
+\partial f(x)/\partial x_0 \\
+\partial f(x)/\partial x_1 \\
+\partial f(x)/\partial x_2 \\
+\dots
+\end{pmatrix}
 \end{equation}
 
 and the Hessian matrix
 
 \begin{equation}
-H_f(x) \equiv \left(
-\begin{tabular}{cccc}
-$\partial^2 f(x)/\partial x_0\partial x_0$ &
-$\partial^2 f(x)/\partial x_0\partial x_1$ &
-$\partial^2 f(x)/\partial x_0\partial x_2$ &
-... \\
-$\partial^2 f(x)/\partial x_1\partial x_0$ &
-$\partial^2 f(x)/\partial x_1\partial x_1$ &
-$\partial^2 f(x)/\partial x_1\partial x_2$ &
-... \\
-$\partial^2 f(x)/\partial x_2\partial x_0$ &
-$\partial^2 f(x)/\partial x_2\partial x_1$ &
-$\partial^2 f(x)/\partial x_2\partial x_2$ &
-... \\
-... & ... & ... & ...
-\end{tabular}
-\right)
+H_f(x) \equiv 
+\begin{pmatrix}
+\partial^2 f(x)/\partial x_0\partial x_0 &
+\partial^2 f(x)/\partial x_0\partial x_1 &
+\partial^2 f(x)/\partial x_0\partial x_2 &
+\dots \\
+\partial^2 f(x)/\partial x_1\partial x_0 &
+\partial^2 f(x)/\partial x_1\partial x_1 &
+\partial^2 f(x)/\partial x_1\partial x_2 &
+\dots \\
+\partial^2 f(x)/\partial x_2\partial x_0 &
+\partial^2 f(x)/\partial x_2\partial x_1 &
+\partial^2 f(x)/\partial x_2\partial x_2 &
+\dots \\
+\dots & \dots & \dots &\dots 
+\end{pmatrix}
 \end{equation}
 
 Given the definition of partial, we can compute the gradient and the Hessian using the two functions
@@ -7588,58 +7576,53 @@ Here is an example:
 
 When dealing with functions returning multiple values like
 \begin{equation}
-f(\mathbf{x}) = (f_0(\mathbf{x}), f_1(\mathbf{x}), f_2(\mathbf{x}), ...)
+f(\mathbf{x}) = (f_0(\mathbf{x}), f_1(\mathbf{x}), f_2(\mathbf{x}), \dots)
 \end{equation}
 
 we need to Taylor expand each component:
 
 \begin{equation}
 f(\mathbf{x}) =
-\left(
-\begin{tabular}{c}
-$f_0(\mathbf{x})$ \\
-$f_1(\mathbf{x})$ \\
-$f_2(\mathbf{x})$ \\
-...
-\end{tabular}
-\right) =
-\left(
-\begin{tabular}{c}
-$f_0(\mathbf{\bar x}) + \nabla_{f_0}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
-$f_1(\mathbf{\bar x}) + \nabla_{f_1}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
-$f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + ...$ \\
-...
-\end{tabular}
-\right)
+\begin{pmatrix}
+f_0(\mathbf{x}) \\
+f_1(\mathbf{x}) \\
+f_2(\mathbf{x}) \\
+\dots
+\end{pmatrix}
+ =
+\begin{pmatrix}
+f_0(\mathbf{\bar x}) + \nabla_{f_0}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
+f_1(\mathbf{\bar x}) + \nabla_{f_1}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
+f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
+\dots
+\end{pmatrix}
 \end{equation}
 
 which we can rewrite as
 
 \begin{equation}
-f(\mathbf{x}) = f(\mathbf{\bar x}) + J_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + ... \label{jacobian2}
+f(\mathbf{x}) = f(\mathbf{\bar x}) + J_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + \dots \label{jacobian2}
 \end{equation}
 
 where $J_f$ is called Jacobian and is defined as
 
 \begin{equation}
 J_f \equiv
-\left(
-\begin{tabular}{cccc}
-$\partial f_0(x)/\partial x_0$ &
-$\partial f_0(x)/\partial x_1$ &
-$\partial f_0(x)/\partial x_2$ &
-... \\
-$\partial f_1(x)/\partial x_0$ &
-$\partial f_1(x)/\partial x_1$ &
-$\partial f_1(x)/\partial x_2$ &
-... \\
-$\partial f_2(x)/\partial x_0$ &
-$\partial f_2(x)/\partial x_1$ &
-$\partial f_2(x)/\partial x_2$ &
-... \\
-... & ... & ... & ...
-\end{tabular}
-\right)
+\begin{pmatrix}
+\partial f_0(x)/\partial x_0 &
+\partial f_0(x)/\partial x_1 &
+\partial f_0(x)/\partial x_2 &
+\dots \\
+\partial f_1(x)/\partial x_0 &
+\partial f_1(x)/\partial x_1 &
+\partial f_1(x)/\partial x_2 &
+\dots \\
+\partial f_2(x)/\partial x_0 &
+\partial f_2(x)/\partial x_1 &
+\partial f_2(x)/\partial x_2 &
+\dots \\
+\dots & \dots & \dots &\dots 
+\end{pmatrix}
 \end{equation}
 
 which we can implement as follows:
@@ -7788,46 +7771,44 @@ Here we consider a generic experiment or simulated experiment that generates poi
 \frac{y_i - f(x_i,\mathbf{a},\mathbf{b})}{\delta y_i}
 \right|^2
 \end{equation}
-where the function $f$ is known but depends on unknown parameters $\mathbf{a}=(a_0,a_1,...)$ and $\mathbf{b}=(b_0,b_1,...)$. In terms of these parameters, the function $f$ can be written as follows:
+where the function $f$ is known but depends on unknown parameters $\mathbf{a}=(a_0,a_1,\dots)$ and $\mathbf{b}=(b_0,b_1,\dots)$. In terms of these parameters, the function $f$ can be written as follows:
 \begin{equation}
 f(x,\mathbf{a},\mathbf{b}) = \sum_j a_j f_j(x, \mathbf{b})
 \end{equation}
 Here is an example:
 \begin{equation}
-f(x,\mathbf{a},\mathbf{b}) = a_0 e^{-b_0 x} + a_1 e^{-b_1 x} + a_2 e^{-b_2 x} + ...
+f(x,\mathbf{a},\mathbf{b}) = a_0 e^{-b_0 x} + a_1 e^{-b_1 x} + a_2 e^{-b_2 x} +\dots 
 \end{equation}
 The goal of our algorithm is to efficiently determine the parameters $\mathbf{a}$ and $\mathbf{b}$ that minimize the $\chi^2$.
 
 We proceed by defining the following two quantities:
 
 \begin{equation}
-\mathbf{z} = \left(
-\begin{tabular}{c}
-$y_0$ / $\delta y_0$ \\
-$y_1$ / $\delta y_1$ \\
-$y_2$ / $\delta y_2$ \\
-...
-\end{tabular}
-\right)
+\mathbf{z} = 
+\begin{pmatrix}
+y_0 / \delta y_0 \\
+y_1 / \delta y_1 \\
+y_2 / \delta y_2 \\
+\dots
+\end{pmatrix}
 \end{equation}
 
 and
 
 \begin{equation}
-A(\mathbf{b}) = \left(
-\begin{tabular}{cccc}
-$f_0(x_0,\mathbf{b})/\delta y_0$ &
-$f_1(x_0,\mathbf{b})/\delta y_0$ &
-$f_2(x_0,\mathbf{b})/\delta y_0$ & ... \\
-$f_0(x_1,\mathbf{b})/\delta y_1$ &
-$f_1(x_1,\mathbf{b})/\delta y_1$ &
-$f_2(x_1,\mathbf{b})/\delta y_1$ & ... \\
-$f_0(x_2,\mathbf{b})/\delta y_2$ &
-$f_1(x_2,\mathbf{b})/\delta y_2$ &
-$f_2(x_2,\mathbf{b})/\delta y_2$ & ... \\
-... & ... & ... & ...
-\end{tabular}
-\right)
+A(\mathbf{b}) = 
+\begin{pmatrix}
+f_0(x_0,\mathbf{b})/\delta y_0 &
+f_1(x_0,\mathbf{b})/\delta y_0 &
+f_2(x_0,\mathbf{b})/\delta y_0 & \dots \\
+f_0(x_1,\mathbf{b})/\delta y_1 &
+f_1(x_1,\mathbf{b})/\delta y_1 &
+f_2(x_1,\mathbf{b})/\delta y_1 & \dots \\
+f_0(x_2,\mathbf{b})/\delta y_2 &
+f_1(x_2,\mathbf{b})/\delta y_2 &
+f_2(x_2,\mathbf{b})/\delta y_2 & \dots \\
+\dots & \dots & \dots &\dots 
+\end{pmatrix}
 \end{equation}
 
 In terms of $A$ and $z$, the $\chi^2$ can be rewritten as
@@ -8005,12 +7986,12 @@ We can test the convergence as follows:
 In the previous integration, we divided the domain $[a,b]$ into subdomains, and we computed the area under the curve $f$ in each subdomain by approximating it with a trapezoid; for example, we approximated the function in between $x_i$ and $x_{i+1}$ with a straight line. We can do better by approximating the function with a polynomial of arbitrary degree $n$ and then compute the area in the subdomain by explicitly integrating the polynomial.
 
 This is the basic idea of quadrature. For a subdomain delimited by $(0,1)$, we can impose
-\begin{eqnarray}
-\int_0^1 1\textrm{d}x &= h &= \sum_i c_i (i/n)^0 \\
-\int_0^1 x\textrm{d}x &= h^2/2 &= \sum_i c_i (i/n)^1 \\
-... & ... & ... \\
-\int_0^1 x^{n-1}\textrm{d}x &= h^n/n &= \sum_i c_i (i/n)^2
-\end{eqnarray}
+\begin{alignat}{2}
+\int_0^1 1\textrm{d}x &= h &&= \sum_i c_i (i/n)^0 \\
+\int_0^1 x\textrm{d}x &= h^2/2 &&= \sum_i c_i (i/n)^1 \\
+\dots &= \dots &&= \dots \\
+\int_0^1 x^{n-1}\textrm{d}x &= h^n/n &&= \sum_i c_i (i/n)^2
+\end{alignat}
 where $c_i$ are coefficients to be determined:
 
 \index{class!QuadratureIntegrator}
@@ -8059,7 +8040,7 @@ Here is an example of usage:
 
 A function with a domain over a finite interval $[a,b]$ can be approximated with a vector. For example, consider a function $f(x)$ with domain $[0,T]$. We can sample the function at points $x_k = a+(b-a)k/N$ and represent the discretized function with a vector
 \begin{equation}
-\mathbf{u}_f \equiv \{cf(x_0), cf(x_1), cf(x_2), ... cf(x_N)\}
+\mathbf{u}_f \equiv \{cf(x_0), cf(x_1), cf(x_2), \dots cf(x_N)\}
 \end{equation}
 where $c$ is an arbitrary constant that we choose to be $c=\sqrt{(b-a)/N}$. This choice simplifies our later algebra.
 Summarizing, we define
@@ -8086,7 +8067,7 @@ From now on, we will omit the $f$ subscript in $\mathbf{u}$ and simply use diffe
 
 Because we are interested in numerical algorithms, we will keep $N$ finite and work with the sum instead of the integral.
 
-Given a fixed $N$, we can always find $N$ vectors $\mathbf{b}_0,\mathbf{b}_1...\mathbf{b}_{N_1}$ that are linearly independent, normalized, and orthogonal, that is,
+Given a fixed $N$, we can always find $N$ vectors $\mathbf{b}_0,\mathbf{b}_1\dots\mathbf{b}_{N_1}$ that are linearly independent, normalized, and orthogonal, that is,
 
 \begin{equation}
 \mathbf{b}_i \cdot \mathbf{b}_j = \sum_k b_{ik} b_{ik} = \delta_{ij}
@@ -8107,13 +8088,13 @@ where $v_j$ is the projection of $u$ along $\mathbf{b}_j$, which can be computed
 
 In fact, by direct substitution, we obtain
 
-\begin{eqnarray}
-  v_j &=& \sum_k u_k b_{jk} \\
-      &=& \sum_k (\sum_i v_i b_{ik}) b_{jk} \\
-      &=& \sum_i v_i (\sum_k b_{ik} b_{jk}) \\
-      &=& \sum_i v_i \delta_{ij} \\
-      &=& v_j
-\end{eqnarray}
+\begin{align}
+  v_j &= \sum_k u_k b_{jk} \\
+      &= \sum_k (\sum_i v_i b_{ik}) b_{jk} \\
+      &= \sum_i v_i (\sum_k b_{ik} b_{jk}) \\
+      &= \sum_i v_i \delta_{ij} \\
+      &= v_j
+\end{align}
 
 In other words, once we have a basis of vectors, the vector $\mathbf{u}$ can be represented in terms of the vector $\mathbf{v}$ of $v_j$ coefficients and, conversely, $\mathbf{v}$ can be computed from $\mathbf{u}$; $\mathbf{u}$ and $\mathbf{v}$ contain the same information.
 
@@ -8156,13 +8137,12 @@ b_{ji} = \frac{1}{\sqrt{2\pi}} e^{2\pi I ij/N}
 \end{equation}
 
 where $I$ is the imaginary unit. With this choice, the $T^+$ and $T^-$ functions become
-
-\begin{eqnarray}
-v_j &\stackunder{FT^+}{=}& N^{-\frac12} \sum_i u_i e^{2\pi I ij/N} \\
+\begin{align}
 \label{fourierd1}
-u_i &\stackunder{FT^-}{=}& N^{-\frac12} \sum_j v_j e^{-2\pi I ij/N}
+v_j &\stackunder{FT^+}{=} N^{-\frac12} \sum_i u_i e^{2\pi I ij/N} \\
 \label{fourierd2}
-\end{eqnarray}
+u_i &\stackunder{FT^-}{=} N^{-\frac12} \sum_j v_j e^{-2\pi I ij/N}
+\end{align}
 
 and they take the names of Fourier transform and anti-transform~\cite{fourier}, respectively;
 we can implement them as follows:
@@ -8184,18 +8164,17 @@ Here $1j$ is the Python notation for $I$ and $cexp$ is the exponential function 
 Notice how the transformation works even when $\mathbf{u}$ is a vector of complex numbers.
 
 Something special happens when $u$ is real:
-\begin{eqnarray}
-Re(v_j) &=& +Re(v_{N-j-1}) \\
-Im(v_j) &=& -Im(v_{N-j-1})
-\end{eqnarray}
+\begin{align}
+Re(v_j) &= +Re(v_{N-j-1}) \\
+Im(v_j) &= -Im(v_{N-j-1})
+\end{align}
 
 We can speed up the code even more using recursion and by observing that if $N$ is a power of $2$, then
 
-\begin{eqnarray}
-v_j &=& N^{-\frac12} \sum_i u_{2i} e^{2\pi I (2i)j/N} + \\
-             &&  N^{-\frac12} \sum_i u_{2i+1} e^{2\pi I (2i+1)j/N} \\
-             &=& 2^{-\frac12} ( v_j^{even} + e^{2\pi j/N} v_j^{even} )
-\end{eqnarray}
+\begin{align}
+  v_j &= N^{-\frac12} \sum_i u_{2i} e^{2\pi I (2i)j/N} + N^{-\frac12} \sum_i u_{2i+1} e^{2\pi I (2i+1)j/N} \\
+      &= 2^{-\frac12} ( v_j^{even} + e^{2\pi j/N} v_j^{even} )
+\end{align}
 
 where $v_j^{even}$ is the Fourier transform of the even terms and $v_j^{odd}$ is the Fourier transform of the odd terms.
 
@@ -8237,13 +8216,13 @@ i^j: 10000011001110
 In this section, we deal specifically with differential equations of the following form:
 
 \begin{equation}
-a_0 f(x) + a_1 f'(x) + a_2 f''(x) + ... = g(x) \label{diffeq}
+a_0 f(x) + a_1 f'(x) + a_2 f''(x) + \dots = g(x) \label{diffeq}
 \end{equation}
 
 where $f(x)$ is an unknown function to be determined; $f'$, $f''$, and so on, are its derivatives; $a_i$ are known input coefficients; and $g(x)$ is a known input function:
 
 \begin{equation}
-f''(x) - 4 f'(x) + f(x) = sin(x)
+f''(x) - 4 f'(x) + f(x) = \sin(x)
 \end{equation}
 
 In this case, $a_2(x) = 1$, $a_1(x) = -4$, $a_0(x) = 1$, and $g(x) = \sin(x)$.
@@ -8284,13 +8263,13 @@ y_i(x) \equiv f^{(i)}(x)
 
 and we rewrite the differential equation as
 
-\begin{eqnarray}
-y'_0 &=& y_1 \\
-y'_1 &=& y_2 \\
-y'_2 &=& y_3 \\
-... && ... \\
-y'_{N-1} &=& y_N = (g(x)-\sum_{k<N} a_k y_k(x))/a_N(x)
-\end{eqnarray}
+\begin{align}
+y'_0 &= y_1 \\
+y'_1 &= y_2 \\
+y'_2 &= y_3 \\
+\dots &= \dots \\
+y'_{N-1} &= y_N = (g(x)-\sum_{k<N} a_k y_k(x))/a_N(x)
+\end{align}
 
 or equivalently
 
@@ -8301,13 +8280,13 @@ or equivalently
 where
 
 \begin{equation}
-F(\mathbf{y}) = \mathbf{y}+\left(\begin{tabular}{c}
-$y_1$ \\
-$y_2$ \\
-$y_3$ \\
-... \\
-$(g(x)-\sum_{k<N} a_k(x)y_k(x))/a_N(x)$
-\end{tabular}\right)
+F(\mathbf{y}) = \mathbf{y}+\begin{pmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
+\dots \\
+(g(x)-\sum_{k<N} a_k(x)y_k(x))/a_N(x)
+\end{pmatrix}
 \end{equation}
 
 \index{Euler method}
@@ -8326,12 +8305,12 @@ The solution is found by iterating the latest equation. Here $h$ is an arbitrary
 \mathbf{y}(x+h) = \mathbf{y}(x) + h/6 (\mathbf{k}_1+2\mathbf{k}_2+2\mathbf{k}_3+\mathbf{k}_4)\label{rungekutta}
 \end{equation}
 where
-\begin{eqnarray}
-\mathbf{k}_1 &=& F(\mathbf{y},x) \\
-\mathbf{k}_2 &=& F(\mathbf{y}+h k_1/2,x+h/2) \\
-\mathbf{k}_3 &=& F(\mathbf{y}+h k_2/2,x+h/2) \\
-\mathbf{k}_4 &=& F(\mathbf{y}+h k_3,x+h)
-\end{eqnarray}
+\begin{align}
+\mathbf{k}_1 &= F(\mathbf{y},x) \\
+\mathbf{k}_2 &= F(\mathbf{y}+h k_1/2,x+h/2) \\
+\mathbf{k}_3 &= F(\mathbf{y}+h k_2/2,x+h/2) \\
+\mathbf{k}_4 &= F(\mathbf{y}+h k_3,x+h)
+\end{align}
 
 \chapter{Probability and Statistics}
 
@@ -8537,7 +8516,7 @@ As another example, let's consider a simple bet on a dice. We roll the dice once
 -0.83333...
 \end{lstlisting}
 
-The average expected payoff is $-0.83...$, which means that on average, we should expect to lose 83 cents at this game.
+The average expected payoff is $-0.83\dots$, which means that on average, we should expect to lose 83 cents at this game.
 
 \goodbreak\subsection{Continuous random variables}
 \index{continuous random variable}
@@ -8602,11 +8581,11 @@ The distribution $p$ is always normalized to 1.
 
 Moreover,
 
-\begin{eqnarray}
-E[aX+b] &=&\int_{-\infty }^\infty (ax+b)p(x)dx \\
-&=&a\int_{-\infty }^\infty xp(x)dx+b\int_{-\infty }^\infty p(x)dx \\
-&=&aE[X]+b
-\end{eqnarray}
+\begin{align}
+E[aX+b] &= \int_{-\infty }^\infty (ax+b)p(x)dx \\
+&= a\int_{-\infty }^\infty xp(x)dx+b\int_{-\infty }^\infty p(x)dx \\
+&= aE[X]+b
+\end{align}
 
 therefore $E[X]$ is a linear operator.
 
@@ -8646,47 +8625,42 @@ This is the simplest case of Monte Carlo integration, which is the subject of a 
 Given two random variables, $X$ and $Y$, we define the covariance (cov)  and the correlation (corr)
 between
 them as
-\begin{eqnarray}
-\textrm{cov}(X,Y) &\equiv  &E[(X-\mu _X)(Y-\mu _Y)]=E[XY]-E[X]E[Y] \\
-\textrm{corr}(X,Y) &\equiv & \textrm{cov}(X,Y)/(\sigma_X \sigma_Y)
-\end{eqnarray}
+\begin{align}
+\textrm{cov}(X,Y) &\equiv  E[(X-\mu _X)(Y-\mu _Y)]=E[XY]-E[X]E[Y] \\
+\textrm{corr}(X,Y) &\equiv  \textrm{cov}(X,Y)/(\sigma_X \sigma_Y)
+\end{align}
 
 Applying the definitions:
-\begin{eqnarray}
-E[XY] &=&\int \int xyp(x,y)dxdy \\
-&=&\int \int xyp(x)p(y)dxdy \\
-&=&\left[ \int xp(x)dx\right] \left[ \int yp(y)dy\right] \\
-&=&E[X]E[Y]
-\end{eqnarray}
-therefore
-\begin{equation}
-\textrm{cov}(X,Y) =E[XY]-E[X]E[Y]=0
-\end{equation}
-
-Therefore
-\begin{equation}
-\sigma _{X+Y}^2=\sigma _X^2+\sigma _Y^2+2 \textrm{cov}(X,Y)
-\end{equation}
+\begin{align}
+E[XY] &=\int \int xyp(x,y)dxdy \\
+&=\int \int xyp(x)p(y)dxdy \\
+&=\left[ \int xp(x)dx\right] \left[ \int yp(y)dy\right] \\
+&=E[X]E[Y] \\
+\intertext{therefore}
+\textrm{cov}(X,Y) &=E[XY]-E[X]E[Y]=0. \\
+\intertext{Therefore}
+\sigma _{X+Y}^2&=\sigma _X^2+\sigma _Y^2+2 \textrm{cov}(X,Y)
+\end{align}
 and if $X$ and $Y$ are independent, then $\textrm{cov}(X,Y)=\textrm{corr}(X,Y)=0$.
 
 Notice that the reverse is not true. Even if the correlation and the covariance are zero, $X$ and $Y$ may be dependent.
 
 Moreover,
-\begin{eqnarray}
-\textrm{cov}(X,Y) &=&E[(X-\mu _X)(Y-\mu _Y)] \\
-&=&E[(X-\mu _X)(\pm X\mp \mu _X)] \\
-&=&\pm E[(X-\mu _X)(X-\mu _X)] \\
-&=&\pm \sigma _X^2
-\end{eqnarray}
+\begin{align}
+\textrm{cov}(X,Y) &=E[(X-\mu _X)(Y-\mu _Y)] \\
+&=E[(X-\mu _X)(\pm X\mp \mu _X)] \\
+&=\pm E[(X-\mu _X)(X-\mu _X)] \\
+&=\pm \sigma _X^2
+\end{align}
 
 Therefore, if $X$ and $Y$ are completely correlated or anti-correlated ($Y=\pm X$), then $\textrm{cov}(X,Y)=\pm \sigma _X^2$ and $\textrm{corr}(X,Y) = \pm 1$.
 Notice that the correlation lies always in the range $[-1,1]$.
 
 Finally, notice that for uncorrelated random variables $X_i$,
-\begin{eqnarray}
-E[\sum_ia_iX_i] &=&\sum_ia_iE[X_i] \\
-E[(\sum_iX_i)^2] &=&\sum_iE[X_i^2]
-\end{eqnarray}
+\begin{align}
+E[\sum_ia_iX_i] &=\sum_ia_iE[X_i] \\
+E[(\sum_iX_i)^2] &=\sum_iE[X_i^2]
+\end{align}
 
 
 We can define covariance and correlation for discrete distributions:
@@ -8723,10 +8697,10 @@ Here is an example:
 
 \goodbreak\subsection{Strong law of large numbers}
 
-If $X_1,X_2,...X_n$ are a sequence of independent and identically
+If $X_1,X_2,\dots,X_n$ are a sequence of independent and identically
 distributed random variables with $E[X_i]=$ $\mu $ and finite variance, then
 \begin{equation}
-\lim_{n\rightarrow \infty }\frac{X_1+X_2+...+X_n}n=\mu
+\lim_{n\rightarrow \infty }\frac{X_1+X_2+\dots+X_n}n=\mu
 \end{equation}
 
 This theorem means that ``the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.'' The name of this law is due to Poisson~\cite{largenumbers}.
@@ -8734,15 +8708,15 @@ This theorem means that ``the average of the results obtained from a large numbe
 \goodbreak\subsection{Central limit theorem}
 
 This is one of the most important theorems concerning distributions~\cite{central}:
-if $X_1,X_2,...X_n$ are a sequence of random variables with finite means, $\mu_i$, and finite variance, $\sigma^2_i$, then
+if $X_1,X_2,\dots,X_n$ are a sequence of random variables with finite means, $\mu_i$, and finite variance, $\sigma^2_i$, then
 \begin{equation}
 Y = \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} X_i
 \end{equation}
 follows a Gaussian distribution with mean and variance:
-\begin{eqnarray}
-\mu &=& \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} \mu_i \\
-\sigma^2 &=& \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} \sigma^2_i
-\end{eqnarray}
+\begin{align}
+\mu &= \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} \mu_i \\
+\sigma^2 &= \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} \sigma^2_i
+\end{align}
 
 We can numerically verify this for the simple case in which $X_i$ are uniform random variables with mean equal to 0:
 
@@ -8821,7 +8795,7 @@ consider the second socket, and we can select any of the remaining $n-1$
 plugs ($n-1$ combinations), and so on, until we are left with no free sockets
 and $n-m$ unused plugs; therefore there are
 \begin{equation}
-n!/(n-m)!=n(n-1)(n-2)...(n-m+1)
+n!/(n-m)!=n(n-1)(n-2)\dots(n-m+1)
 \end{equation}
 combinations.
 
@@ -8831,7 +8805,7 @@ consider the second plug, and we can select any of the remaining $m-1$
 sockets ($m-1$ combinations), and so on, until we are left with no spare
 plugs and $m-n$ free sockets; therefore there are
 \begin{equation}
-m!/(m-n)!=m(m-1)(m-2)...(m-n+1)
+m!/(m-n)!=m(m-1)(m-2)\dots(m-n+1)
 \end{equation}
 combinations. Note that if $m=n\,$ then case 1 and case 2 agree, as
 expected.
@@ -8884,12 +8858,12 @@ We have 52 cards, 26 black and 26 red. We shuffle the cards and pick three.
 \end{equation}
 
 \item  What is the probability that they are not all black or all red?
-\begin{eqnarray}
-\textrm{Prob}(mixture) &=&1-\textrm{Prob}(3red\cup 3black) \\
-&=&1-\textrm{Prob}(3red)-\textrm{Prob}(3black) \\
-&=&1-2\frac{2}{17} \\
-&=&\frac{13}{17}
-\end{eqnarray}
+\begin{align}
+\textrm{Prob}(mixture) &= 1-\textrm{Prob}(3red\cup 3black) \\
+&= 1-\textrm{Prob}(3red)-\textrm{Prob}(3black) \\
+&= 1-2\frac{2}{17} \\
+&= \frac{13}{17}
+\end{align}
 \end{itemize}
 
 Here is an example of how we can simulate the deck of cards using Python to compute an answer to the last questions:
@@ -9010,7 +8984,7 @@ uniform distribution. We assemble a system consisting of many
 atoms, and we record the time when we observe atoms decay:
 
 \begin{equation}
-t_0,t_1,t_2,t_3,t_4,t_5,...
+t_0,t_1,t_2,t_3,t_4,t_5\dots,
 \end{equation}
 
 One could study the probability distribution of the $t_i$ and find
@@ -9031,12 +9005,11 @@ type of atom. One characteristic of this distribution is that it is a memoryless
 Given the sequence $\{t_i\}$ with exponential distribution, we can build a
 random sequence of zeros and ones (Bernoulli distribution) by applying the following formula, known as the Von Neumann procedure~\cite{bits}:
 \begin{equation}
-x_i=\left\{
-\begin{array}{ll}
+x_i=
+\begin{cases}
 1 & \text{if }t_{i}>t_{i-1} \\
 0 & \text{otherwise}
-\end{array}
-\right.
+\end{cases}
 \end{equation}
 
 Note that the procedure can be applied to map any random sequence into
@@ -9075,7 +9048,7 @@ and we perform the following steps:
 thus obtaining:
 
 \begin{equation}
-0.3671875 - 0.83203125 - 0.4609375 - ...
+0.3671875 - 0.83203125 - 0.4609375 -\dots 
 \end{equation}
 \end{itemize}
 
@@ -9135,10 +9108,10 @@ this is adequate.
 
 Here is probably the simplest possible pseudo random number generator:
 
-\begin{eqnarray}
-x_i &=&(a x_{i-1} + c) \textrm{mod}m \\
-y_i &=&x_i/m
-\end{eqnarray}
+\begin{align}
+x_i &= (a x_{i-1} + c) \textrm{mod}m \\
+y_i &= x_i/m
+\end{align}
 With the choice $a=65539$, $c=0$, and $m=2^{31}$, this generator is called RANDU. It is of historical importance
 because it is implemented in the C {\ft rand()} function.
 The RANDU generator is particularly fast because the modulus can
@@ -9240,7 +9213,7 @@ An example of pattern/bias is discussed in ref.~\cite{randu} and can be seen in 
 Another modification of the multiplicative congruential generator is the following:
 
 \begin{equation}
-x_i=(a_1x_{i-1}+a_2x_{i-2}+...+a_kx_{i-k})\textrm{mod}m
+x_i=(a_1x_{i-1}+a_2x_{i-2}+\dots+a_kx_{i-k})\textrm{mod}m
 \end{equation}
 
 The advantage of this generator is that if $m$ is prime, the period of this
@@ -9284,12 +9257,12 @@ otherwise.
 The Marsaglia's subtract-and-borrow is a very popular generator, but it is known
 to have some problems. For example, if we construct vector
 \begin{equation}
-v_i=(x_i,x_{i+1},...,x_{i+k})
+v_i=(x_i,x_{i+1},\dots,x_{i+k})
 \end{equation}
 and the coordinates of the point $v_i$ are numbers closer to each other then
 the coordinates of the point $v_{i+k}$ are also close to each other. This
 indicates that there is an unwanted correlation between the points $%
-x_i,x_{i+1},...,x_{i+k}$. L\"uscher observed~\cite{lusher} that the Marsaglia's
+x_i,x_{i+1},\dots,x_{i+k}$. L\"uscher observed~\cite{lusher} that the Marsaglia's
 subtract-and-borrow is equivalent to a chaotic discrete dynamic system, and
 the preceding correlation dies off for points that distance themselves more than $k$. Therefore
 he proposed to modify the generator as follows: instead of taking all $x_i$
@@ -9343,15 +9316,15 @@ proofs, though it is slow.
 
 Many pseudo random number generators have the form
 \begin{equation}
-x_i=f(x_{i-1},x_{i-2},...,x_{i-k})
+x_i=f(x_{i-1},x_{i-2},\dots,x_{i-k})
 \end{equation}
 For example, the next random number depends on the past $k$ numbers. Requirements for CSPRNGs used in cryptography are that
 
 \begin{itemize}
-\item  Given $x_{i-1},x_{i-2},...,x_{i-k}$, $x_i$ can be computed in
+\item  Given $x_{i-1},x_{i-2},\dots,x_{i-k}$, $x_i$ can be computed in
 polynomial time, while
 
-\item  Given $x_i,x_{i-2},...,x_{i-k}$, $x_{i-1}$ must not be computable in
+\item  Given $x_i,x_{i-2},\dots,x_{i-k}$, $x_{i-1}$ must not be computable in
 polynomial time.
 \end{itemize}
 
@@ -9445,7 +9418,7 @@ $y_1$ & 0.0235412092879 & 0.992022250779 \\
 $y_2$ & 0.867315522395 & 0.146293803118 \\
 $y_3$ & 0.992022250779 & 0.949562561698 \\
 $y_4$ & 0.146293803118 & 0.380731142126 \\
-$y_5$ & ... & ...
+$y_5$ & \dots &\dots 
 \end{tabular}
 \end{equation}
 
@@ -9459,15 +9432,15 @@ non-overlapping blocks, leapfrogging, and Lehmer trees.
 
 Let's consider one sequence of pseudo random numbers:
 \begin{equation}
-x_0,x_1,...,x_k,x_{k+1},...,x_{2k},x_{2k+1},...,x_{3k},x_{3k+1},...,
+x_0,x_1,\dots,x_k,x_{k+1},\dots,x_{2k},x_{2k+1},\dots,x_{3k},x_{3k+1},\dots,
 \end{equation}
 One can break it into subsequences of $k$ numbers:
-\begin{eqnarray}
-&&x_0,x_1,...,x_{k-1} \\
-&&x_k,x_{k+1},...,x_{2k-1} \\
-&&x_{2k},x_{2k+1},...,x_{3k-1} \\
-&&...
-\end{eqnarray}
+\begin{align}
+&x_0,x_1,\dots,x_{k-1} \\
+&x_k,x_{k+1},\dots,x_{2k-1} \\
+&x_{2k},x_{2k+1},\dots,x_{3k-1} \\
+&\dots
+\end{align}
 If the original sequence is created with a multiplicative congruential
 generator
 \begin{equation}
@@ -9477,7 +9450,7 @@ the subsequences can be generated independently because
 \begin{equation}
 x_{nk-1}=a^{nk-1}x_0\textrm{mod}m
 \end{equation}
-if the seed of the arbitrary sequence is $x_{nk},x_{nk+1},...,x_{nk-1}$. This
+if the seed of the arbitrary sequence is $x_{nk},x_{nk+1},\dots,x_{nk-1}$. This
 is particularly convenient for parallel computers where one computer
 generates the seeds for the subsequences and the processing nodes,
 independently, generated the subsequences.
@@ -9487,15 +9460,15 @@ independently, generated the subsequences.
 Another and probably more popular technique is leapfrogging.
 Let's consider one sequence of pseudo random numbers:
 \begin{equation}
-x_0,x_1,...,x_k,x_{k+1},...,x_{2k},x_{2k+1},...,x_{3k},x_{3k+1},...,
+x_0,x_1,\dots,x_k,x_{k+1},\dots,x_{2k},x_{2k+1},\dots,x_{3k},x_{3k+1},\dots,
 \end{equation}
 One can break it into subsequences of $k$ numbers:
-\begin{eqnarray}
-&&x_0,x_k,x_{2k},x_{3k},... \\
-&&x_1,x_{1+k},x_{1+2k},x_{1+3k},... \\
-&&x_2,x_{2+k},x_{2+2k},x_{2+3k},... \\
-&&...
-\end{eqnarray}
+\begin{align}
+&x_0,x_k,x_{2k},x_{3k},\dots \\
+&x_1,x_{1+k},x_{1+2k},x_{1+3k},\dots \\
+&x_2,x_{2+k},x_{2+2k},x_{2+3k},\dots \\
+\dots&
+\end{align}
 
 The seeds $x_1,x_2,..x_{k-1}$ are generated from $x_0$, and the independent
 sequences can be generated independently using the formula
@@ -9530,10 +9503,10 @@ The Mersenne twister algorithm implemented in {\ft os.random} has leapfrogging b
 Lehmer trees are binary trees, generated recursively, where each node
 contains a random number. We start from the root containing the seed, $x_0$, and
 we append two children containing, respectively,
-\begin{eqnarray}
-x_i^L &=&(a_Lx_{i-1}+c_L)\textrm{mod}m \\
-x_i^R &=&(a_Rx_{i-1}+c_R)\textrm{mod}m
-\end{eqnarray}
+\begin{align}
+x_i^L &= (a_Lx_{i-1}+c_L)\textrm{mod}m \\
+x_i^R &= (a_Rx_{i-1}+c_R)\textrm{mod}m
+\end{align}
 then, recursively, append nodes to the children.
 
 \goodbreak\section{Generating random numbers from a given distribution}
@@ -9600,13 +9573,12 @@ a discrete probability distribution that takes value 1 with
 probability of success $p$ and value 0 with probability of failure $q=1-p$:
 
 \begin{equation}
-p(k) \equiv \left\{
-\begin{array}{ll}
+p(k) \equiv 
+\begin{cases}
 p & \text{if }k=1 \\
 1-p & \text{if }k=0 \\
 0 & \text{if not }k \in \{0,1\}
-\end{array}
-\right\}
+\end{cases}
 \end{equation}
 A Bernoulli random variable has an expected value of $p$ and variance of $pq$.
 
@@ -9635,12 +9607,12 @@ A generalization of the Bernoulli distribution is a distribution in which we hav
 \end{lstlisting}
 
 Let's say we want a random number generator that can only produce the
-outcome 0,1 or 2 with known probabilities:
-\begin{eqnarray}
-\textrm{Prob}(X &=&0)=0.50 \\
-\textrm{Prob}(X &=&1)=0.23 \\
-\textrm{Prob}(X &=&2)=0.27
-\end{eqnarray}
+outcomes 0, 1 or 2 with known probabilities:
+\begin{align}
+\textrm{Prob}(X=0) &= 0.50 \\
+\textrm{Prob}(X=1) &= 0.23 \\
+\textrm{Prob}(X=2) &= 0.27
+\end{align}
 Because the probability of the possible outcomes are rational numbers
 (fractions), we can proceed as follows:
 \begin{lstlisting}
@@ -9677,7 +9649,7 @@ The answer to this question is given by the $\chi^2$ and its distribution. We di
 
 In some sense, we can think of the table lookup as an application of the
 linear search. We start with a segment of length 1, and we break it into smaller
-contiguous intervals of length $\textrm{Prob}(X=0),\textrm{Prob}(X=1),...,\textrm{Prob}(x=n-1)$ so that $\sum
+contiguous intervals of length $\textrm{Prob}(X=0),\textrm{Prob}(X=1),\dots,\textrm{Prob}(x=n-1)$ so that $\sum
 \textrm{Prob}(X=i)=1.$ We then generate a random point on the initial segment, and we ask
 in which of the $n$ intervals it falls. The table lookup method linearly
 searches the interval.
@@ -9709,14 +9681,13 @@ Note that $0\leq i<t$ and $\forall i\geq 0$,$0\leq j<2^{t-i}$, where $t=\log
 _2n$. The array of arrays $a$ can be represented as follows:
 
 \begin{equation}
-a_{ij}=\left(
-\begin{array}{lllll}
-a_{00} & a_{01} & a_{02} & ... & a_{0,n-1} \\
-... & ... & ... & ... &  \\
+a_{ij}=
+\begin{pmatrix}
+a_{00} & a_{01} & a_{02} & \dots & a_{0,n-1} \\
+\dots & \dots & \dots & \dots &  \\
 a_{t-2,0} & a_{t-2,1} & a_{t-2,2} & a_{t-2,3} &  \\
 a_{t-1,0} & a_{t-1,1} &  &  &
-\end{array}
-\right)
+\end{pmatrix}
 \end{equation}
 In other words, we can say that
 
@@ -9728,7 +9699,7 @@ In other words, we can say that
 
 \item  $a_{1j}$ represents the probability
 \begin{equation}
-\textrm{Prob}(X=x_{2j}orX=x_{2j+1})
+\textrm{Prob}(X=x_{2j}\text{ or }X=x_{2j+1})
 \end{equation}
 
 \item  $a_{4j}$ represents the probability
@@ -9814,7 +9785,7 @@ given by
 \begin{equation}
 p(k)=\textrm{Prob}(X=k) \equiv  \binom nkp^k(1-p)^{n-k}
 \end{equation}
-for $k=0,1,2,...,n$.
+for $k=0,1,2,\dots,n$.
 
 The formula can be understood as follows: we want $k$ successes ($p^k$) and $%
 n-k$ failures ($(1-p)^{n-k}$). However, the $k$ successes can occur anywhere
@@ -9838,10 +9809,10 @@ For large $n$, it may be convenient to avoid storing the table and use the
 formula directly to compute its elements on a need-to-know basis.
 Moreover, because the table is accessed sequentially by the
 table lookup algorithm, one may just notice that the current recursive relation holds:
-\begin{eqnarray}
-\textrm{Prob}(X &=&0)=(1-p)^n \\
-\textrm{Prob}(X &=&k+1)=\frac n{k+1}\frac p{1-p}\textrm{Prob}(X=k)
-\end{eqnarray}
+\begin{alignat}{2}
+\textrm{Prob}(X &= 0) &&= (1-p)^n \\
+\textrm{Prob}(X &= k+1) &&= \frac n{k+1}\frac p{1-p}\textrm{Prob}(X=k)
+\end{alignat}
 
 This allows for a very efficient implementation:
 
@@ -9909,10 +9880,10 @@ neighborhood without selling the five candy bars?
 As we the binomial distribution, we can find an efficient recursive formula for the 
 negative binomial distribution:
 
-\begin{eqnarray}
-\textrm{Prob}(X &=& k) = p^k \\
-\textrm{Prob}(X &=& n+1)=\frac{n}{n-k+1}(1-p)\textrm{Prob}(X=n)
-\end{eqnarray}
+\begin{alignat}{2}
+\textrm{Prob}(X &= k) &&= p^k \\
+\textrm{Prob}(X &= n+1)&&= \frac{n}{n-k+1}(1-p)\textrm{Prob}(X=n)
+\end{alignat}
 
 This allows for a very efficient implementation:
 
@@ -9942,14 +9913,14 @@ by Sim\'{e}on-Denis Poisson. It describes a random variable
 $X$ that counts, among other things, the number of
 discrete occurrences (sometimes called {\it arrivals}) that take place during
 a time interval of given length. The probability that there are exactly $x$
-occurrences ($x$ being a natural number including 0, $k=0,1,2,...$) is
+occurrences ($x$ being a natural number including 0, $k=0,1,2,\dots$) is
 \begin{equation}
 p(k)=\textrm{Prob}(X=k)=e^{-\lambda }\frac{\lambda ^k}{k!}
 \end{equation}
 
 The Poisson distribution arises in connection with Poisson processes. It
 applies to various phenomena of discrete nature (i.e., those that may
-happen 0, 1, 2, 3,..., times during a given period of time or in a given
+happen 0, 1, 2, 3,\dots, times during a given period of time or in a given
 area) whenever the probability of the phenomenon happening is constant in
 time or space. The Poisson distribution differs from the other distributions
 considered in this chapter because it is different than zero for any natural
@@ -10007,10 +9978,10 @@ is finite. This limit is $\lambda $.
 
 We can use the same technique adopted for the
 binomial distribution and observe that for Poisson,
-\begin{eqnarray}
-\textrm{Prob}(X &=&0)=e^{-\lambda } \\
-\textrm{Prob}(X &=&k+1)=\frac{^\lambda }{k+1}\textrm{Prob}(X=k)
-\end{eqnarray}
+\begin{alignat}{2}
+\textrm{Prob}(X &= 0) &&= e^{-\lambda } \\
+\textrm{Prob}(X &= k+1) &&= \frac{\lambda }{k+1}\textrm{Prob}(X=k)
+\end{alignat}
 therefore the preceding algorithm can be modified into
 
 %%% META:FILE:nlib.py
@@ -10268,10 +10239,10 @@ The Pareto distribution is an example of Levy distribution. The Central Limit th
 \index{distribution!circle}
 
 We can generate a random point $(x,y)$ uniformly distributed on a circle by generating a random angle.
-\begin{eqnarray}
-x &=&\cos (2\pi u) \\
-y &=&\sin (2\pi u)
-\end{eqnarray}
+\begin{align}
+x &= \cos (2\pi u) \\
+y &= \sin (2\pi u)
+\end{align}
 
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
@@ -10298,11 +10269,11 @@ We can generate a random point uniformly distributed inside a circle by generati
 A random point $(x,y,z)$ uniformly distributed on a sphere of radius 1 is
 obtained by generating three uniform random numbers $u_1,u_2,u_3,$; compute $%
 v_i=2u_i-1$, and if $v_1^2+v_2^2+v_3^2\leq 1$,
-\begin{eqnarray}
-x &=&v_1/\sqrt{v_1^2+v_2^2+v_3^2} \\
-y &=&v_2/\sqrt{v_1^2+v_2^2+v_3^2} \\
-z &=&v_3/\sqrt{v_1^2+v_2^2+v_3^2}
-\end{eqnarray}
+\begin{align}
+x &= v_1/\sqrt{v_1^2+v_2^2+v_3^2} \\
+y &= v_2/\sqrt{v_1^2+v_2^2+v_3^2} \\
+z &= v_3/\sqrt{v_1^2+v_2^2+v_3^2}
+\end{align}
 else start again.
 
 %%% META:FILE:nlib.py
@@ -10443,21 +10414,21 @@ derive an exact formula:
 The arctan has the following Taylor series expansion:\footnote{%
 Taylor expansion:
 \begin{equation}
-f(x)=f(0)+f^{\prime }(0)x+\frac 1{2!}f^{\prime \prime }(0)x^2+...+\frac
-1{i!}f^{(i)}(0)x^2+....
+f(x)=f(0)+f^{\prime }(0)x+\frac 1{2!}f^{\prime \prime }(0)x^2+\dots+\frac
+1{i!}f^{(i)}(0)x^2+\dots.
 \end{equation}
 \par
 and if $f(x)=\arctan x$ then:
-\begin{eqnarray}
-f^{\prime }(x) &=&\frac{d\arctan x}{dx}=\frac 1{1+x^2}\rightarrow f^{\prime
+\begin{align}
+f^{\prime }(x) &= \frac{d\arctan x}{dx}=\frac 1{1+x^2}\rightarrow f^{\prime
 }(0)=1 \\
-f^{\prime \prime }(x) &=&\frac{d^2\arctan x}{d^2x}=\frac d{dx}\frac
+f^{\prime \prime }(x) &= \frac{d^2\arctan x}{d^2x}=\frac d{dx}\frac
 1{1+x^2}=-\frac{2x}{(1+x^2)^2} \\
-&&... \\
-f^{(2i+1)}(x) &=&(-1)^i\frac{(2i)!}{(1+x^2)^{2i+1}}+x...\rightarrow
+\dots &= \dots \\
+f^{(2i+1)}(x) &= (-1)^i\frac{(2i)!}{(1+x^2)^{2i+1}}+x\dots\rightarrow
 f^{(2i+1)}(0)=(-1)(2i)! \\
-f^{(2i)}(x) &=&x...\rightarrow f^{(2i)}(0)=0
-\end{eqnarray}
+f^{(2i)}(x) &= x\dots\rightarrow f^{(2i)}(0)=0
+\end{align}
 }:
 
 \begin{equation}
@@ -10514,7 +10485,7 @@ def pi_Plauffe(n):
 
 The preceding formula works and converges very fast and already in 100 iterations produces
 \begin{equation}
-\pi = 3.1415926535897932384626433...
+\pi = 3.1415926535897932384626433\dots
 \end{equation}
 
 There is a different approach based on the fact that $\pi$ is also the
@@ -11028,15 +10999,15 @@ the function $g(X)$, where $X$ is a random variable with a distribution
 (probability mass function) $p(x)$ different from zero in $[a,b]$ generated.
 
 An obvious, although not in general an optimal choice, is
-\begin{eqnarray}
-&&p(x)\equiv \left\{
-\begin{array}{ll}
+\begin{align}
+\label{defchoice}
+p(x) &\equiv 
+\begin{cases}
 1/(b-a) & \text{if }x\in [a,b] \\
 0 & \text{otherwise}
-\end{array}
-\right\}   \label{defchoice} \\
-&&g(x)\equiv (b-a)f(x)  \nonumber
-\end{eqnarray}
+\end{cases} \\
+g(x) &\equiv (b-a)f(x) \notag
+\end{align}
 so that $X$ is just a uniform random variable in $[a,b]$. Therefore
 \begin{equation}
 I=E\left[ g(X)\right] =\frac1N \sum_{i=0}^{i<N}g(x_i)
@@ -11141,39 +11112,39 @@ I = E[g(X_0,X_1)] = \frac 1N\sum_{i=0}^{i<N}g(x_{i0},x_{i1})
 
 The technique described earlier can also be extended to $n$-dimensional integrals
 \begin{equation}
-I=\int_{{\mathfrak D}}f(x_0,...,x_{n-1})dx_0...dx_{n-1}
+I=\int_{{\mathfrak D}}f(x_0,\dots,x_{n-1})dx_0\dots dx_{n-1}
 \end{equation}
 where ${\mathfrak D}$ is some $n$-dimensional domain identified by a function $%
-domain(x_0,...,x_{n-1})$ equal to 1 if ${\bf x}=(x_0,...,x_{n-1})$ is in the
-domain, 0 otherwise. We determine two functions $g(x_0,...,x_{n-1})$ and $%
-p(x_0,...,x_{n-1})$ such that
+domain(x_0,\dots,x_{n-1})$ equal to 1 if ${\bf x}=(x_0,\dots,x_{n-1})$ is in the
+domain, 0 otherwise. We determine two functions $g(x_0,\dots,x_{n-1})$ and $%
+p(x_0,\dots,x_{n-1})$ such that
 \begin{equation}
-p(x_0,...,x_{n-1})=0\text{ for }x\notin {\mathfrak D}
+p(x_0,\dots,x_{n-1})=0\text{ for }x\notin {\mathfrak D}
 \end{equation}
 and
 \begin{equation}
-\int p(x_0,...,x_{n-1})dx_0...dx_{n-1}=1
+\int p(x_0,\dots,x_{n-1})dx_0\dots dx_{n-1}=1
 \end{equation}
 and
 \begin{equation}
-g(x_0,...,x_{n-1})=f(x_0,...,x_{n-1})/p(x_0,...,x_{n-1})
+g(x_0,\dots,x_{n-1})=f(x_0,\dots,x_{n-1})/p(x_0,\dots,x_{n-1})
 \end{equation}
 
-We can interpret $p(x_0,...,x_{n-1})$ as a probability mass function for $n$
-independent random variables $X_0$...$X_{n-1}$ and
-\begin{eqnarray}
-E[g(X_0,...,X_{n-1})] &=&\int g(x_0,...,x_{n-1})p(x_0,...,x_{n-1})dx \\
-&=&\int_{{\mathfrak D}}f(x_0,...,x_{n-1})dx_0...dx_{n-1}=I
-\end{eqnarray}
+We can interpret $p(x_0,\dots,x_{n-1})$ as a probability mass function for $n$
+independent random variables $X_0$\dots$X_{n-1}$ and
+\begin{align}
+E[g(X_0,\dots,X_{n-1})] &= \int g(x_0,\dots,x_{n-1})p(x_0,\dots,x_{n-1})dx \\
+&= \int_{{\mathfrak D}}f(x_0,\dots,x_{n-1})dx_0\dots dx_{n-1}=I
+\end{align}
 Therefore
 \begin{equation}
 I=E[g(X_0,..,X_{n-1})] = \frac 1N\sum_{i=0}^{i<N}g({\bf x}_i)
 \end{equation}
-where for every point ${\bf x}_i$ is a tuple $(x_{i0},x_{i1},...,x_{i,n-1})$.
+where for every point ${\bf x}_i$ is a tuple $(x_{i0},x_{i1},\dots,x_{i,n-1})$.
 
 As an example, we consider the integral
 \begin{equation}
-I = \int_0^1 dx_0 \int_0^1 dx_1 \int_0^1 dx_2 \int_0^1 dx_3 sin(x_0+x_1+x_2+x_3)
+I = \int_0^1 dx_0 \int_0^1 dx_1 \int_0^1 dx_2 \int_0^1 dx_3 \sin(x_0+x_1+x_2+x_3)
 \end{equation}
 
 Here is the Python code:
@@ -11273,10 +11244,10 @@ direction and $n_{-}=n-n_{+}$ in a negative direction is given by
 
 The probability of going from $a=0$ to $b=k\Delta _x>0$ in a time $t=n\Delta
 _t>0$ corresponds to the case when
-\begin{eqnarray}
-n &=&n_{+}+n_i \\
-k &=&n_{+}-n_{-}
-\end{eqnarray}
+\begin{align}
+n &= n_{+}+n_i \\
+k &= n_{+}-n_{-}
+\end{align}
 that solved in $n_{+}$ gives $n_{+}=(n+k)/2$, and therefore the probability
 of going from $0$ to $k$ in time $t=n\Delta _t$ is given by
 \begin{equation}
@@ -11307,14 +11278,14 @@ p(X_n)=\frac 1{\sqrt{2\pi n\Delta _x^2}}e^{-(X_n - n\mu)^2/(2n\Delta _x^2)}
 Notice how the mean and the variance of $X_n$ are both proportional
 to $n$, whereas the standard deviation is proportional to $\sqrt{n}$.
 
-\begin{eqnarray}
-\textrm{Prob}(a &\leq &X_n\leq b)=\frac 1{\sqrt{2\pi n\Delta _x^2}}\int_a^be^{-(X_n - n\mu)^2/(2n%
+\begin{align}
+\textrm{Prob}(a \leq X_n\leq b) &= \frac 1{\sqrt{2\pi n\Delta _x^2}}\int_a^be^{-(X_n - n\mu)^2/(2n%
 \Delta _x^2)}dx \\
-&=&\frac 1{\sqrt{2\pi }}\int_{(a-n\mu)/(\sqrt{n}\Delta _x)}^{(b-n\mu)/(\sqrt{n}\Delta
+&= \frac 1{\sqrt{2\pi }}\int_{(a-n\mu)/(\sqrt{n}\Delta _x)}^{(b-n\mu)/(\sqrt{n}\Delta
 _x)}e^{-x^2/2}dx \\
-&=&\textrm{erf}(\frac {b-n\mu}{\sqrt{n}\Delta _x})-\textrm{erf}(\frac {a-n\mu}{\sqrt{n}\Delta
+&= \textrm{erf}(\frac {b-n\mu}{\sqrt{n}\Delta _x})-\textrm{erf}(\frac {a-n\mu}{\sqrt{n}\Delta
 _x})
-\end{eqnarray}
+\end{align}
 
 \goodbreak\section{Option pricing}
 \index{Options}
@@ -11382,10 +11353,10 @@ process. We assume that the time evolution of the price of the asset $X$ is a
 stochastic process similar to a random walk. We divide time into
 intervals of size $\Delta _t$, and we assume that in each time interval $\tau
 =n\Delta _t$, the variation in the asset price is
-\begin{eqnarray}
-S_{n+1} &=&S_nu\text{ with probability }p \\
-S_{n+1} &=&S_nd\text{ with probability }1-p
-\end{eqnarray}
+\begin{align}
+S_{n+1} &= S_nu\text{ with probability }p \\
+S_{n+1} &= S_nd\text{ with probability }1-p
+\end{align}
 where $u>1$ and $0<d<1$ are measures for historic data. It follows that for $%
 \tau =n\Delta _t$, the probability that the spot price of the asset at
 expiration is $S_uu^id^{n-i}$ is given by
@@ -11407,11 +11378,11 @@ C_{put}=e^{-r\tau }\frac 1n\sum_{i=0}^{i\leq n}\binom nip^i(1-p)^{n-i}\max
 The parameters of this model are $u,d$ and $p$, and they must be determined
 from historical data. For example,
 
-\begin{eqnarray}
-p &=& \frac{e^{r\Delta_t} - d}{u-d} \\
-u &=& e^{\sigma\sqrt{\Delta_t}} \\
-d &=& e^{-\sigma\sqrt{\Delta_t}}
-\end{eqnarray}
+\begin{align}
+p &= \frac{e^{r\Delta_t} - d}{u-d} \\
+u &= e^{\sigma\sqrt{\Delta_t}} \\
+d &= e^{-\sigma\sqrt{\Delta_t}}
+\end{align}
 
 where $\Delta_t$ is the length of the time interval, $r$ is the risk-free rate, and $\sigma$ is the volatility of the asset, that is, the standard deviation of the log returns.
 
@@ -11616,12 +11587,12 @@ variables. This means that we were able to generate each random number
 independently of the others because all the random variables were
 uncorrelated. There are cases when we have the following problem.
 
-We have to generate ${\bf x}=x_0,x_1,...,x_{n-1}$, where $x_0,x_1,...,x_{n-1}$
+We have to generate ${\bf x}=x_0,x_1,\dots,x_{n-1}$, where $x_0,x_1,\dots,x_{n-1}$
 are $n$ correlated random variables whose probability mass function
 \begin{equation}
-p({\bf x})=p(x_0,x_1,...,x_{n-1})
+p({\bf x})=p(x_0,x_1,\dots,x_{n-1})
 \end{equation}
-cannot be factored, as in $p(x_0,x_1,...,x_{n-1})=p(x_0)p(x_1)...p(x_{n-1})$. Consider for example the simple case of generating two random numbers $x_0$
+cannot be factored, as in $p(x_0,x_1,\dots,x_{n-1})=p(x_0)p(x_1)\dots p(x_{n-1})$. Consider for example the simple case of generating two random numbers $x_0$
 and $x_1$ both in $[0,1]$ with probability mass function $%
 p(x_0,x_1)=6(x_0-x_1)^2$ (note that $\int_0^1\int_0^16p(x_0,x_1)dx_0dx_1=1$,
 as it should be).
@@ -11631,20 +11602,20 @@ In the case where each of the $x_i$ has a Gaussian distribution and the only dep
 The Metropolis algorithm provides a general and simpler solution to this problem. It is not always the most efficient, but more sophisticated algorithms are nothing but refinements and extensions of its simple idea.
 
 Let's formulate the problem once more: we want to generate ${\bf x}%
-=x_0,x_1,...,x_{n-1}$ where $x_0,x_1,...,x_{n-1}$ are $n$ correlated random
+=x_0,x_1,\dots,x_{n-1}$ where $x_0,x_1,\dots,x_{n-1}$ are $n$ correlated random
 variables whose probability mass function is given by
 \begin{equation}
-p({\bf x})=p(x_0,x_1,...,x_{n-1})
+p({\bf x})=p(x_0,x_1,\dots,x_{n-1})
 \end{equation}
 
 The procedure works as follows:
 
 \begin{description}
 \item[1]  Start with a set of independent random numbers ${\bf x}%
-^{(0)}=(x_0^{(0)},x_1^{(0)},...,x_{n-1}^{(0)})$ in the domain.
+^{(0)}=(x_0^{(0)},x_1^{(0)},\dots,x_{n-1}^{(0)})$ in the domain.
 
 \item[2]  Generate another set of independent random numbers ${\bf x}%
-^{(i+1)}=(x_0^{(i+1)},x_1^{(i+1)},...,x_{n-1}^{(i+1)})$ in the domain. This can be done by an arbitrary random function $Q({\bf x}^{(i)})$. The only requirement for this function $Q$ is that the probability of moving from a current point $x$ to a new point $y$ be the same as that of moving from a current point $y$ to a new point $x$.
+^{(i+1)}=(x_0^{(i+1)},x_1^{(i+1)},\dots,x_{n-1}^{(i+1)})$ in the domain. This can be done by an arbitrary random function $Q({\bf x}^{(i)})$. The only requirement for this function $Q$ is that the probability of moving from a current point $x$ to a new point $y$ be the same as that of moving from a current point $y$ to a new point $x$.
 
 \item[3]  Generate a uniform random number $z$.
 
@@ -12101,10 +12072,10 @@ From now on, we will use $T_1(n)$ to refer to the nonparallel running time of an
 
 As a practical case, in the following example, we consider a generic algorithm with the following parallel and nonparallel running times:
 
-\begin{eqnarray}
-T_1(n) &=& t_a n^2 \\
-T_p(n) &=& t_a n^2 / p + 2p (t_s+t_w n/p)
-\end{eqnarray}
+\begin{align}
+T_1(n) &= t_a n^2 \\
+T_p(n) &= t_a n^2 / p + 2p (t_s+t_w n/p)
+\end{align}
 
 These formulas may come from example from the problem of multiplying a matrix times a vector.
 
@@ -12955,10 +12926,10 @@ This equation originates, for example, in electrodynamics. In this case, $q$ is 
 
 As we did in chapter 3, we proceed by discretizing the derivatives:
 
-\begin{eqnarray}
-\partial_x^2 u(x,y) &=& (u(x-h,y)-2 u(x,y)+u(x+h,y))/h^2 \\
-\partial_y^2 u(x,y) &=& (u(x,y-h)-2 u(x,y)+u(x,y+h))/h^2
-\end{eqnarray}
+\begin{align}
+\partial_x^2 u(x,y) &= (u(x-h,y)-2 u(x,y)+u(x+h,y))/h^2 \\
+\partial_y^2 u(x,y) &= (u(x,y-h)-2 u(x,y)+u(x,y+h))/h^2
+\end{align}
 Substitute them into eq.~\ref{nabla} and solve the equation in $u(x,y)$. We obtain
 \begin{equation}
 u(x,y) = 1/4 (u(x-h,y)+u(x+h,y)+u(x,y-h)+u(x,y+h)-h^2 q(x,y))
@@ -13259,9 +13230,9 @@ iff & if and only if \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 ${\bf 0}$ & empty set \\ \hline
-${\Bbb N}$ & natural numbers \{0,1,2,3,...\} \\ \hline
-${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,...\} \\ \hline
-${\Bbb Z}$ & all integers \{...,-3,-2,-1,0,1,2,3,...\} \\ \hline
+${\Bbb N}$ & natural numbers \{0,1,2,3,\dots\} \\ \hline
+${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,\dots\} \\ \hline
+${\Bbb Z}$ & all integers \{\dots,-3,-2,-1,0,1,2,3,\dots\} \\ \hline
 ${\Bbb R}$ & all real numbers \\ \hline
 ${\Bbb R}^{+}$ & positive real numbers (not including 0) \\ \hline
 ${\Bbb R}^{0}$ & positive numbers including 0 \\ \hline
@@ -13296,51 +13267,50 @@ B}\}
 
 \begin{itemize}
 \item  Empty set laws
-\begin{eqnarray}
-{\cal A}\cup {\bf 0} &=&{\cal A} \\
-{\cal A}\cap {\bf 0} &=&{\bf 0}
-\end{eqnarray}
+\begin{align}
+{\cal A}\cup {\bf 0} &= {\cal A} \\
+{\cal A}\cap {\bf 0} &= {\bf 0}
+\end{align}
 
 \item  Idempotency laws
-\begin{eqnarray}
-{\cal A}\cup {\cal A} &=&{\cal A} \\
-{\cal A}\cap {\cal A} &=&{\cal A}
-\end{eqnarray}
+\begin{align}
+{\cal A}\cup {\cal A} &= {\cal A} \\
+{\cal A}\cap {\cal A} &= {\cal A}
+\end{align}
 
 \item  Commutative laws
-\begin{eqnarray}
-{\cal A}\cup {\cal B} &=&{\cal B}\cup {\cal A} \\
-{\cal A}\cap {\cal B} &=&{\cal B}\cap {\cal A}
-\end{eqnarray}
+\begin{align}
+{\cal A}\cup {\cal B} &= {\cal B}\cup {\cal A} \\
+{\cal A}\cap {\cal B} &= {\cal B}\cap {\cal A}
+\end{align}
 
 \item  Associative laws
-\begin{eqnarray}
-{\cal A}\cup ({\cal B}\cup {\cal C}) &=&({\cal A}\cup {\cal B})\cup {\cal C}
-\\
-{\cal A}\cap ({\cal B\cap C}) &=&({\cal A\cap B})\cap {\cal C}
-\end{eqnarray}
+\begin{align}
+{\cal A}\cup ({\cal B}\cup {\cal C}) &= ({\cal A}\cup {\cal B})\cup {\cal C} \\
+{\cal A}\cap ({\cal B\cap C}) &= ({\cal A\cap B})\cap {\cal C}
+\end{align}
 
 \item  Distributive laws
-\begin{eqnarray}
-{\cal A}\cap ({\cal B}\cup {\cal C}) &=&({\cal A}\cap {\cal B})\cup ({\cal A}%
+\begin{align}
+{\cal A}\cap ({\cal B}\cup {\cal C}) &= ({\cal A}\cap {\cal B})\cup ({\cal A}%
 \cap {\cal C}) \\
-{\cal A}\cup ({\cal B}\cap {\cal C}) &=&({\cal A}\cup {\cal B})\cap ({\cal A}%
+{\cal A}\cup ({\cal B}\cap {\cal C}) &= ({\cal A}\cup {\cal B})\cap ({\cal A}%
 \cup {\cal C})
-\end{eqnarray}
+\end{align}
 
 \item  Absorption laws
-\begin{eqnarray}
-{\cal A}\cap ({\cal A}\cup {\cal B}) &=&{\cal A} \\
-{\cal A}\cup ({\cal A}\cap {\cal B}) &=&{\cal A}
-\end{eqnarray}
+\begin{align}
+{\cal A}\cap ({\cal A}\cup {\cal B}) &= {\cal A} \\
+{\cal A}\cup ({\cal A}\cap {\cal B}) &= {\cal A}
+\end{align}
 
 \item  De Morgan's laws
-\begin{eqnarray}
-{\cal A}-({\cal B}\cup {\cal C}) &=&({\cal A}-{\cal B})\cap ({\cal A}-{\cal C%
+\begin{align}
+{\cal A}-({\cal B}\cup {\cal C}) &= ({\cal A}-{\cal B})\cap ({\cal A}-{\cal C%
 }) \\
-{\cal A}-({\cal B}\cap {\cal C}) &=&({\cal A}-{\cal B})\cup ({\cal A}-{\cal C%
+{\cal A}-({\cal B}\cap {\cal C}) &= ({\cal A}-{\cal B})\cup ({\cal A}-{\cal C%
 })
-\end{eqnarray}
+\end{align}
 \end{itemize}
 
 \subsubsection{More set definitions}
@@ -13352,8 +13322,8 @@ B}\}
 \item  ${\cal A}$ is a {\bf proper subset} of ${\cal B}$ iff $\forall x\in
 {\cal A},x\in {\cal B}$ and $\exists x\in {\cal B},x\notin {\cal A}$
 
-\item  $P=\{S_i,i=1,...,N\}$ (a set of sets $S_i$) is a {\bf partition} of $%
-{\cal A}$ iff $S_1\cup S_2\cup ...\cup S_N={\cal A}$ and $\forall
+\item  $P=\{S_i,i=1,\dots,N\}$ (a set of sets $S_i$) is a {\bf partition} of $%
+{\cal A}$ iff $S_1\cup S_2\cup \dots\cup S_N={\cal A}$ and $\forall
 i,j,S_i\cap S_j={\bf 0}$
 
 \item  The number of elements in a set ${\cal A}$ is called the {\bf %
@@ -13457,39 +13427,38 @@ numbers)
 \item
 $f(x)\equiv 2x$ with domain ${\Bbb R}$ and codomain ${\Bbb R}$ is
 not a surjection and is a bijection (in fact it is invertible)
-\item
 \end{itemize}
 
 \goodbreak\subsection{Logarithms}
 
 If $x=a^y$ with $a>0$, then $y=\log _ax$ with domain $x\in (0,\infty )$ and
 codomain $y=(-\infty ,\infty )$. If the base $a$ is not indicated, the
-natural log $a=e=\allowbreak 2.\,7183...$ is assumed.
+natural log $a=e=\allowbreak 2.\,7183\dots$ is assumed.
 
 Properties of logarithms:
-\begin{eqnarray}
-\log _ax &=&\frac{\log x}{\log a} \\
-\log xy &=&(\log x)+(\log y) \\
-\log \frac xy &=&(\log x)-(\log y) \\
-\log x^n &=&n\log x
-\end{eqnarray}
+\begin{align}
+\log _ax &= \frac{\log x}{\log a} \\
+\log xy &= (\log x)+(\log y) \\
+\log \frac xy &= (\log x)-(\log y) \\
+\log x^n &= n\log x
+\end{align}
 
 \goodbreak\subsection{Finite sums}
 
 \subsubsection{Definition}
 
 \begin{equation}
-\sum_{i=0}^{i<n}f(i)\equiv f(0)+f(1)+...+f(n-1)
+\sum_{i=0}^{i<n}f(i)\equiv f(0)+f(1)+\dots+f(n-1)
 \end{equation}
 
 \subsubsection{Properties}
 
 \begin{itemize}
 \item  {\bf Linearity I}
-\begin{eqnarray}
-\sum_{i=0}^{i\leq n}f(i) &=&\sum_{i=0}^{i<n}f(i)+f(n) \\
-\sum_{i=a}^{i\leq b}f(i) &=&\sum_{i=0}^{i\leq b}f(i)-\sum_{i=0}^{i<a}f(i)
-\end{eqnarray}
+\begin{align}
+\sum_{i=0}^{i\leq n}f(i) &= \sum_{i=0}^{i<n}f(i)+f(n) \\
+\sum_{i=a}^{i\leq b}f(i) &= \sum_{i=0}^{i\leq b}f(i)-\sum_{i=0}^{i<a}f(i)
+\end{align}
 
 \item  {\bf Linearity II}
 \end{itemize}
@@ -13500,25 +13469,25 @@ Properties of logarithms:
 \end{equation}
 
 Proof:
-\begin{eqnarray}
-\sum_{i=0}^{i<n}af(i)+bg(i) &=&\left( af(0)+bg(0)\right) +...+\left(
+\begin{align}
+\sum_{i=0}^{i<n}af(i)+bg(i) &= \left( af(0)+bg(0)\right) +\dots+\left(
 af(n-1)+bg(n-1)\right)  \nonumber \\
-&=&af(0)+...+af(n-1)+bg(0)+...+bg(n-1)  \nonumber \\
-&=&a\left( f(0)+...+f(n-1)\right) +b\left( g(0)+...+g(n-1)\right)  \nonumber
+&= af(0)+\dots+af(n-1)+bg(0)+\dots+bg(n-1)  \nonumber \\
+&= a\left( f(0)+\dots+f(n-1)\right) +b\left( g(0)+\dots+g(n-1)\right)  \nonumber
 \\
-&=&a\left( \sum_{i=0}^{i<n}f(i)\right) +b\left( \sum_{i=0}^{i<n}g(i)\right)
-\end{eqnarray}
+&= a\left( \sum_{i=0}^{i<n}f(i)\right) +b\left( \sum_{i=0}^{i<n}g(i)\right)
+\end{align}
 
 Examples:
 
-\begin{eqnarray}
-\sum_{i=0}^{i<n}c &=&cn\text{ for any constant }c \\
-\sum_{i=0}^{i<n}i &=&\frac 12n(n-1) \\
-\sum_{i=0}^{i<n}i^2 &=&\frac 16n(n-1)(2n-1) \\
-\sum_{i=0}^{i<n}i^3 &=&\frac 14n^2(n-1)^2 \\
-\sum_{i=0}^{i<n}x^i &=&\frac{x^n-1}{x-1}\text{ (geometric sum)} \\
-\sum_{i=0}^{i<n}\frac 1{i(i+1)} &=&1-\frac 1n\text{ (telescopic sum)}
-\end{eqnarray}
+\begin{align}
+\sum_{i=0}^{i<n}c &= cn\text{ for any constant }c \\
+\sum_{i=0}^{i<n}i &= \frac 12n(n-1) \\
+\sum_{i=0}^{i<n}i^2 &= \frac 16n(n-1)(2n-1) \\
+\sum_{i=0}^{i<n}i^3 &= \frac 14n^2(n-1)^2 \\
+\sum_{i=0}^{i<n}x^i &= \frac{x^n-1}{x-1}\text{ (geometric sum)} \\
+\sum_{i=0}^{i<n}\frac 1{i(i+1)} &= 1-\frac 1n\text{ (telescopic sum)}
+\end{align}
 
 
 \goodbreak\subsection{Limits ($n\rightarrow \infty $)}
@@ -13531,10 +13500,10 @@ positive functions.
 \end{equation}
 
 First compute limits of the numerator and denominator separately:
-\begin{eqnarray}
-\lim_{n\rightarrow \infty }f(n) &=&a \\
-\lim_{n\rightarrow \infty }g(n) &=&b
-\end{eqnarray}
+\begin{align}
+\lim_{n\rightarrow \infty }f(n) &= a \\
+\lim_{n\rightarrow \infty }g(n) &= b
+\end{align}
 
 \begin{itemize}
 \item  If $a\in {\Bbb R}$ and $b\in {\Bbb R}^{+}\,$then
@@ -13561,7 +13530,7 @@ use L'H\^{o}pital's rule
 \end{equation}
 and start again!
 
-\item  Else ... the limit does not exist (typically oscillating functions or
+\item  Else \dots the limit does not exist (typically oscillating functions or
 non-analytic functions).
 \end{itemize}
 
@@ -13588,15 +13557,15 @@ $x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
 
 \subsubsection{Practical rules to compute derivatives}
 
-\begin{eqnarray}
-\frac d{dx}\left( f(x)+g(x)\right) &=&f^{\prime }(x)+g^{\prime }(x) \\
-\frac d{dx}\left( f(x)-g(x)\right) &=&f^{\prime }(x)-g^{\prime }(x) \\
-\frac d{dx}\left( f(x)g(x)\right) &=&f^{\prime }(x)g(x)+f(x)g^{\prime }(x) \\
-\frac d{dx}\left( \frac 1{f(x)}\right) &=&-\frac{f^{\prime }(x)}{f(x)^2} \\
-\frac d{dx}\left( \frac{f(x)}{g(x)}\right) &=&\frac{f^{\prime }(x)}{g(x)}-%
+\begin{align}
+\frac d{dx}\left( f(x)+g(x)\right) &= f^{\prime }(x)+g^{\prime }(x) \\
+\frac d{dx}\left( f(x)-g(x)\right) &= f^{\prime }(x)-g^{\prime }(x) \\
+\frac d{dx}\left( f(x)g(x)\right) &= f^{\prime }(x)g(x)+f(x)g^{\prime }(x) \\
+\frac d{dx}\left( \frac 1{f(x)}\right) &= -\frac{f^{\prime }(x)}{f(x)^2} \\
+\frac d{dx}\left( \frac{f(x)}{g(x)}\right) &= \frac{f^{\prime }(x)}{g(x)}-%
 \frac{f(x)g^{\prime }(x)}{g(x)^2} \\
-\frac d{dx}f(g(x)) &=&f^{\prime }(g(x))g^{\prime }(x)
-\end{eqnarray}
+\frac d{dx}f(g(x)) &= f^{\prime }(g(x))g^{\prime }(x)
+\end{align}
 
 \end{fullwidth}
 \backmatter
