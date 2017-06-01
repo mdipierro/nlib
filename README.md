@@ -2,7 +2,7 @@
 
 ### With applications in Physics, Biology, and Finance
 
-The complete book in PDF is now available under a [Creative Commons BY-NC-ND License](http://creativecommons.org/licenses/by- nc- nd/3.0/legalcode):
+The complete book in PDF is now available under a [Creative Commons BY-NC-ND License](http://creativecommons.org/licenses/by-nc-nd/3.0/legalcode):
 
 [DOWNLOAD BOOK IN PDF](https://raw.githubusercontent.com/mdipierro/nlib/master/docs/book_numerical.pdf)
 
