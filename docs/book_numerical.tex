@@ -6648,8 +6648,8 @@ def fit_least_squares(points, f):
     chi = A*c-b
     chi2 = norm(chi,2)**2
     fitting_f = lambda x, c=c, f=f, q=eval_fitting_function: q(f,c,x)
-    cs = [c] if isinstance(c,float) else c.flatten()
-    return cs, chi2, fitting_f
+    if isinstance(c,Matrix): return c.flatten(), chi2, fitting_f
+    else: return c, chi2, fitting_f
 
 # examples of fitting functions
 def POLYNOMIAL(n):
