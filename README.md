@@ -4,7 +4,7 @@
 
 The complete book in PDF is now available under a [Creative Commons BY-NC-ND License](http://creativecommons.org/licenses/by-nc-nd/3.0/legalcode):
 
-[DOWNLOAD BOOK IN PDF](https://raw.githubusercontent.com/mdipierro/nlib/master/docs/book_numerical.pdf)
+[DOWNLOAD THE BOOK IN PDF](https://raw.githubusercontent.com/mdipierro/nlib/master/docs/book_numerical.pdf)
 
 The book is also available in printed form from Amazon:
 
@@ -70,7 +70,7 @@ It is a pure python library for numerical computations. It doesn't require numpy
     >>> for day in google.historical():
     >>>     print day['date'], day['adjusted_close'], day['log_return']
 
-## Persistant Storage
+## Persistent Storage
 
     >>> d = PersistentDictionary(path='test.sqlite')
     >>> d['key'] = 'value'
