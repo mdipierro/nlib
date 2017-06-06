@@ -13,9 +13,12 @@ class YStock:
     >>> h = google.historical()
     >>> last_adjusted_close = h[-1]['adjusted_close']
     >>> last_log_return = h[-1]['log_return']
+    previous version of this code user Yahoo for historical data
+    but Yahoo changed API and blocked them, moving to Google finance.
     """
     URL_CURRENT = 'http://finance.yahoo.com/d/quotes.csv?s=%(symbol)s&f=%(columns)s'
-    URL_HISTORICAL = 'http://ichart.yahoo.com/table.csv?s=%(s)s&a=%(a)s&b=%(b)s&c=%(c)s&d=%(d)s&e=%(e)s&f=%(f)s'
+    URL_HISTORICAL = 'https://www.google.com/finance/historical?output=csv&q=%(symbol)s'
+
     def __init__(self,symbol):
         self.symbol = symbol.upper()
 
@@ -52,24 +55,25 @@ class YStock:
                 current[row[0]] = raw_data[i]
         return current
 
-    def historical(self,start=None, stop=None):
+    def historical(self, start=None, stop=None):
         import datetime, time, urllib, math
-        start =  start or datetime.date(1900,1,1)
-        stop = stop or datetime.date.today()
-        url = self.URL_HISTORICAL % dict(
-            s=self.symbol,
-            a=start.month-1,b=start.day,c=start.year,
-            d=stop.month-1,e=stop.day,f=stop.year)
+        url = self.URL_HISTORICAL % dict(symbol=self.symbol)
         # Date,Open,High,Low,Close,Volume,Adj Close
         lines = urllib.urlopen(url).readlines()
-        raw_data = [row.split(',') for row in lines[1:] if row.count(',')==6]
+        if any('CAPTCHA' in line for line in lines):
+            print url
+            raise
+        raw_data = [row.split(',') for row in lines[1:] if 5 <= row.count(',') <= 6]
         previous_adjusted_close = 0
         series = []
         raw_data.reverse()
         for row in raw_data:
+            if row[1] == '-': continue
+            date = datetime.datetime.strptime(row[0],'%d-%b-%y')
+            if (start and date<start) or (stop and date>stop): continue
             open, high, low = float(row[1]), float(row[2]), float(row[3])
             close, vol = float(row[4]), float(row[5])
-            adjusted_close = float(row[6])
+            adjusted_close = float(row[5]) if len(row)>5 else close
             adjustment = adjusted_close/close
             if previous_adjusted_close:
                 arithmetic_return = adjusted_close/previous_adjusted_close-1.0
@@ -79,7 +83,7 @@ class YStock:
                 arithmetic_return = log_return = None
             previous_adjusted_close = adjusted_close
             series.append(dict(
-               date = datetime.datetime.strptime(row[0],'%Y-%m-%d'),
+               date = date,
                open = open,
                high = high,
                low = low,
@@ -96,7 +100,7 @@ class YStock:
 
     @staticmethod
     def download(symbol='goog',what='adjusted_close',start=None,stop=None):
-        return [d[what] for d in YStock(symbol).historical(start,stop)]
+        return [d[what] for d in YStock(symbol).historical(start, stop)]
 
 import os
 import uuid
@@ -1093,7 +1097,7 @@ def fit_least_squares(points, f):
         weight = 1.0/points[i][2] if len(points[i])>2 else 1.0
         b[i,0] = weight*float(points[i][1])
         for j in xrange(A.ncols):
-            A[i,j] = weight*f[j](points[i][0])
+            A[i,j] = weight*f[j](float(points[i][0]))
     c = (1.0/(A.T*A))*(A.T*b)
     chi = A*c-b
     chi2 = norm(chi,2)**2
@@ -1447,7 +1451,7 @@ def optimize_newton_multi(f, x, ap=1e-6, rp=1e-4, ns=20):
         if k>2 and norm(x-x_old)<max(ap,norm(x)*rp): return x.flatten()
     raise ArithmeticError('no convergence')
 
-def optimize_newton_multi_imporved(f, x, ap=1e-6, rp=1e-4, ns=20, h=10.0):
+def optimize_newton_multi_improved(f, x, ap=1e-6, rp=1e-4, ns=20, h=10.0):
     """
     Finds the extreme of multidimensional function f near point x.
 
@@ -1482,7 +1486,7 @@ def fit(data, fs, b=None, ap=1e-6, rp=1e-4, ns=200, constraint=None):
             if constraint: chi2+=constraint(b)
             return chi2
         if isinstance(b,(list,tuple)):
-            b = optimize_newton_multi_imporved(g,b,ap,rp,ns)
+            b = optimize_newton_multi_improved(g,b,ap,rp,ns)
         else:
             b = optimize_newton(g,b,ap,rp,ns)
         return b, g(b,data,constraint=None)
@@ -1503,7 +1507,7 @@ def fit(data, fs, b=None, ap=1e-6, rp=1e-4, ns=200, constraint=None):
             if constraint:
                 chi += constraint(b)
             return chi2
-        b = optimize_newton_multi_imporved(g,b,ap,rp,ns)
+        b = optimize_newton_multi_improved(g,b,ap,rp,ns)
         a, chi2 = core(b,data,fs)
         return a+b,chi2
 
@@ -1572,7 +1576,7 @@ class MCG(object):
     def random(self):
         return float(self.next())/self.m
 
-class MarsenneTwister(object):
+class MersenneTwister(object):
     """
     based on:
     Knuth 1981, The Art of Computer Programming

@@ -1767,8 +1767,8 @@ class YStock:
     but Yahoo changed API and blocked them, moving to Google finance.
     """
     URL_CURRENT = 'http://finance.yahoo.com/d/quotes.csv?s=%(symbol)s&f=%(columns)s'
-    URL_HISTORICAL = 'https://www.google.com/finance/historical?output=csv&q=%s'
-'
+    URL_HISTORICAL = 'https://www.google.com/finance/historical?output=csv&q=%(symbol)s'
+
     def __init__(self,symbol):
         self.symbol = symbol.upper()
 
@@ -1805,14 +1805,9 @@ class YStock:
                 current[row[0]] = raw_data[i]
         return current
 
-    def historical(self,start=None, stop=None):
+    def historical(self, start=None, stop=None):
         import datetime, time, urllib, math
-        start =  start or datetime.date(1900,1,1)
-        stop = stop or datetime.date.today()
-        url = self.URL_HISTORICAL % dict(
-            s=self.symbol,
-            a=start.month-1,b=start.day,c=start.year,
-            d=stop.month-1,e=stop.day,f=stop.year)
+        url = self.URL_HISTORICAL % dict(symbol=self.symbol)
         # Date,Open,High,Low,Close,Volume,Adj Close
         lines = urllib.urlopen(url).readlines()
         if any('CAPTCHA' in line for line in lines):
@@ -1824,6 +1819,8 @@ class YStock:
         raw_data.reverse()
         for row in raw_data:
             if row[1] == '-': continue
+            date = datetime.datetime.strptime(row[0],'%d-%b-%y')
+            if (start and date<start) or (stop and date>stop): continue            
             open, high, low = float(row[1]), float(row[2]), float(row[3])
             close, vol = float(row[4]), float(row[5])
             adjusted_close = float(row[5]) if len(row)>5 else close
@@ -1836,7 +1833,7 @@ class YStock:
                 arithmetic_return = log_return = None
             previous_adjusted_close = adjusted_close
             series.append(dict(
-               date = datetime.datetime.strptime(row[0],'%Y-%m-%d'),
+               date = date,
                open = open,
                high = high,
                low = low,
@@ -1853,7 +1850,7 @@ class YStock:
 
     @staticmethod
     def download(symbol='goog',what='adjusted_close',start=None,stop=None):
-        return [d[what] for d in YStock(symbol).historical(start,stop)]
+        return [d[what] for d in YStock(symbol).historical(start, stop)]
 \end{lstlisting}
 
 Many web services return data in JSON format. JSON is slowly replacing XML as a favorite protocol for data transfer on the web. It is lighter, simpler to use, and more human readable. JSON can be thought of as serialized JavaScript. the JSON data can be converted to a Python object using a library called {\ft json}:
