@@ -1742,11 +1742,11 @@ The {\ft urllib} is a module to download data or a web page from a URL:
 >>> html = page.read()
 \end{lstlisting}
 
-\index{YStock}\index{Yahoo finance}
+\index{YStock}\index{Yahoo/Google finance}
 
 Usually {\ft urllib} is used to download data posted online. The challenge may be parsing the data (converting from the representation used to post it to a proper Python representation).
 
- In the following, we create a simple helper class that can download data from Yahoo! Finance and convert each stock's historical data into a list of dictionaries. Each list element corresponds to a trading day of history of the stock, and each dictionary stores the data relative to that trading day (date, open, close, volume, adjusted close, arithmetic\_return, log\_return, etc.):
+ In the following, we create a simple helper class that can download data from Yahoo! Finance and Google Finance and convert each stock's historical data into a list of dictionaries. Each list element corresponds to a trading day of history of the stock, and each dictionary stores the data relative to that trading day (date, open, close, volume, adjusted close, arithmetic\_return, log\_return, etc.):
 
 \index{class!YStock}
 
@@ -1763,9 +1763,12 @@ class YStock:
     >>> h = google.historical()
     >>> last_adjusted_close = h[-1]['adjusted_close']
     >>> last_log_return = h[-1]['log_return']
+    previous version of this code user Yahoo for historical data
+    but Yahoo changed API and blocked them, moving to Google finance.
     """
     URL_CURRENT = 'http://finance.yahoo.com/d/quotes.csv?s=%(symbol)s&f=%(columns)s'
-    URL_HISTORICAL = 'http://ichart.yahoo.com/table.csv?s=%(s)s&a=%(a)s&b=%(b)s&c=%(c)s&d=%(d)s&e=%(e)s&f=%(f)s'
+    URL_HISTORICAL = 'https://www.google.com/finance/historical?output=csv&q=%s'
+'
     def __init__(self,symbol):
         self.symbol = symbol.upper()
 
@@ -1812,14 +1815,18 @@ class YStock:
             d=stop.month-1,e=stop.day,f=stop.year)
         # Date,Open,High,Low,Close,Volume,Adj Close
         lines = urllib.urlopen(url).readlines()
-        raw_data = [row.split(',') for row in lines[1:] if row.count(',')==6]
+        if any('CAPTCHA' in line for line in lines):
+            print url
+            raise
+        raw_data = [row.split(',') for row in lines[1:] if 5 <= row.count(',') <= 6]
         previous_adjusted_close = 0
         series = []
         raw_data.reverse()
         for row in raw_data:
+            if row[1] == '-': continue
             open, high, low = float(row[1]), float(row[2]), float(row[3])
             close, vol = float(row[4]), float(row[5])
-            adjusted_close = float(row[6])
+            adjusted_close = float(row[5]) if len(row)>5 else close
             adjustment = adjusted_close/close
             if previous_adjusted_close:
                 arithmetic_return = adjusted_close/previous_adjusted_close-1.0
