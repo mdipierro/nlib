@@ -253,8 +253,8 @@ class Canvas(object):
     def binary(self):
         return self.save(None)
 
-    def hist(self, data, bins=20, color='blue', legend=None):
-        q = self.ax.hist(data, bins)
+    def hist(self, data, bins=20, color='blue', normed=False, legend=None):
+        q = self.ax.hist(data, bins=bins, color=color, normed=normed)
         #if legend:
         #    self.legend.append((q[0], legend))
         return self
@@ -297,6 +297,10 @@ class Canvas(object):
     def imshow(self, data, interpolation='bilinear'):
         self.ax.imshow(data).set_interpolation(interpolation)
         return self
+        
+    def show(self):
+        FigureCanvasAgg(self.fig)
+        return self.fig
 
 class memoize(object):
     def __init__ (self, f):
