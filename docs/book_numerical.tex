@@ -284,18 +284,20 @@ You may skip this chapter if you are already familiar with the Python language.
 \index{Java}\index{C++}
 
 \begin{center}
-\begin{tabular}{|l|l|l|l|}
-\hline
-& {\bf Java/C++} & {\bf Python} \\ \hline
-assignment & $a=b;$ & $a=b$ \\ \hline
-comparison & if ($a==b$) & if $a==b$: \\ \hline
-loops & for($a=0;a<n;a++)$ & for $a$ in $range(0,n)$: \\ \hline
-block & Braces \{...\} & indentation \\ \hline
-function & $float f$(float $a$) \{ & def $f(a)$: \\ \hline
-function call & $f(a)$ & $f(a)$ \\ \hline
-arrays/lists & $a[i]$ & $a[i]$ \\ \hline
-member & $a$.member & $a$.member \\ \hline
-nothing & $null$ / $void*$ & $None$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  & {\bf Java/C++} & {\bf Python} \\
+  \midrule
+  assignment & $a=b;$ & $a=b$ \\
+  comparison & if ($a==b$) & if $a==b$: \\
+  loops & for($a=0;a<n;a++)$ & for $a$ in $range(0,n)$: \\
+  block & Braces \{...\} & indentation \\
+  function & $float f$(float $a$) \{ & def $f(a)$: \\
+  function call & $f(a)$ & $f(a)$ \\
+  arrays/lists & $a[i]$ & $a[i]$ \\
+  member & $a$.member & $a$.member \\
+  nothing & $null$ / $void*$ & $None$ \\
+  \bottomrule
 \end{tabular}
 \end{center}
 
@@ -2922,12 +2924,15 @@ The idea of the {\ft binary\_search} is used in the bisection method for solving
 Do not confuse {\ft T} notation with $\Theta$ notation:
 
 \begin{table}
-\begin{tabular}{|l|l|l|}\hline
-Algorithm & Recurrence Relationship & Running time \\ \hline
-Binary Search & $T(n) = T(\frac n 2) + \Theta (1)$ & $\Theta(log(n))$ \\ \hline
-Binary Tree Traversal & $T(n) = 2T(\frac n 2) + \Theta (1)$ & $\Theta(n)$ \\ \hline
-Optimal Sorted Matrix Search & $T(n) = 2T(\frac n 2) + \Theta (log(n))$ & $\Theta(n)$ \\ \hline
-Merge Sort & $T(n) = T(\frac n 2) + \Theta (n)$ & $\Theta(n log(n))$ \\ \hline
+\begin{tabular}{lll}
+  \toprule
+  Algorithm & Recurrence Relationship & Running time \\
+  \midrule
+  Binary Search & $T(n) = T(\frac n 2) + \Theta (1)$ & $\Theta(log(n))$ \\
+  Binary Tree Traversal & $T(n) = 2T(\frac n 2) + \Theta (1)$ & $\Theta(n)$ \\
+  Optimal Sorted Matrix Search & $T(n) = 2T(\frac n 2) + \Theta (log(n))$ & $\Theta(n)$ \\
+  Merge Sort & $T(n) = T(\frac n 2) + \Theta (n)$ & $\Theta(n log(n))$ \\
+  \bottomrule
 \end{tabular}
 \label{table1}
 \end{table}
@@ -4332,15 +4337,17 @@ to their cost.
 
 \medskip Consider the following explicit case:
 \begin{equation}
-\begin{tabular}{|l|l|l|l|l|l|l|}
-\hline
-& Firm & $i=0$ & Firm & $i=1$ & Firm & $i=2$ \\ \hline
-proposal & $c[0,j]$ & $r[0,j]$ & $c[1,j]$ & $r[1,j]$ & $c[2,j]$ & $r[2,j]$
-\\ \hline
-$j=0$ & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-$j=1$ & 1 & 5 & 2 & 8 & 1 & 4 \\ \hline
-$j=2$ & 2 & 6 & 3 & 9 & - & - \\ \hline
-$j=3$ & - & - & 4 & 12 & - & - \\ \hline
+\begin{tabular}{lllllll}
+  \toprule
+  & Firm & $i=0$ & Firm & $i=1$ & Firm & $i=2$ \\
+  \midrule
+  proposal & $c[0,j]$ & $r[0,j]$ & $c[1,j]$ & $r[1,j]$ & $c[2,j]$ & $r[2,j]$
+  \\
+  $j=0$ & 0 & 0 & 0 & 0 & 0 & 0 \\
+  $j=1$ & 1 & 5 & 2 & 8 & 1 & 4 \\
+  $j=2$ & 2 & 6 & 3 & 9 & - & - \\
+  $j=3$ & - & - & 4 & 12 & - & - \\
+  \bottomrule
 \end{tabular}
 \tag{Table 1}
 \end{equation}
@@ -4386,16 +4393,18 @@ if we invest $k$ million dollars in firm $0$:
 f[0,k]=\max_{j|c[0,j]<k}r[0,j]  \label{stage0}
 \end{equation}
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-$k$ & $f[0,k]$ \\ \hline
-0 & 0 \\ \hline
-1 & 5 \\ \hline
-2$^{*}$ & 6$^{*}$ \\ \hline
-3 & 6 \\ \hline
-4 & 6 \\ \hline
-5 & 6 \\ \hline
-\end{tabular}
+  \begin{tabular}{ll}
+    \toprule
+    $k$ & $f[0,k]$ \\
+    \midrule
+    0 & 0 \\
+    1 & 5 \\
+    2$^{*}$ & 6$^{*}$ \\
+    3 & 6 \\
+    4 & 6 \\
+    5 & 6 \\
+    \bottomrule
+  \end{tabular}
 \label{table0}
 \end{equation}
 STAGE TWO: we maximize the return of investment considering offers from firm $%
@@ -4405,15 +4414,17 @@ investment if we invest $k$ million dollars in firm $0$ and firm $1$:
 f[1,k]=\max_{j|c[1,j]<k}r[1,j]+f[0,k-c[0,j]]  \label{stage1}
 \end{equation}
 \begin{equation}
-\begin{tabular}{|l|l|l|l|}
-\hline
-$k$ & $c[2,j]$ & $f[0,k-c[0,j]]$ & $f[1,k]$ \\ \hline
-0 & 0 & 0 & 0 \\ \hline
-1 & 0 & 1 & 5 \\ \hline
-2 & 2 & 0 & 8 \\ \hline
-3 & 2 & 1 & 9 \\ \hline
-4 & 3 & 1 & 13 \\ \hline
-5$^{*}$ & 4$^{*}$ & 1$^{*}$ & 18$^{*}$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  $k$ & $c[2,j]$ & $f[0,k-c[0,j]]$ & $f[1,k]$ \\
+  \midrule
+  0 & 0 & 0 & 0 \\
+  1 & 0 & 1 & 5 \\
+  2 & 2 & 0 & 8 \\
+  3 & 2 & 1 & 9 \\
+  4 & 3 & 1 & 13 \\
+  5$^{*}$ & 4$^{*}$ & 1$^{*}$ & 18$^{*}$ \\
+  \bottomrule
 \end{tabular}
 \label{table1}
 \end{equation}
@@ -4425,15 +4436,17 @@ and firm $2$:
 f[2,k]=\max_{j|c[2,j]<k}r[2,j]+f[1,k-c[1,j]]  \label{stage2}
 \end{equation}
 \begin{equation}
-\begin{tabular}{|l|l|l|l|}
-\hline
-$k$ & $c[2,j]$ & $f[1,k-c[1,j]]$ & $f[2,k]$ \\ \hline
-0 & 0 & 0 & 0 \\ \hline
-1 & 0 & 1 & 5 \\ \hline
-2 & 2 & 0 & 8 \\ \hline
-3 & 2 & 1 & 9 \\ \hline
-4 & 1 & 3 & 13 \\ \hline
-5$^{*}$ & 2$^{*}$ & 3$^{*}$ & 18$^{*}$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  $k$ & $c[2,j]$ & $f[1,k-c[1,j]]$ & $f[2,k]$ \\
+  \midrule
+  0 & 0 & 0 & 0 \\
+  1 & 0 & 1 & 5 \\
+  2 & 2 & 0 & 8 \\
+  3 & 2 & 1 & 9 \\
+  4 & 1 & 3 & 13 \\
+  5$^{*}$ & 2$^{*}$ & 3$^{*}$ & 18$^{*}$ \\
+  \bottomrule
 \end{tabular}
 \label{table2}
 \end{equation}
@@ -6449,22 +6462,19 @@ We want to find the $\{c_i\}$ that minimizes the sum of the squared distances be
 \end{equation}
 If we define the matrix $A$ and $B$ as
 \begin{equation}
-A=\left(
-\begin{tabular}{cccc}
-$\frac{f_0(t_0)}{do_0}$ & $\frac{f_1(t_0)}{do_0}$ & $\frac{f_2(t_0)}{do_0}$ &\dots\\
-$\frac{f_0(t_1)}{do_1}$ & $\frac{f_1(t_1)}{do_1}$ & $\frac{f_2(t_1)}{do_1}$ &\dots\\
-$\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &\dots\\
-\dots& \dots& \dots &\dots 
-\end{tabular}
-\right) \qquad b =
-\left(
-\begin{tabular}{c}
-$\frac{o_0}{do_0}$ \\
-$\frac{o_1}{do_1}$ \\
-$\frac{o_2}{do_2}$ \\
-\dots
-\end{tabular}
-\right)
+A=\begin{pmatrix}
+\frac{f_0(t_0)}{do_0} & \frac{f_1(t_0)}{do_0} & \frac{f_2(t_0)}{do_0} &\dots\\
+\frac{f_0(t_1)}{do_1} & \frac{f_1(t_1)}{do_1} & \frac{f_2(t_1)}{do_1} &\dots\\
+\frac{f_0(t_2)}{do_2} & \frac{f_1(t_2)}{do_2} & \frac{f_2(t_2)}{do_2} &\dots\\
+\dots& \dots& \dots &\dots \\
+\end{pmatrix}
+\qquad b =
+\begin{pmatrix}
+\frac{o_0}{do_0} \\
+\frac{o_1}{do_1} \\
+\frac{o_2}{do_2} \\
+\dots \\
+\end{pmatrix}
 \end{equation}
 then the problem is reduced to
 \begin{align}
@@ -8907,12 +8917,15 @@ x_i=(7^5x_{i-1})\textrm{mod}(2^{31}-1)  \label{Mersenne}
 \end{equation}
 Here are some examples of MCG used by various systems:
 
-\begin{tabular}{|lrrr|} \hline
-Source & $m$ & $a$ & $c$ \\ \hline
-Numerical Recipes & $2^{32}$ & 1664525 & 1013904223 \\
-glibc (used by GCC) & $2^{32}$ & 1103515245 & 12345 \\
-Apple CarbonLib & $2^{31} - 1$ & 16807 & 0 \\
-java.util.Random & $2^{48}$ & 25214903917 & 11 \\ \hline
+\begin{tabular}{lrrr}
+  \toprule
+  Source & $m$ & $a$ & $c$ \\
+  \midrule
+  Numerical Recipes & $2^{32}$ & 1664525 & 1013904223 \\
+  glibc (used by GCC) & $2^{32}$ & 1103515245 & 12345 \\
+  Apple CarbonLib & $2^{31} - 1$ & 16807 & 0 \\
+  java.util.Random & $2^{48}$ & 25214903917 & 11 \\
+  \bottomrule
 \end{tabular}
 
 When $c$ is set to zero, a linear congruential generator is also called a multiplicative congruential generator.
@@ -11686,16 +11699,19 @@ def TREE(i,j):
 
 Here are values of this parameter for each type of network:
 
-\begin{tabular}{|l|lll|} \hline
-Network              & Links & Diameter & Width \\ \hline
-completely connected & $p(p-1)/2$   & $1$   & $p-1$ \\
-switch               & $p$          & $2$   & $1$ \\
-1D mesh              & $p-1$        & $p-1$ & $1$ \\
-nD mesh              & $n(p^{\frac1n}-1)p^{\frac{n-1}n}$ & $n$ & $p^{\frac23}$ \\
-1D torus             & $p$          & $\frac{p}2$ & $2$ \\
-nD torus             & $np$         & $\frac{n}2 p^{\frac1n}$ & $2n$ \\
-hypercube            & $\frac{p}2 \log_2 p$ & $\log_2 p$ & $log_2 p$ \\
-tree                 & $p-1$        & $\log_2 p$ & $1$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  Network              & Links & Diameter & Width \\
+  \midrule
+  completely connected & $p(p-1)/2$   & $1$   & $p-1$ \\
+  switch               & $p$          & $2$   & $1$ \\
+  1D mesh              & $p-1$        & $p-1$ & $1$ \\
+  nD mesh              & $n(p^{\frac1n}-1)p^{\frac{n-1}n}$ & $n$ & $p^{\frac23}$ \\
+  1D torus             & $p$          & $\frac{p}2$ & $2$ \\
+  nD torus             & $np$         & $\frac{n}2 p^{\frac1n}$ & $2n$ \\
+  hypercube            & $\frac{p}2 \log_2 p$ & $\log_2 p$ & $log_2 p$ \\
+  tree                 & $p-1$        & $\log_2 p$ & $1$ \\
+  \bottomrule
 \end{tabular}
 
 \begin{figure}[ht]
@@ -12289,19 +12305,21 @@ The use of {\ft barrier} is usually a symptom of bad code because it forces para
 
 In the following table, we compute the order of growth or typical running times for the most common network topologies for typical communication algorithms:
 
-\begin{tabular}{|l|lll|} \hline
-Network & Send/Recv & One2All Bcast & Scatter \\ \hline
-completely connected & $1$ & $1$ & $1$ \\
-switch  & $2$ & $\log p$ & $2p$ \\
-1D mesh  & $p-1$ & $p-1$ & $p^2$ \\
-2D mesh  & $2(p^{\frac12}-1)$ & $\sqrt{p}$ & $p^2$ \\
-3D mesh  & $3(p^{\frac13}-1)$ & $p^{1/3}$ & $p^2$ \\
-1D torus  & $p/2$ & $p/2$ & $p^2$ \\
-2D torus  & $2p^{\frac12}$ & $\sqrt{p}/2$ & $p^2$ \\
-3D torus  & $3/2 p^{\frac13}$ & $p^{1/3}/2$ & $p^2$ \\
-hypercube  & $\log p$ & $\log_2 p$ & $p$ \\
-tree  & $\log p$ & $\log p$ & $p$
-\\ \hline
+\begin{tabular}{llll}
+  \toprule
+  Network & Send/Recv & One2All Bcast & Scatter \\
+  \midrule
+  completely connected & $1$ & $1$ & $1$ \\
+  switch  & $2$ & $\log p$ & $2p$ \\
+  1D mesh  & $p-1$ & $p-1$ & $p^2$ \\
+  2D mesh  & $2(p^{\frac12}-1)$ & $\sqrt{p}$ & $p^2$ \\
+  3D mesh  & $3(p^{\frac13}-1)$ & $p^{1/3}$ & $p^2$ \\
+  1D torus  & $p/2$ & $p/2$ & $p^2$ \\
+  2D torus  & $2p^{\frac12}$ & $\sqrt{p}/2$ & $p^2$ \\
+  3D torus  & $3/2 p^{\frac13}$ & $p^{1/3}/2$ & $p^2$ \\
+  hypercube  & $\log p$ & $\log_2 p$ & $p$ \\
+  tree  & $\log p$ & $\log p$ & $p$ \\
+  \bottomrule
 \end{tabular}
 
 It is obvious that the completely connected is the fastest network but also the most expensive to build. The tree is a cheap compromise. The switch tends to be faster for arbitrary point-to-point communication, but the switch comes to a premium. Multidimensional meshes and toruses become cost-effective when solving problems that are naturally defined on a grid because they only require next neighbor interaction.
@@ -12710,15 +12728,18 @@ int a = b+c;
 The converter also checks the types for consistency. The return type is determined automatically from the type of the object that is returned. Python objects that have no C99 equivalent like lists, tuples, dictionaries, and sets are not supported. Other types are converted based on the following table:
 
 \begin{center}
-\begin{tabular}{|l|l|} \hline
-{\bf ocl} & {\bf C99/OpenCL} \\ \hline
-{\ft a = new}\_{\it type}{\ft (...)} & {\it type} {\ft  a = ...;} \\
-{\ft a = new\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft *a = ...;} \\
-{\ft a = new\_prt\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft **a = ...;} \\
-{\ft None} & {\ft null} \\
-{\ft ADDR(x)} & {\ft \&x} \\
-{\ft REFD(x)} & {\ft *x} \\
-{\ft CAST(prt\_}{\it type}{\ft ,x)} & {\ft (}{\it type}{\ft *)x} \\ \hline
+\begin{tabular}{ll}
+  \toprule
+  {\bf ocl} & {\bf C99/OpenCL} \\
+  \midrule
+  {\ft a = new}\_{\it type}{\ft (...)} & {\it type} {\ft  a = ...;} \\
+  {\ft a = new\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft *a = ...;} \\
+  {\ft a = new\_prt\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft **a = ...;} \\
+  {\ft None} & {\ft null} \\
+  {\ft ADDR(x)} & {\ft \&x} \\
+  {\ft REFD(x)} & {\ft *x} \\
+  {\ft CAST(prt\_}{\it type}{\ft ,x)} & {\ft (}{\it type}{\ft *)x} \\
+  \bottomrule
 \end{tabular}
 \end{center}
 
@@ -12840,34 +12861,36 @@ In this program, we have defined multiple kernels and complied them at once. We 
 
 \goodbreak\subsection{Symbols}
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-$\infty $ & infinity \\ \hline
-$\wedge $ & and \\ \hline
-$\vee $ & or \\ \hline
-$\cap $ & intersection \\ \hline
-$\cup $ & union \\ \hline
-$\in $ & element or In \\ \hline
-$\forall $ & for each \\ \hline
-$\exists $ & exists \\ \hline
-$\Rightarrow $ & implies \\ \hline
-: & such that \\ \hline
-iff & if and only if \\ \hline
-\end{tabular}
+  \begin{tabular}{ll}
+    \toprule
+    $\infty $ & infinity \\
+    $\wedge $ & and \\
+    $\vee $ & or \\
+    $\cap $ & intersection \\
+    $\cup $ & union \\
+    $\in $ & element or In \\
+    $\forall $ & for each \\
+    $\exists $ & exists \\
+    $\Rightarrow $ & implies \\
+    : & such that \\
+    iff & if and only if \\
+    \bottomrule
+  \end{tabular}
 \end{equation}
 \goodbreak\subsection{Set theory}
 
 \subsubsection{Important sets}
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-${\bf 0}$ & empty set \\ \hline
-${\Bbb N}$ & natural numbers \{0,1,2,3,\dots\} \\ \hline
-${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,\dots\} \\ \hline
-${\Bbb Z}$ & all integers \{\dots,-3,-2,-1,0,1,2,3,\dots\} \\ \hline
-${\Bbb R}$ & all real numbers \\ \hline
-${\Bbb R}^{+}$ & positive real numbers (not including 0) \\ \hline
-${\Bbb R}^{0}$ & positive numbers including 0 \\ \hline
+\begin{tabular}{ll}
+  \toprule
+  ${\bf 0}$ & empty set \\
+  ${\Bbb N}$ & natural numbers \{0,1,2,3,\dots\} \\
+  ${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,\dots\} \\
+  ${\Bbb Z}$ & all integers \{\dots,-3,-2,-1,0,1,2,3,\dots\} \\
+  ${\Bbb R}$ & all real numbers \\
+  ${\Bbb R}^{+}$ & positive real numbers (not including 0) \\
+  ${\Bbb R}^{0}$ & positive numbers including 0 \\
+  \bottomrule
 \end{tabular}
 \end{equation}
 \subsubsection{Set operations}
@@ -13161,16 +13184,18 @@ For any $a\in {\Bbb R}$ or $a=\infty $%
 \end{equation}
 \subsubsection{Table of derivatives}
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-$f(x)$ & $f^{\prime }(x)$ \\ \hline
-$c$ & $0$ \\ \hline
-$ax^n$ & $anx^{n-1}$ \\ \hline
-$\log x$ & $\frac 1x$ \\ \hline
-$e^x$ & $e^x$ \\ \hline
-$a^x$ & $a^x\log a$ \\ \hline
-$x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
-\end{tabular}
+  \begin{tabular}{ll}
+    \toprule
+    $f(x)$ & $f^{\prime }(x)$ \\
+    \midrule
+    $c$ & $0$ \\
+    $ax^n$ & $anx^{n-1}$ \\
+    $\log x$ & $\frac 1x$ \\
+    $e^x$ & $e^x$ \\
+    $a^x$ & $a^x\log a$ \\
+    $x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\
+    \bottomrule
+  \end{tabular}
 \end{equation}
 
 \subsubsection{Practical rules to compute derivatives}
