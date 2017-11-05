@@ -284,18 +284,20 @@ You may skip this chapter if you are already familiar with the Python language.
 \index{Java}\index{C++}
 
 \begin{center}
-\begin{tabular}{|l|l|l|l|}
-\hline
-& {\bf Java/C++} & {\bf Python} \\ \hline
-assignment & $a=b;$ & $a=b$ \\ \hline
-comparison & if ($a==b$) & if $a==b$: \\ \hline
-loops & for($a=0;a<n;a++)$ & for $a$ in $range(0,n)$: \\ \hline
-block & Braces \{...\} & indentation \\ \hline
-function & $float f$(float $a$) \{ & def $f(a)$: \\ \hline
-function call & $f(a)$ & $f(a)$ \\ \hline
-arrays/lists & $a[i]$ & $a[i]$ \\ \hline
-member & $a$.member & $a$.member \\ \hline
-nothing & $null$ / $void*$ & $None$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  & {\bf Java/C++} & {\bf Python} \\
+  \midrule
+  assignment & $a=b;$ & $a=b$ \\
+  comparison & if ($a==b$) & if $a==b$: \\
+  loops & for($a=0;a<n;a++)$ & for $a$ in $range(0,n)$: \\
+  block & Braces \{...\} & indentation \\
+  function & $float f$(float $a$) \{ & def $f(a)$: \\
+  function call & $f(a)$ & $f(a)$ \\
+  arrays/lists & $a[i]$ & $a[i]$ \\
+  member & $a$.member & $a$.member \\
+  nothing & $null$ / $void*$ & $None$ \\
+  \bottomrule
 \end{tabular}
 \end{center}
 
@@ -420,11 +422,9 @@ Most numerical problems are dealt with simply using {\ft float}:
 \end{lstlisting}
 
 Floating point numbers are internally represented as follows:
-
 \begin{equation}
 x = \pm m 2^e
 \end{equation}
-
 where $x$ is the number, $m$ is called the {\it mantissa} and is zero or a number in the range [1,2), and $e$ is called the {\it exponent}. The sign, $m$, and $e$ can be computed using the following algorithm, which also writes their representation in binary:
 
 %%% META:FILE:test.py
@@ -2529,7 +2529,6 @@ n\rightarrow \infty $
 \end{itemize}
 
 We can rewrite the preceding definitions in a more formal way:
-
 \begin{align}
 O(g(n)) &\equiv \left\{ f(n):\exists n_0,c_0,\ \forall n>n_0,\
 0\leq f(n)<c_0g(n)\right\} \\
@@ -2539,7 +2538,6 @@ n>n_0,\ 0\leq c_0g(n)<f(n)\right\} \\
 o(g(n)) &\equiv O(g(n))-\Omega (g(n)) \\
 \omega (g(n)) &\equiv \Omega (g(n))-O(g(n))
 \end{align}
-
 We can also provide a practical rule to determine if a function $f$ belongs to one of the previous sets defined by $g$.
 
 Compute the limit
@@ -2547,7 +2545,6 @@ Compute the limit
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=a
 \end{equation}
 and look up the result in the following table:
-
 \begin{equation}
 \begin{tabular}{lllll}
 $a$ is positive or zero & $\Longrightarrow $ & $f(n)\in O(g(n))$ & $%
@@ -2562,7 +2559,6 @@ $a$ is infinity & $\Longrightarrow $ & $f(n)\in \omega (g(n))$ & $%
 \Leftrightarrow $ & $f\succ g$%
 \end{tabular}
 \end{equation}
-
 Notice the preceding practical rule assumes the limits exist.
 
 Here is an example:
@@ -2579,13 +2575,11 @@ we conclude that $n\log n+3n$ is in $O(n^2)$.
 Given an algorithm $A$ that acts on input of size $n$, we say that the algorithm is $O(g(n))$ if its worst running time as a function of $n$ is in $O(g(n))$. Similarly, we say that the algorithm is in $\Omega(g(n))$ if its best running time is in $\Omega(g(n))$. We also say that the algorithm is in $ \Theta(g(n))$ if both its best running time and its worst running time are in  $\Theta(g(n))$.
 
 More formally, we can write the following:
-
 \begin{align}
 T_{worst}(n) \in O(g(n)) &\Rightarrow A \in O(g(n)) \\
 T_{best}(n) \in \Omega(g(n)) &\Rightarrow A \in \Omega(g(n)) \\
 A \in O(g(n)) \text{ and } A \in O(g(n))  &\Rightarrow A \in \Theta(g(n))
 \end{align}
-
 We still have not solved the problem of computing the best, average, and worst running times.
 
 \goodbreak\subsection{Best and worst running times}
@@ -2635,12 +2629,10 @@ def loop0(n):
 \end{lstlisting}
 
 which we can map into
-
 \begin{equation}
 T(n)=\sum_{i=0}^{i<n}1=n\in \Theta (n)\Rightarrow \text{{\ft loop0}}\in
 \Theta (n)
 \end{equation}
-
 Here is a similar example where we have a single loop (corresponding to a single sum) that loops $n^2$ times:
 
 \begin{lstlisting}
@@ -2650,12 +2642,10 @@ def loop1(n):
 \end{lstlisting}
 
 and here is the corresponding running time formula:
-
 \begin{equation}
 T(n)=\sum_{i=0}^{i<n^2}1=n^2\in \Theta (n^2)\Rightarrow \text{{\tt loop1}}%
 \in \Theta (n^2)
 \end{equation}
-
 The following provides an example of nested loops:
 
 \begin{lstlisting}
@@ -2666,12 +2656,10 @@ def loop2(n):
 \end{lstlisting}
 
 Here the time for the inner loop is directly determined by $n$ and does not depend on the outer loop's counter; therefore
-
 \begin{equation}
 T(n)=\sum_{i=0}^{i<n}\sum_{j=0}^{j<n}1=\sum_{i=0}^{i<n}n=n^2+\ldots\in \Theta
 (n^2)\Rightarrow \text{{\tt loop2}}\in \Theta (n^2)
 \end{equation}
-
 This is not always the case. In the following code, the inner loop does depend on the value of the outer loop:
 
 \begin{lstlisting}
@@ -2682,12 +2670,10 @@ def loop3(n):
 \end{lstlisting}
 
 Therefore, when we write its running time in terms of a sum, care must be taken that the upper limit of the inner sum is the upper limit of the outer sum:
-
 \begin{equation}
 T(n)=\sum_{i=0}^{i<n}\sum_{j=0}^{j<i}1=\sum_{i=0}^{i<n}i=\frac 12n(n-1)\in
 \Theta (n^2)\Rightarrow \text{{\tt loop3}}\in \Theta (n^2)
 \end{equation}
-
 The appendix of this book provides examples of typical sums that come up in these types of formulas and their solutions.
 
 Here is one more example falling in the same category, although the inner loop depends quadratically on the index of the outer loop:
@@ -2701,13 +2687,11 @@ def loop4(n):
 \end{lstlisting}
 
 Therefore the formula for the running time is more complicated:
-
 \begin{align}
 T(n) &= \sum_{i=0}^{i<n}\sum_{j=0}^{j<i^2}1=\sum_{i=0}^{i<n}i^2=\frac
 16n(n-1)(2n-1)\in \Theta (n^3) \\
 &\Rightarrow \text{{\tt loop4}}\in \Theta (n^3)
 \end{align}
-
 If the algorithm does not contain nested loops, then we need to compute the running time of each loop and take the maximum:
 
 \subsubsection{Example: concatenate0}
@@ -2718,12 +2702,10 @@ def concatenate0(n):
     for j in xrange(n*n*n):
         print j
 \end{lstlisting}
-
 \begin{equation}
 T(n)=\Theta (\max (n^2,n^3))\Rightarrow \text{{\tt concatenate0}}\in \Theta
 (n^3)
 \end{equation}
-
 If there is an if statement, we need to compute the running time for each condition and pick the maximum when computing the worst running time, or the minimum for the best running time:
 
 \begin{lstlisting}
@@ -2742,20 +2724,17 @@ T_{best}(n) &= \Theta (\min (n^2,n^3)) &&\Rightarrow \text{{\tt concatenate1}}\i
 \end{alignat}
 
 This can be expressed more formally as follows:
-
 \begin{align}
 O(f(n))+\Theta (g(n)) &= \Theta (g(n))\text{ iff }f(n)\in O(g(n)) \\
 \Theta (f(n))+\Theta (g(n)) &= \Theta (g(n))\text{ iff }f(n)\in O(g(n)) \\
 \Omega (f(n))+\Theta (g(n)) &= \Omega (f(n))\text{ iff }f(n)\in \Omega (g(n))
 \end{align}
-
 which we can apply as in the following example:
 \begin{equation}
 T(n)=[\stackunder{\Theta (n^2)}{\underbrace{n^2+n+3}}+\stackunder{\Theta
 (e^n)}{\underbrace{e^n-\log n}}]\in \Theta (e^n)\text{ because }n^2\in
 O(e^n)
 \end{equation}
-
 \goodbreak\section{Recurrence relations}
 
 \index{recurrence relations}\index{mergesort}
@@ -2811,7 +2790,6 @@ Consider the {\ft merge} function first. At each step, it increases either $i$ o
 \begin{equation}
 \textrm{merge} \in \Theta(r-p)
 \end{equation}
-
 We cannot compute the running time of the {\ft mergesort} function using the same direct analysis, but we can assume its running time is $T(n)$, where $n=r-p$ and $n$ is the size of the input data to be sorted and also the difference between its two arguments $p$ and $r$. We can express this running time in terms of its components:
 \begin{itemize}
 \item It calls itself twice on half of the input data, $2T(n/2)$
@@ -2819,15 +2797,12 @@ We cannot compute the running time of the {\ft mergesort} function using the sam
 \end{itemize}
 
 We can summarize this into
-
 \begin{equation}
 T(n) = 2T(n/2) + n
 \end{equation}
-
 This is called a {\it recurrence relation}. We turned the problem of computing the running time of the algorithm into the problem of solving the recurrence relation. This is now a math problem.
 
 Some recurrence relations can be difficult to solve, but most of them follow in one of these categories:
-
 \begin{align}
 T(n)  &= aT(n-b)+\Theta (f(n))\Rightarrow T(n)\in \Theta (max(a^n,nf(n))) \\
 T(n)  &= T(b)+T(n-b-a)+\Theta(f(n))\Rightarrow T(n)\in \Theta (nf(n)) \\
@@ -2868,12 +2843,10 @@ T(e^k) &= 2T(e^{k/2})+k \\
 so that we can now apply the master theorem to $S$. We obtain that $S(k)\in
 \Theta (k\log k)$. Once we have the order of growth of $S$, we can determine
 the order of growth of $T(n)$ by substitution:
-
 \begin{equation}
 T(n)=S(\log n)\in \Theta (\stackunder{k}{\underbrace{\log n}}\log
 \stackunder{k}{\underbrace{\log n}})
 \end{equation}
-
 Note that there are recurrence relations that cannot be solved with any of
 the methods described.
 
@@ -2886,12 +2859,10 @@ def factorial1(n):
     else:
         return n*factorial1(n-1)
 \end{lstlisting}
-
 \begin{equation}
 T(n)=T(n-1)+1\Rightarrow T(n)\in \Theta (n)\Rightarrow \text{{\tt factorial1}%
 }\in \Theta (n)
 \end{equation}
-
 \begin{lstlisting}
 def recursive0(n):
     if n==0:
@@ -2900,12 +2871,10 @@ def recursive0(n):
         loop3(n)
         return n*n*recursive0(n-1)
 \end{lstlisting}
-
 \begin{equation}
 T(n)=T(n-1)+P_2(n)\Rightarrow T(n)\in \Theta (n^2)\Rightarrow \text{{\tt %
 recursive0}}\in \Theta (n^3)
 \end{equation}
-
 \begin{lstlisting}
 def recursive1(n):
     if n==0:
@@ -2914,12 +2883,10 @@ def recursive1(n):
         loop3(n)
         return n*recursive1(n-1)*recursive1(n-1)
 \end{lstlisting}
-
 \begin{equation}
 T(n)=2T(n-1)+P_2(n)\Rightarrow T(n)\in \Theta (2^n)\Rightarrow \text{{\tt %
 recursive1}}\in \Theta (2^n)
 \end{equation}
-
 \begin{lstlisting}
 def recursive2(n):
     if n==0:
@@ -2928,12 +2895,10 @@ def recursive2(n):
         a=factorial0(n)
         return a*recursive2(n/2)*recursive1(n/2)
 \end{lstlisting}
-
 \begin{equation}
 T(n)=2T(n/2)+P_1(n)\Rightarrow T(n)\in \Theta (n\log n)\Rightarrow \text{%
 {\tt recursive2}}\in \Theta (n\log n)
 \end{equation}
-
 One example of practical interest for us is the binary search below. It finds the location of the element in a sorted input array $A$:
 
 \begin{lstlisting}
@@ -2951,22 +2916,23 @@ def binary_search(A,element):
 \end{lstlisting}
 
 Notice that this algorithm does not appear to be recursive, but in practice, it is because of the apparently infinite while loop. The content of the while loop runs in constant time and then loops again on a problem of half of the original size:
-
 \begin{equation}
 T(n)=T(n/2)+1\Rightarrow \text{{\tt binary\_search}}\in \Theta(\log n)
 \end{equation}
-
 The idea of the {\ft binary\_search} is used in the bisection method for solving nonlinear equations.
 
 Do not confuse {\ft T} notation with $\Theta$ notation:
 
 \begin{table}
-\begin{tabular}{|l|l|l|}\hline
-Algorithm & Recurrence Relationship & Running time \\ \hline
-Binary Search & $T(n) = T(\frac n 2) + \Theta (1)$ & $\Theta(log(n))$ \\ \hline
-Binary Tree Traversal & $T(n) = 2T(\frac n 2) + \Theta (1)$ & $\Theta(n)$ \\ \hline
-Optimal Sorted Matrix Search & $T(n) = 2T(\frac n 2) + \Theta (log(n))$ & $\Theta(n)$ \\ \hline
-Merge Sort & $T(n) = T(\frac n 2) + \Theta (n)$ & $\Theta(n log(n))$ \\ \hline
+\begin{tabular}{lll}
+  \toprule
+  Algorithm & Recurrence Relationship & Running time \\
+  \midrule
+  Binary Search & $T(n) = T(\frac n 2) + \Theta (1)$ & $\Theta(log(n))$ \\
+  Binary Tree Traversal & $T(n) = 2T(\frac n 2) + \Theta (1)$ & $\Theta(n)$ \\
+  Optimal Sorted Matrix Search & $T(n) = 2T(\frac n 2) + \Theta (log(n))$ & $\Theta(n)$ \\
+  Merge Sort & $T(n) = T(\frac n 2) + \Theta (n)$ & $\Theta(n log(n))$ \\
+  \bottomrule
 \end{tabular}
 \label{table1}
 \end{table}
@@ -3027,15 +2993,12 @@ def mergesort_nonrecursive(A):
 \end{lstlisting}
 
 Notice that this has the same running time as the original {\ft mergesort} because, although it is not recursive, it performs the same operations:
-
 \begin{align}
 T_{best} &\in \Theta (n\log n) \\
 T_{average} &\in \Theta (n\log n) \\
 T_{worst} &\in \Theta (n\log n) \\
 T_{memory} &\in \Theta (1)
 \end{align}
-
-\index{greedy algorithms}
 
 {\bf Greedy algorithms}
 \index{greedy algorithms} work in phases. In each phase, a decision is made
@@ -3075,13 +3038,11 @@ One case of a top-down approach that is very general and falls under the umbrell
 \index{Fibonacci series}
 
 Consider, for example, Fibonacci numbers:
-
 \begin{align}
 \textrm{Fib}(0) &= 0\\
 \textrm{Fib}(1) &= 1\\
 \textrm{Fib}(n) &= \textrm{Fib}(n-1)+\textrm{Fib}(n-2)\textrm{ for }n>1
 \end{align}
-
 which we can implement using divide-and-conquer as follows:
 
 \begin{lstlisting}
@@ -3330,13 +3291,11 @@ def partition(A,i,j):
 \end{lstlisting}
 
 The running time of the quicksort is given by
-
 \begin{align}
 T_{best} &\in \Theta (n\log n) \\
 T_{average} &\in \Theta (n\log n) \\
 T_{worst} &\in \Theta (n^2)
 \end{align}
-
 The quicksort can also be randomized by picking the pivot, {\ft A[r]}, at random:
 \begin{lstlisting}
 def quicksort(A,p=0,r=-1):
@@ -3455,14 +3414,12 @@ def heapsort(A):
 \end{lstlisting}
 
 In the average and worst cases, it runs as fast as the quicksort, but in the best case, it is linear:
-
 \begin{align}
 T_{best} &\in \Theta (n) \\
 T_{average} &\in \Theta (n\log n) \\
 T_{worst} &\in \Theta (n\log n) \\
 T_{memory} &\in \Theta (1)
 \end{align}
-
 \index{priority queue}
 
 A heap can be used to implement a priority queue, for example, storage from which we can efficiently extract the largest element.
@@ -3491,14 +3448,12 @@ def heap_push(A,value):
 \end{lstlisting}
 
 The running times for {\ft heap\_pop} and {\ft heap\_push} are the same:
-
 \begin{align}
 T_{best} &\in \Theta (1) \\
 T_{average} &\in \Theta (\log n) \\
 T_{worst} &\in \Theta (\log n) \\
 T_{memory} &\in \Theta (1)
 \end{align}
-
 Here is an example:
 
 \begin{lstlisting}
@@ -3613,13 +3568,11 @@ insertion or deletion. They are rebalanced in such a way that for each node, the
 height of the left subtree minus the height of the right subtree is more or less the same. The rebalance operation can be done in $O(\log n)$.
 
 For an AVL tree, the time for inserting or removing an element is given by
-
 \begin{align}
 T_{best} &\in \Theta (1) \\
 T_{average} &\in \Theta (\log n) \\
 T_{worst} &\in \Theta (\log n)
 \end{align}
-
 \index{k-tree}\index{B-tree}
 
 Until now, we have considered binary trees (each node has two children and
@@ -3749,7 +3702,6 @@ T_{average} &\in \Theta (n_E+n_V) \\
 T_{worst} &\in \Theta (n_E+n_V) \\
 T_{memory} &\in \Theta (n)
 \end{align}
-
 \subsection{Depth-first search}
 
 \index{depth-first search}
@@ -3787,7 +3739,6 @@ T_{average} &\in \Theta (n_E+n_V) \\
 T_{worst} &\in \Theta (n_E+n_V) \\
 T_{memory} &\in \Theta (1)
 \end{align}
-
 \subsection{Disjoint sets}
 
 \index{disjoint sets}
@@ -3892,7 +3843,6 @@ The Kruskal algorithm goes as follows:
 T_{worst} &\in \Theta (n_E\log n_V) \\
 T_{memory} &\in \Theta (n_E)
 \end{align}
-
 We provide an example of application in the next subsection.
 
 \goodbreak\subsection{Minimum spanning tree: Prim}
@@ -3952,7 +3902,6 @@ The Prim algorithm, when using a priority queue for $Q$, goes as follows:
 T_{worst} &\in \Theta (n_E+n_V\log n_V) \\
 T_{memory} &\in \Theta (n_E)
 \end{align}
-
 One important application of the minimum spanning tree is in evolutionary biology. Consider, for example, the DNA for the genes that produce hemoglobin, a molecule responsible for the transport of oxygen in blood. This protein is present in every animal, and the gene is also present in the DNA of every known animal. Yet its DNA structure is a little different. One can select a pool of animals and, for each two of them, compute the similarity of the DNA of their hemoglobin genes using the {\ft lcs} algorithm discussed later. One can then link each two animals by a metric that represents how similar the two animals are. We can then run the Prim or the Kruskal algorithm to find the minimum spanning tree. The tree represents the most likely evolutionary tree connecting those animal species. Actually, three genes are responsible for hemoglobin ({\it HBA1}, {\it HBA2}, and {\it HBB}). By performing the analysis on different genes and comparing the results, it is possible to establish a consistency check of the results.~\cite{evolutionary}
 
 Similar studies are performed routinely in evolutionary biology. They can also be applied to viruses to understand how viruses evolved over time.~\cite{korber}
@@ -4011,7 +3960,6 @@ The Dijkstra algorithm goes as follows:
 T_{worst} &\in \Theta (n_E+n_V\log n_V) \\
 T_{memory} &\in \Theta (n_E)
 \end{align}
-
 An application of the Dijkstra is in solving a maze such as the one built when discussing disjoint sets. To use the Dijkstra algorithm, we need to generate a maze, take the links representing torn-down walls, and use them to build an undirected graph. This is done by symmetrizing the links (if $i$ and $j$ are connected, $j$ and $i$ are also connected) and adding to each link a length (1, because all links connect next-neighbor cells):
 
 
@@ -4132,7 +4080,6 @@ We managed to compress the original data by a factor 2.57.
 
 We can ask how good is this compression factor.
 The maximum theoretical best compression factor is given by the Shannon {\it entropy}, defined as
-
 \begin{equation}
 E = -\sum_u w_i \log_2 w_i
 \end{equation}
@@ -4351,7 +4298,6 @@ This algorithm is dominated by the sort; therefore
 \begin{equation}
 T_{worst}(x)\in O(n\log n)
 \end{equation}
-
 \subsection{Discrete Knapsack}
 \index{discrete knapsack}
 
@@ -4391,15 +4337,17 @@ to their cost.
 
 \medskip Consider the following explicit case:
 \begin{equation}
-\begin{tabular}{|l|l|l|l|l|l|l|}
-\hline
-& Firm & $i=0$ & Firm & $i=1$ & Firm & $i=2$ \\ \hline
-proposal & $c[0,j]$ & $r[0,j]$ & $c[1,j]$ & $r[1,j]$ & $c[2,j]$ & $r[2,j]$
-\\ \hline
-$j=0$ & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-$j=1$ & 1 & 5 & 2 & 8 & 1 & 4 \\ \hline
-$j=2$ & 2 & 6 & 3 & 9 & - & - \\ \hline
-$j=3$ & - & - & 4 & 12 & - & - \\ \hline
+\begin{tabular}{lllllll}
+  \toprule
+  & Firm & $i=0$ & Firm & $i=1$ & Firm & $i=2$ \\
+  \midrule
+  proposal & $c[0,j]$ & $r[0,j]$ & $c[1,j]$ & $r[1,j]$ & $c[2,j]$ & $r[2,j]$
+  \\
+  $j=0$ & 0 & 0 & 0 & 0 & 0 & 0 \\
+  $j=1$ & 1 & 5 & 2 & 8 & 1 & 4 \\
+  $j=2$ & 2 & 6 & 3 & 9 & - & - \\
+  $j=3$ & - & - & 4 & 12 & - & - \\
+  \bottomrule
 \end{tabular}
 \tag{Table 1}
 \end{equation}
@@ -4445,19 +4393,20 @@ if we invest $k$ million dollars in firm $0$:
 f[0,k]=\max_{j|c[0,j]<k}r[0,j]  \label{stage0}
 \end{equation}
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-$k$ & $f[0,k]$ \\ \hline
-0 & 0 \\ \hline
-1 & 5 \\ \hline
-2$^{*}$ & 6$^{*}$ \\ \hline
-3 & 6 \\ \hline
-4 & 6 \\ \hline
-5 & 6 \\ \hline
-\end{tabular}
+  \begin{tabular}{ll}
+    \toprule
+    $k$ & $f[0,k]$ \\
+    \midrule
+    0 & 0 \\
+    1 & 5 \\
+    2$^{*}$ & 6$^{*}$ \\
+    3 & 6 \\
+    4 & 6 \\
+    5 & 6 \\
+    \bottomrule
+  \end{tabular}
 \label{table0}
 \end{equation}
-
 STAGE TWO: we maximize the return of investment considering offers from firm $%
 1$ and the prior table. We fill a table $f[1,k]$ with the maximum return of
 investment if we invest $k$ million dollars in firm $0$ and firm $1$:
@@ -4465,19 +4414,20 @@ investment if we invest $k$ million dollars in firm $0$ and firm $1$:
 f[1,k]=\max_{j|c[1,j]<k}r[1,j]+f[0,k-c[0,j]]  \label{stage1}
 \end{equation}
 \begin{equation}
-\begin{tabular}{|l|l|l|l|}
-\hline
-$k$ & $c[2,j]$ & $f[0,k-c[0,j]]$ & $f[1,k]$ \\ \hline
-0 & 0 & 0 & 0 \\ \hline
-1 & 0 & 1 & 5 \\ \hline
-2 & 2 & 0 & 8 \\ \hline
-3 & 2 & 1 & 9 \\ \hline
-4 & 3 & 1 & 13 \\ \hline
-5$^{*}$ & 4$^{*}$ & 1$^{*}$ & 18$^{*}$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  $k$ & $c[2,j]$ & $f[0,k-c[0,j]]$ & $f[1,k]$ \\
+  \midrule
+  0 & 0 & 0 & 0 \\
+  1 & 0 & 1 & 5 \\
+  2 & 2 & 0 & 8 \\
+  3 & 2 & 1 & 9 \\
+  4 & 3 & 1 & 13 \\
+  5$^{*}$ & 4$^{*}$ & 1$^{*}$ & 18$^{*}$ \\
+  \bottomrule
 \end{tabular}
 \label{table1}
 \end{equation}
-
 STAGE THREE: we maximize the return of investment considering offers from
 firm $2$ and the preceding table. We fill a table $f[2,k]$ with the maximum
 return of investment if we invest $k$ million dollars in firm $0$, firm $1$,
@@ -4486,15 +4436,17 @@ and firm $2$:
 f[2,k]=\max_{j|c[2,j]<k}r[2,j]+f[1,k-c[1,j]]  \label{stage2}
 \end{equation}
 \begin{equation}
-\begin{tabular}{|l|l|l|l|}
-\hline
-$k$ & $c[2,j]$ & $f[1,k-c[1,j]]$ & $f[2,k]$ \\ \hline
-0 & 0 & 0 & 0 \\ \hline
-1 & 0 & 1 & 5 \\ \hline
-2 & 2 & 0 & 8 \\ \hline
-3 & 2 & 1 & 9 \\ \hline
-4 & 1 & 3 & 13 \\ \hline
-5$^{*}$ & 2$^{*}$ & 3$^{*}$ & 18$^{*}$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  $k$ & $c[2,j]$ & $f[1,k-c[1,j]]$ & $f[2,k]$ \\
+  \midrule
+  0 & 0 & 0 & 0 \\
+  1 & 0 & 1 & 5 \\
+  2 & 2 & 0 & 8 \\
+  3 & 2 & 1 & 9 \\
+  4 & 1 & 3 & 13 \\
+  5$^{*}$ & 2$^{*}$ & 3$^{*}$ & 18$^{*}$ \\
+  \bottomrule
 \end{tabular}
 \label{table2}
 \end{equation}
@@ -4507,11 +4459,9 @@ solution to subproblems.
 
 We can generalize eq.(\ref{stage1}) and eq.(\ref{stage2}) for any number of
 investment firms (decision stages):
-
 \begin{equation}
 f[i,k]=\max_{j|c[i,j]<k}r[i,j]+f[i-1,k-c[i-1,j]]
 \end{equation}
-
 \goodbreak\section{Artificial intelligence and machine learning}
 
 \index{artificial intelligence}\index{machine learning}
@@ -4651,11 +4601,9 @@ and the location where the curve bends corresponds to five clusters. Although ou
 
 An artificial {\it neural network} is an electrical circuit (usually simulated in software) that mimics the functionality of the neurons in the animal (and human) brain~\cite{neural}. It is usually employed in pattern recognition. The network consists of a set of simulated neurons, connected by links (synapses). Some links connect the neurons with each other, some connect the neurons with the input and some with the output. Neurons are usually organized in the layers with one {\it input layer} of neurons connected only with the input and the next layer.  Another one, the {\it output layer}, comprises neurons connected only with the output and previous layers, or many {\it hidden layers} of neurons connected only with other neurons.
 Each neuron is characterized by input links and output links. Each output of a neuron is a function of its inputs. The exact shape of that function depends on the network and on parameters that can be adjusted. Usually this function is chosen to be a monotonic increasing function on the sum of the inputs, where both the inputs and the outputs take values in the [0,1] range. The inputs can be thought as electrical signals reaching the neuron. The output is the electrical signal emitted by the neuron. Each neuron is defined by a set of parameters {\ft a} which determined the relative weight of the input signals. A common choice for this characteristic function is:
-
 \begin{equation}
 \textrm{output}_{ij} = \tanh(\sum_k a_{ijk} \textrm{input}_{ik})
 \end{equation}
-
 where $i$ labels the neuron, $j$ labels the output, $k$ labels the input, and $a_{ijk}$ are characteristic parameters describing the neurons.
 
 The network is trained by providing an input and adjusting the characteristics $a_{ijk}$ of each neuron $k$ to produce the expected output. The network is trained iteratively until its parameters converge (if they converge), and then it is ready to make predictions. We say the network has learned from the training data set.
@@ -4909,7 +4857,6 @@ Consequences:
 \text{if }\exists x\text{ }|\text{ }x\in NPC\text{ and }x\in P\Rightarrow
 \forall y\in NP,y\in P
 \end{equation}
-
 There are a number of open problems about the relations among these sets.
 Is the set co-NP equivalent to NP? Or perhaps is the intersection between co-NP and NP equal to P?
 Are NP and NPC the same set? These questions are very important in computer science because if, for example, NP turns out to be the same set as NPC, it means that it must be possible to find algorithms that solve in polynomial time problems that currently do not have a polynomial time solution. Conversely, if one could prove that NP is not equivalent to NPC, we would know that a polynomial time solution to NPC problems does not exist~\cite{pnp}.
@@ -5027,15 +4974,13 @@ We can quantify this as follows. Let $x$ be an input and $y$ be the output of a 
 y = f(x)
 \end{equation}
 We define the condition number of $f$ in $x$ as
-
 \index{condition number}
-
 \begin{equation}
 \func{cond}(f,x) \equiv \frac{|dy/y|}{|dx/x|} = |x f'(x)/f(x)|
 \end{equation}
 (the latter equality only holds if $f$ is differentiable in $x$).
 
-A problem with a low condition number is said to be well-conditioned, while a problem with a high condition number is said to be ill-conditioned. XXX
+A problem with a low condition number is said to be well-conditioned, while a problem with a high condition number is said to be ill-conditioned.
 
 We say that a problem characterized by a function $f$ is well conditioned in a domain $D$ if the condition number is less than 1 for every input in the domain. We also say that a problem is stable if it is well conditioned.
 
@@ -5088,7 +5033,6 @@ The first term is the computational error (we use $f_n$ instead of the true $f$)
 \index{error propagation}
 
 When a variable $x$ has a finite Gaussian uncertainty $\delta x$, how does the uncertainty propagate through a function $f$? Assuming the uncertainty is small, we can always expand using a Taylor series:
-
 \begin{equation}
 y+\delta y = f(x+\delta x) = f(x) + f'(x)\delta x + O(\delta x^2)
 \end{equation}
@@ -5096,15 +5040,12 @@ And because we interpret $\delta y$ as the width of the distribution $y$, it sho
 \begin{equation}
   \delta y = |f'(x)|\delta x
 \end{equation}
-
 We have used this formula before for the propagated data error.
 For functions of two variables $z = f(x,y)$ and assuming the uncertainties in $x$ and $y$ are independent,
-
 \begin{equation}
   \delta z = \sqrt{\left|\frac{\partial f(x,y)}{\partial x}\right|^2\delta x^2 +
 \left|\frac{\partial f(x,y)}{\partial y}\right|^2\delta y^2 }
 \end{equation}
-
 which for simple arithmetic operations reduces to
 
 \begin{tabular}{ll}
@@ -5180,7 +5121,6 @@ def f(x):
 What is the derivative of $f(x)$?
 
 The most common ways to define a derivative are the right derivative
-
 \begin{equation}
   \frac{\textrm{d}f^{+}(x)}{\textrm{d}x} = \lim_{h\rightarrow 0}
   \frac{f(x+h)-f(x)}{h}
@@ -5197,15 +5137,12 @@ and the average of the two
   \frac{\textrm{d}f^{-}(x)}{\textrm{d}x} \right) =
   \lim_{h\rightarrow 0}\frac{f(x+h)-f(x-h)}{2h}
 \end{equation}
-
 If the function is differentiable in $x$, then, by definition of ``differentiable,'' the left and right definitions are equal, and the three prior definitions are equivalent. We can pick one or the other, and the difference will be a systematic error.
 
 If the limit exists, then it means that
-
 \begin{equation}
 \frac{\textrm{d}f(x)}{\textrm{d}x} = \frac{f(x+h)-f(x-h)}{2h} + O(h)
 \end{equation}
-
 where $O(h)$ indicates a correction that, at most, is proportional to $h$.
 
 The three definitions are equivalent for functions that are differentiable in $x$, and the latter is preferable because it is more symmetric.
@@ -5224,11 +5161,9 @@ def D(f,h=1e-6): # first derivative of f
 \end{lstlisting}
 
 We can do the same with the second derivative:
-
 \begin{equation}
   \frac{\textrm{d}^2f(x)}{\textrm{d}x^2} = \frac{f(x+h)-2f(x)-f(x-h)}{h^2} + O(h)
 \end{equation}
-
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
 def DD(f,h=1e-6): # second derivative of f
@@ -5309,35 +5244,25 @@ Notice that the third column $s = x - x^3/6$ is very close to $\sin(x)$. In fact
 \goodbreak\subsection{Transform a problem into a different one}
 
 Continuing with the previous example, the polynomial approximation for the sin function works when $x$ is smaller than $1$ but fails when $x$ is greater than or equal to $1$. In this case, we can use the following relations to reduce the computation of $\sin(x)$ for large $x$ to $\sin(x)$ for $0<x<1$. In particular, we can use
-
 \begin{equation}
 \sin(x) = -\sin(-x) \textrm{when} x < 0
 \end{equation}
-
 to reduce the domain to $x \in [0,\infty]$. We can then use
-
 \begin{equation}
 \sin(x) = \sin(x - 2k\pi) \qquad k\in {\Bbb N}
 \end{equation}
-
 to reduce the domain to $x \in [0,2\pi)$
-
 \begin{equation}
 \sin(x) = -\sin(2\pi - x)
 \end{equation}
-
 to reduce the domain to $x \in [0,\pi)$
-
 \begin{equation}
 \sin(x) = \sin(\pi - x)
 \end{equation}
-
 to reduce the domain to $x \in [0,\pi/2)$, and
-
 \begin{equation}
 \sin(x) = \sqrt{1 - \sin(\pi/2 - x)^2}
 \end{equation}
-
 to reduce the domain to $x \in [0,\pi/4)$, where the latter is a subset of $[0,1)$.
 
 \goodbreak\subsection{Approximate the true result via iteration}
@@ -5375,11 +5300,9 @@ Where do these formulas come from? How do we decide how many iterations we need?
 A function $f(x):{\Bbb R}\rightarrow{\Bbb R}$ is said to be a {\it real analytical} in $\bar x$ if it is continuous in $x=\bar x$ and all its derivatives exist and are continuous in $x=\bar x$.
 
 When this is the case, the function can be locally approximated with a local power series:
-
 \begin{equation}
 f(x) = f(\bar x) + f^{(0)}(\bar x)(x-\bar x) + \dots + \frac{f^{(k)}(\bar x)}{n!}(x-\bar x)^k + R_k
 \end{equation}
-
 The remainder $R_k$ can be proven to be (Taylor's theorem):
 \begin{equation}
 R_k = \frac{f^{(k+1)}(\xi)}{(k+1)!}(x-\bar x)^{k+1}
@@ -5388,13 +5311,11 @@ where $\xi$ is a point in between $x$ and $\bar x$. Therefore, if $f^{(k+1)}$ ex
 \begin{equation}
 |R_k| < \left| max_{x\in D} f^{(k+1)} \right| |(x-\bar x)^{k+1}|
 \end{equation}
-
 If we stop the Taylor expansion at a finite value of $k$, the preceding formula gives us the statistical error part of the computational error.
 
 Some Taylor series are very easy to compute:
 
 Exponential for $\bar x = 0$:
-
 \begin{align}
 f(x) &= e^x \\
 f^{(1)}(x) &= e^x \\
@@ -5402,9 +5323,7 @@ f^{(1)}(x) &= e^x \\
 f^{(k)}(x) &= e^x \\
 e^x &=  1 + x + \frac12 x^2 + \dots + \frac1{k!}x^k +\dots 
 \end{align}
-
 Sin for $\bar x = 0$:
-
 \begin{align}
 f(x) &= \sin(x) \\
 f^{(1)}(x) &= \cos(x) \\
@@ -5413,7 +5332,6 @@ f^{(3)}(x) &= -\cos(x) \\
 \dots &= \dots \\
 \sin(x) &=  x - \frac1{3!}x^3 + \dots + \frac{(-1)^n}{(2k+1)!}x^{(2k+1)} +\dots 
 \end{align}
-
 We can show the effects of the various terms:
 
 %%% META:FILE:nlib.py
@@ -5437,11 +5355,9 @@ We can show the effects of the various terms:
 \end{figure}
 
 Notice that we can very well expand in Taylor around any other point, for example, $\bar x = \pi/2$, and we get
-
 \begin{equation}
 \sin(x) =  1 - \frac1{2}(x-\frac{\pi}{2})^2 + \dots + \frac{(-1)^n}{(2k)!}(x-\frac{\pi}{2})^{(2k)} +\dots 
 \end{equation}
-
 and a plot would show:
 
 %%% META:FILE:nlib.py
@@ -5466,7 +5382,6 @@ and a plot would show:
 \end{figure}
 
 Similarly we can expand the $\cos$ function around $\bar x = 0$. Not accidentally, we would get the same coefficients as the Taylor expansion of the $\sin$ function around $\bar x = \pi/2$. In fact, $\sin(x) = \cos(x-\pi/2)$:
-
 \begin{align}
 f(x) &= \cos(x) \\
 f^{(1)}(x) &= -\sin(x) \\
@@ -5475,7 +5390,6 @@ f^{(3)}(x) &= \sin(x) \\
 \dots &= \dots \\
 \cos(x) &=  1 - \frac1{2}x^2 + \dots + \frac{(-1)^n}{(2k)!}x^{(2k)} +\dots 
 \end{align}
-
 With a simple replacement, it is easy to prove that
 \begin{equation}
 e^{ix} = \cos(x) + i \sin(x)
@@ -5483,11 +5397,9 @@ e^{ix} = \cos(x) + i \sin(x)
 which will be useful when we talk about Fourier and Laplace transforms.
 
 Now let's consider the $k$th term in Taylor expansion of $e^x$. It can be rearranged as a function of the previous $(k-1)-th$ term:
-
 \begin{equation}
 T_k(x) = \frac1{k!}x^n = \frac{x}{k} \frac1{(k-1)!}x^{k-1} = \frac{x}{k} T_{k-1}(x)
 \end{equation}
-
 For $x<0$, the terms in the sign have alternating sign and are decreasing in magnitude; therefore, for $x<0$, $R_k<T_{k+1}(1)$. This allows for an easy implementation of the Taylor expansion and its stopping condition:
 
 %%% META:FILE:nlib.py
@@ -5533,7 +5445,6 @@ In this case, the residue is always limited by
 \begin{equation}
 |R_k| < |x^{2k+1}|
 \end{equation}
-
 because the derivatives of $\sin$ are always $\sin$ and $\cos$ and their image is always between [$-$1,1].
 
 Also notice that the stopping condition is only true when $0\leq x<1$. Therefore, for other values of $x$, we must use trigonometric relations to reduce the problem to a domain where the Taylor series converges.
@@ -5616,17 +5527,13 @@ Here is a test of convergence:
 \index{stopping conditions}\index{absolute error}\index{relative error}
 
 To implement a stopping condition, we have two options. We can look at the absolute error, defined as
-
 \begin{equation}
 \textrm{[absolute error]}=\textrm{[approximate value]}-\textrm{[true value]}
 \end{equation}
-
 or we can look at the relative error
-
 \begin{equation}
 \textrm{[relative error]}=\textrm{[absolute error]}/\textrm{[true value]}
 \end{equation}
-
 or better, we can consider both. Here is an example of pseudo-code:
 
 \begin{lstlisting}
@@ -5689,7 +5596,6 @@ and if it is homogeneous,
 \begin{equation}
 f(\alpha x)  = \alpha f(x)
 \end{equation}
-
 In simpler words, we can say that the output is proportional to the input.
 
 As discussed in the introduction to this chapter, one of the simplest techniques for approximating any unknown system consists of approximating it with a linear system (and this approximation will be correct for some system and not for others).
@@ -5714,7 +5620,6 @@ a_{10} & a_{11} & \dots & a_{1,n-1} \\
 a_{m-1,0} & a_{m-1,1} & \dots & a_{m-1,n-1}
 \end{pmatrix}
 \end{equation}
-
 the following equation means
 \begin{equation}
 \mathbf{y} = f(\mathbf{x}) \simeq A \mathbf{x}
@@ -6043,7 +5948,6 @@ Implementing the inverse of the multiplication (division) is a more challenging 
 We define $A^{-1}$, the inverse of the square matrix $A$, as that matrix such that for every vector $b$, $A\mathbf(x)=\mathbf{b}$ implies $\mathbf(x)=A^{-1}\mathbf{b}$. The Gauss--Jordan algorithm computes $A^{-1}$ given $A$.
 
 To implement it, we must first understand how it works. Consider the following equation:
-
 \begin{equation}
 A \mathbf{x} = \mathbf{b}
 \end{equation}
@@ -6178,7 +6082,6 @@ def is_almost_zero(A, ap=1e-6, rp=1e-4):
 \index{linear equations}\index{systems}
 
 Linear algebra is fundamental for solving systems of linear equations such as the following:
-
 \begin{align}
 x_0+2x_1+2x_2 &=3 \\
 4x_0+4x_1+2x_2&=6 \\
@@ -6202,12 +6105,10 @@ b =
 10 \\
 \end{pmatrix}
 \end{equation}
-
 The solution of the equation can now be written as
 \begin{equation}
 \textrm{x} = A^{-1}\textrm{b}
 \end{equation}
-
 We can easily solve the system with our Python library:
 
 %%% META:FILE:nlib.py
@@ -6245,31 +6146,22 @@ By norm of a vector, we often refer to the 2-norm defined using the Pythagoras t
 \begin{equation}
 ||x||_2 = \sqrt{\sum_i x_i^2}
 \end{equation}
-
 For a vector, we can define the $p$-norm as a generalization of the $2$-norm:
-
 \begin{equation}
 ||x||_p \equiv \left(\sum_i abs(x_i)^p \right)^{\frac1p}
 \end{equation}
-
 We can extend the notation of a norm to any function that maps a vector into a vector, as follows:
-
 \begin{equation}
 ||f||_p \equiv \textrm{max}_x ||f(x)||_p / ||x||_p
 \end{equation}
-
 An immediate application is to functions implemented as linear transformations:
-
 \begin{equation}
 ||A||_p \equiv \textrm{max}_x ||Ax||_p / ||x||_p
 \end{equation}
-
 This can be difficult to compute in the general case, but it reduces to a simple formula for the 1-norm:
-
 \begin{equation}
 ||A||_1 \equiv \textrm{max}_j \sum_i abs(A_{ij})
 \end{equation}
-
 The 2-norm is difficult to compute for a matrix, but the 1-norm provides an approximation. It is computed by adding up the magnitude of the elements per each column and finding the maximum sum.
 
 This allows us to define a generic function to compute the norm of lists, matrices/vectors, and scalars:
@@ -6406,7 +6298,6 @@ def is_positive_definite(A):
 \end{lstlisting}
 
 Another application of the Cholesky is in generating vectors $\mathbf{x}$ with probability distribution
-
 \begin{equation}
 p(\mathbf{x}) \propto \exp\left(-\frac12 \mathbf{x}^t A^{-1} \mathbf{x}\right)
 \end{equation}
@@ -6476,12 +6367,10 @@ and the covariance matrix
 \begin{equation}
 A_{ij} = \frac1T \sum_t (r_{it}-r_i)(r_{jt}-r_j)
 \end{equation}
-
 Modern portfolio theory tells us that the tangent portfolio is given by
 \begin{equation}
 \mathbf{x}=A^{-1} ( \mathbf{r}-\bar{r}\mathbf{1})
 \end{equation}
-
 The inputs of the formula are the covariance matrix ($A$), a vector or arithmetic returns for the assets in the portfolio ($r$), the risk free rate ($\bar{r}$). The output is a vector ($x$) whose elements are the percentages to be invested in each asset to obtain a tangency portfolio. Notice that some elements of $x$ can be negative and this corresponds to short position (sell, not buy, the asset).
 
 Here is the algorithm:
@@ -6546,17 +6435,13 @@ Investing 55\% in asset 0, 27\% in asset 1, and 16\% in asset 2, the resulting p
 Notice that the tangency portfolio is not the only one with the highest Sharpe ratio (return for unit of risk). In fact, any linear combination of the tangency portfolio with a risk-free asset (putting money in the bank) has the same Sharpe ratio. For any target risk, one can find a linear combination of the risk-free asset and the tangent portfolio that has a better Sharpe ratio than any other possible portfolio comprising the same assets.
 
 If we call $\alpha$ the fraction of the money to invest in the tangency portfolio and $1-\alpha$ the fraction to keep in the bank at the risk free rate, the resulting combined portfolio has return:
-
 \begin{equation}
 \alpha \mathbf{x}\cdot\mathbf{r} + (1-\alpha) \bar r
 \end{equation}
-
 and risk
-
 \begin{equation}
 \alpha \sqrt{\mathbf{x}^t A \mathbf{x}}
 \end{equation}
-
 We can determine $\alpha$ by deciding how much risk we are willing to take, and these formulas tell us the optimal portfolio for that amount of risk.
 
 
@@ -6565,61 +6450,47 @@ We can determine $\alpha$ by deciding how much risk we are willing to take, and 
 \index{linear least squares}\index{$\chi^2$}\index{fitting}\index{Regression}
 
 Consider a set of data points $(x_J,y_j) = (t_j,o_j \pm do_j)$. We want to fit them with a linear combination of linear independent functions $f_i$ so that
-
 \begin{align}
 c_0 f_0(t_0) + c_1 f_1(t_0) + c_2 f_2(t_0) +  \dots &= e_0 \simeq o_0 \pm do_0\\
 c_0 f_0(t_1) + c_1 f_1(t_1) + c_2 f_2(t_1) +  \dots &= e_1 \simeq o_1 \pm do_1\\
 c_0 f_0(t_2) + c_1 f_1(t_2) + c_2 f_2(t_2) +  \dots &= e_2 \simeq o_2 \pm do_2\\
 \dots &=\dots 
 \end{align}
-
 We want to find the $\{c_i\}$ that minimizes the sum of the squared distances between the actual ``observed'' data $o_j$ and the predicted ``expected'' data $e_j$, in units of $do_j$. This metric is called $\chi^2$ in general~\cite{chi2}. An algorithm that minimizes the $\chi^2$  and is linear in the $c_i$ coefficients (our case here) is called {\it linear least squares} or {\it linear regression}.
-
 \begin{equation}
 \chi^2 = \sum_j \left|\frac{e_j - o_j}{do_j}\right|^2
 \end{equation}
-
 If we define the matrix $A$ and $B$ as
-
 \begin{equation}
-A=\left(
-\begin{tabular}{cccc}
-$\frac{f_0(t_0)}{do_0}$ & $\frac{f_1(t_0)}{do_0}$ & $\frac{f_2(t_0)}{do_0}$ &\dots\\
-$\frac{f_0(t_1)}{do_1}$ & $\frac{f_1(t_1)}{do_1}$ & $\frac{f_2(t_1)}{do_1}$ &\dots\\
-$\frac{f_0(t_2)}{do_2}$ & $\frac{f_1(t_2)}{do_2}$ & $\frac{f_2(t_2)}{do_2}$ &\dots\\
-\dots& \dots& \dots &\dots 
-\end{tabular}
-\right) \qquad b =
-\left(
-\begin{tabular}{c}
-$\frac{o_0}{do_0}$ \\
-$\frac{o_1}{do_1}$ \\
-$\frac{o_2}{do_2}$ \\
-\dots
-\end{tabular}
-\right)
+A=\begin{pmatrix}
+\frac{f_0(t_0)}{do_0} & \frac{f_1(t_0)}{do_0} & \frac{f_2(t_0)}{do_0} &\dots\\
+\frac{f_0(t_1)}{do_1} & \frac{f_1(t_1)}{do_1} & \frac{f_2(t_1)}{do_1} &\dots\\
+\frac{f_0(t_2)}{do_2} & \frac{f_1(t_2)}{do_2} & \frac{f_2(t_2)}{do_2} &\dots\\
+\dots& \dots& \dots &\dots \\
+\end{pmatrix}
+\qquad b =
+\begin{pmatrix}
+\frac{o_0}{do_0} \\
+\frac{o_1}{do_1} \\
+\frac{o_2}{do_2} \\
+\dots \\
+\end{pmatrix}
 \end{equation}
-
 then the problem is reduced to
-
 \begin{align}
 \min_{\mathbf{c}}\chi^2 &= \min_{\mathbf{c}} |A\mathbf{c}-\mathbf{b}|^2 \\
   &= \min_{\mathbf{c}} (A\mathbf{c}-\mathbf{b})^t (A\mathbf{c}-\mathbf{b}) \\
   &= \min_{\mathbf{c}} (\mathbf{c}^t A^t A \mathbf x - 2\mathbf{b}^t A \mathbf{c} + \mathbf{b}^t \mathbf{b})
 \end{align}
 This is the same as solving the following equation:
-
 \begin{align}
 \nabla_{c} (\mathbf{c}^t A^t A \mathbf x - 2\mathbf{c}^t A^t \mathbf{b} + \mathbf{b}^t\mathbf{b}) &= 0 \\
 A^t A \mathbf{c} - A^t \mathbf{b} &= 0
 \end{align}
-
 Its solution is
-
 \begin{equation}
 \mathbf{c} = (A^t A)^{-1} (A^t \mathbf{b})
 \end{equation}
-
 The following algorithm implements a fitting function based on the preceding procedure. It takes as input a list of functions $f_i$ and a list of points $p_j=(t_j,o_j,do_j)$ and returns three objects---a list with the $c$ coefficients, the value of $\chi^2$ for the best fit, and the fitting function:
 
 %%% META:FILE:nlib.py
@@ -6674,7 +6545,6 @@ c_0  + c_1 t_1^{1} + c_2 t_1^{2} +  \dots &= e_1 \simeq o_1 \pm do_1\\
 c_0  + c_1 t_2^{1} + c_2 t_2^{2} +  \dots &= e_2 \simeq o_2 \pm do_2\\
 \dots &= \dots 
 \end{align}
-
 Here is how we can generate some random points and solve the problem for a polynomial of degree 2 (or quadratic fit):
 
 %%% META:FILE:nlib.py
@@ -6795,11 +6665,9 @@ It is easy to extend the previous class to implement other strategies and back t
 Given a matrix $A$, an eigenvector is defined as a vector $\mathbf{x}$ such that
 $A\mathbf{x}$ is proportional to $\mathbf{x}$.
 The proportionality factor is called an eigenvalue, $e$. One matrix may have many eigenvectors $\mathbf{x}_i$ and associated eigenvalues $e_i$:
-
 \begin{equation}
 A\mathbf{x}_i = e_i\mathbf{x}_i
 \end{equation}
-
 For example:
 \begin{equation}
 A = \begin{pmatrix}
@@ -6812,7 +6680,6 @@ x_i =
 1 \\
 \end{pmatrix}
 \end{equation}
-
 \begin{equation}
 \begin{pmatrix}
 1 & -2  \\
@@ -6827,13 +6694,11 @@ x_i =
 1 \\
 \end{pmatrix}
 \end{equation}
-
 In this case, $x_i$ is an eigenvector and the corresponding eigenvalue is $e=3$.
 
 Some eigenvalues may be zero ($e_i=0$), which means the matrix $A$ is singular. A matrix is singular if it maps a nonzero vector into zero.
 
 Given a square matrix $A$, if the space generated by the linear independent eigenvalues has the same dimensionality as the number of rows (or columns) of $A$, then its eigenvalues are real and the matrix can we written as
-
 \begin{equation}
 A = U D U^t
 \end{equation}
@@ -7006,18 +6871,15 @@ We use the preceding function to compute the correlation and pass it as input to
 \index{alpha}\index{beta}
 
 The image shows that one eigenvalue, the last one, is much larger than the others. It tells us that the data series have something in common. In fact, the arithmetic returns for stock $j$ at time $t$ can be written as
-
 \begin{equation}
 r_{it} = \beta_i p_t + \alpha_{it}
 \end{equation}
 where $p$ is the principal component given by
-
 \begin{align}
 p_t &= \sum_i U_{n-1,j} r_{jt} \\
 \beta_i &= \sum_t r_{it} p_t \\
 \alpha_{it} &= r_{it} - \beta_i p_t
 \end{align}
-
 Here $\mathbf{p}$ is the vector of adjusted arithmetic returns that better correlates with the returns of the individual assets and therefore best represents the market. The $\beta_i$ coefficient tells us how much $\mathbf{r}_i$ overlaps with $\mathbf{p}$; $\alpha$, at first approximation, measures leftover noise.
 
 \goodbreak\section{Sparse matrix inversion}
@@ -7033,7 +6895,6 @@ We will also assume that the matrix to be inverted is given in some implicit alg
 \index{minimum residual}
 
 Given a linear operator $f$, the Krylov space spanned by a vector $x$ is defined as
-
 \begin{equation}
 K(f,y,i) = \{y, f(y), f(f(y)), f(f(f(y))), (f^i)(y)\}
 \end{equation}
@@ -7104,25 +6965,19 @@ Notice that the minimum residual and the stabilized biconjugate gradient, if the
 As an example, consider the following. We take a picture using a camera, but we take the picture out of focus. The image is represented by a set of $m^2$ pixels. The defocusing operation can be modeled as a first approximation with a linear operator acting on the ``true'' image, $x$, and turning it into an ``out of focus'' image, $y$. We can store the pixels in a one-dimensional vector (both for $x$ and $y$) as opposed to a matrix by mapping the pixel $(r,c)$ into vector component $i$ using the relation $(r,c) = (i/m,i\%m)$.
 
 Hence we can write
-
 \begin{equation}
 \mathbf{y} = A \mathbf{x}
 \end{equation}
-
 Here the linear operator $A$ represents the effects of the lens, which transforms one set of pixels into another.
 
 We can model the lens as a sequence of $\beta$ smearing operators:
-
 \begin{equation}
 A = S^{\beta}
 \end{equation}
-
 where a smearing operator is a next neighbor interaction among pixels:
-
 \begin{equation}
 S_{ij} = (1-\alpha/4) \delta_{i,j} + \alpha \delta_{i,j\pm 1} + \alpha \delta_{i,j\pm m}
 \end{equation}
-
 Here $\alpha$ and $\beta$ are smearing coefficients. When $\alpha=0$ or $\beta=0$, the lens has no effect, and $A = I$. The value of $\alpha$ controls how much the value of light at point $i$ is averaged with the value at its four neighbor points: left ($j-1$), right ($j+1$), top ($j+m$), and bottom ($j-m$). The coefficient $\beta$ determines the width of the smearing radius. The larger the values of $\beta$ and $\alpha$, the more out of focus is the original image.
 
 \index{image manipulation}\index{smearing}
@@ -7169,11 +7024,9 @@ When the Hubble telescope was first put into orbit, its mirror was not installed
 \index{non-linear equations}
 
 In this chapter, we are concerned with the problem of solving in $x$ the equation of one variable:
-
 \begin{equation}
 f(x) = 0
 \end{equation}
-
 \goodbreak\subsection{Fixed-point method}
 
 \index{fixed point method}
@@ -7200,11 +7053,9 @@ We can compute the distance between $x_i$ and $x$ as
 where we use {\it L'H\^{o}pital's rule} and $\xi$ is a point in between $x$ and $x_{i-1}$.
 
 If the magnitude of the first derivative of $g$, $|g'|$, is less than 1 in a neighborhood of $x$, and if $x_0$ is in such a neighborhood, then
-
 \begin{equation}
 |x_i - x| = |g'(\xi)||x_{i-1}-x| < |x_{i-1}-x|
 \end{equation}
-
 The $x_i$ series will get closer and closer to the solution $x$.
 
 Here is the process implemented into an algorithm:
@@ -7465,7 +7316,6 @@ Here is an example:
 \index{partial derivative}
 
 To be able to work with functions of many variables, we need to introduce the concept of the partial derivative:
-
 \begin{equation}
 \frac{\partial f(\mathbf{x})}{\partial x_i} = \lim_{h \rightarrow 0} \frac{f(\mathbf{x}+\mathbf{h}_i) - f(\mathbf{x}-\mathbf{h}_i)}{2h}
 \end{equation}
@@ -7509,22 +7359,17 @@ Here is an example:
 \index{Jacobian}\index{Gradient}\index{Hessian}
 
 A generic function $f(x_0,x_1,x_2,\dots)$ of multiple variables $\mathbf{x}=(x_0,x_1,x_2,..)$ can be expanded in Taylor series to the second order as
-
 \begin{align}
 f(x_0,x_1,x_2,\dots) &= f(\bar x_0,\bar x_1, \bar x_2,\dots) + 
                      \sum_i \frac{\partial f(\mathbf{\bar x})}{\partial x_i}(x_i-\bar x_i) \notag\\ 
                    &\quad + \sum_{ij} \frac12 \frac{\partial^2 f}{\partial x_i\partial x_j}(\mathbf{\bar x})(x_i-\bar x_i)(x_j-\bar x_j) +\dots 
 \end{align}
-
 We can rewrite the above expression in terms of the vector $\mathbf{x}$ as follows:
-
 \begin{equation}
 f(\mathbf{x}) = f(\mathbf{\bar x}) + \nabla_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x})
 + \frac12 (\mathbf{x}-\mathbf{\bar x})^t H_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) +\dots 
 \end{equation}
-
 where we introduce the gradient vector
-
 \begin{equation}
 \nabla_f(x) \equiv 
 \begin{pmatrix}
@@ -7534,9 +7379,7 @@ where we introduce the gradient vector
 \dots
 \end{pmatrix}
 \end{equation}
-
 and the Hessian matrix
-
 \begin{equation}
 H_f(x) \equiv 
 \begin{pmatrix}
@@ -7555,7 +7398,6 @@ H_f(x) \equiv
 \dots & \dots & \dots &\dots 
 \end{pmatrix}
 \end{equation}
-
 Given the definition of partial, we can compute the gradient and the Hessian using the two functions
 
 %%% META:FILE:nlib.py
@@ -7582,9 +7424,7 @@ When dealing with functions returning multiple values like
 \begin{equation}
 f(\mathbf{x}) = (f_0(\mathbf{x}), f_1(\mathbf{x}), f_2(\mathbf{x}), \dots)
 \end{equation}
-
 we need to Taylor expand each component:
-
 \begin{equation}
 f(\mathbf{x}) =
 \begin{pmatrix}
@@ -7601,15 +7441,11 @@ f_2(\mathbf{\bar x}) + \nabla_{f_2}(\mathbf{x}-\mathbf{\bar x}) + \dots \\
 \dots
 \end{pmatrix}
 \end{equation}
-
 which we can rewrite as
-
 \begin{equation}
 f(\mathbf{x}) = f(\mathbf{\bar x}) + J_f(\mathbf{\bar x})(\mathbf{x}-\mathbf{\bar x}) + \dots \label{jacobian2}
 \end{equation}
-
 where $J_f$ is called Jacobian and is defined as
-
 \begin{equation}
 J_f \equiv
 \begin{pmatrix}
@@ -7628,7 +7464,6 @@ J_f \equiv
 \dots & \dots & \dots &\dots 
 \end{pmatrix}
 \end{equation}
-
 which we can implement as follows:
 
 %%% META:FILE:nlib.py
@@ -7786,7 +7621,6 @@ f(x,\mathbf{a},\mathbf{b}) = a_0 e^{-b_0 x} + a_1 e^{-b_1 x} + a_2 e^{-b_2 x} +\
 The goal of our algorithm is to efficiently determine the parameters $\mathbf{a}$ and $\mathbf{b}$ that minimize the $\chi^2$.
 
 We proceed by defining the following two quantities:
-
 \begin{equation}
 \mathbf{z} = 
 \begin{pmatrix}
@@ -7796,9 +7630,7 @@ y_2 / \delta y_2 \\
 \dots
 \end{pmatrix}
 \end{equation}
-
 and
-
 \begin{equation}
 A(\mathbf{b}) = 
 \begin{pmatrix}
@@ -7814,21 +7646,15 @@ f_2(x_2,\mathbf{b})/\delta y_2 & \dots \\
 \dots & \dots & \dots &\dots 
 \end{pmatrix}
 \end{equation}
-
 In terms of $A$ and $z$, the $\chi^2$ can be rewritten as
-
 \begin{equation}
 \chi^2(\mathbf{a},\mathbf{b}) = \left| A(\mathbf{b}) \mathbf{a} - \mathbf{z} \right|^2
 \end{equation}
-
 We can minimize this function in $a$ using the linear least squares algorithm, exactly:
-
 \begin{equation}
 \mathbf{a}(\mathbf{b}) = (A(\mathbf{b}) A(\mathbf{b})^t)^{-1}(A(\mathbf{b})^t z)
 \end{equation}
-
 We define a function that returns the minimum $\chi^2$ for a fixed input $\mathbf{b}$:
-
 \begin{equation}
 g(\mathbf{b}) =
 \min_{\mathbf{a}}
@@ -7837,7 +7663,6 @@ g(\mathbf{b}) =
 A(\mathbf{b})\mathbf{a}(\mathbf{b}) - \mathbf{z}
 \right|^2
 \end{equation}
-
 Therefore we have reduced the original problem to a simple problem by reducing the number of unknown parameters from $N_a+N_b$ to $N_b$.
 
 The following code takes as input the {\ft data} as a list of $(x_i,y_i,\delta y_i)$, a list of functions (or a single function), and a guess for the $\mathbf{b}$ values. If the {\ft fs} argument is not a list but a single function, then there is no $\mathbf{a}$ to compute, and the function proceeds by minimizing the $\chi^2$ using the improved Newton optimizer (the one-dimensional or the improved multidimensional one, as appropriate). If the argument $\mathbf{b}$ is missing, then the fitting parameters are all linear, and the algorithm reverts to regular linear least squares. Otherwise, run the more complex algorithm described earlier:
@@ -7906,7 +7731,6 @@ From a practical effect, this stabilizes our fit. From a theoretical point of vi
 \index{integration!numerical}\index{integration!trapezoid}
 
 Consider the integral of $f(x)$ for $x$ in domain $[a,b]$, which we normally represent as
-
 \begin{equation}
 I = \int_a^b f(x)dx
 \end{equation}
@@ -7918,22 +7742,18 @@ I = \int_a^b f(x)dx
 \end{figure}
 
 As we did in the previous subsection, we can approximate the possible values taken by $x$ as discrete values $x\equiv h i$, where $h=(b-a)/n$. At those values, the function $f$ evaluates to $f_i \equiv f(h i)$. Thus the integral can be approximated as a sum of trapezoids:
-
 \begin{equation}
   I_n \simeq \sum_{i=0}^{i<n} \frac{h}{2}(f_i+f_{i+1})
 \end{equation}
-
 \begin{figure}[ht]
 \centering\includegraphics[width=2in]{images/integral2.png}
 \caption{Visual representation of the trapezoid method for numerical integration.}
 \end{figure}
 
 If a function is discontinuous only in a finite number of points in the domain $[a,b]$, then the following limit exists:
-
 \begin{equation}
 \lim_{n\rightarrow\infty} I_n \rightarrow I
 \end{equation}
-
 We can implement the naive integration as a function of $N$ as follows:
 
 %%% META:FILE:nlib.py
@@ -8051,20 +7871,15 @@ Summarizing, we define
 \begin{equation}
 u_{fk} \equiv \sqrt{\frac{b-a}{N}}f(x_k)
 \end{equation}
-
 Given any two functions, we can define their scalar product as the limit of $N\rightarrow\infty$ of the scalar product between their corresponding vectors:
-
 \begin{equation}
 f \cdot g \equiv \lim_{N\rightarrow\infty} \mathbf{u}_f \cdot \mathbf{u}_g =
 \lim_{N\rightarrow\infty} \frac{b-a}{N} \sum_k f(x_k) g(x_k)
 \end{equation}
-
 Using the definition of integral, it can be proven that, in the limit $N\rightarrow\infty$, this is equivalent to
-
 \begin{equation}
 f \cdot g = \int_a^b f(x) g(x) dx
 \end{equation}
-
 This is because we have chosen $c$ such that $c^2$ is the width of a rectangle in the Riemann integration.
 
 From now on, we will omit the $f$ subscript in $\mathbf{u}$ and simply use different letters for vectors representing different sampled functions ($\mathbf{u}$, $\mathbf{v}$, $\mathbf{b}$, etc.).
@@ -8072,26 +7887,20 @@ From now on, we will omit the $f$ subscript in $\mathbf{u}$ and simply use diffe
 Because we are interested in numerical algorithms, we will keep $N$ finite and work with the sum instead of the integral.
 
 Given a fixed $N$, we can always find $N$ vectors $\mathbf{b}_0,\mathbf{b}_1\dots\mathbf{b}_{N_1}$ that are linearly independent, normalized, and orthogonal, that is,
-
 \begin{equation}
 \mathbf{b}_i \cdot \mathbf{b}_j = \sum_k b_{ik} b_{ik} = \delta_{ij}
 \end{equation}
-
 Here $b_{jk}$ is the $k$ component of vector $\mathbf{b}_j$ and $\delta_{ij}$ is the Kronecker delta defined as 0 when $i\neq j$ and 1 when $i==j$.
 
 Any set of vectors $\{\mathbf{b}_j\}$ meeting the preceding condition is called an orthonormal basis. Any other vector $\mathbf{u}$ can be represented by its projections over the basis vectors:
-
 \begin{equation}
   u_i = \sum_i v_j b_{ji}
 \end{equation}
-
 where $v_j$ is the projection of $u$ along $\mathbf{b}_j$, which can be computed as
 \begin{equation}
   v_j = \sum_i u_i b_{ji}
 \end{equation}
-
 In fact, by direct substitution, we obtain
-
 \begin{align}
   v_j &= \sum_k u_k b_{jk} \\
       &= \sum_k (\sum_i v_i b_{ik}) b_{jk} \\
@@ -8099,16 +7908,13 @@ In fact, by direct substitution, we obtain
       &= \sum_i v_i \delta_{ij} \\
       &= v_j
 \end{align}
-
 In other words, once we have a basis of vectors, the vector $\mathbf{u}$ can be represented in terms of the vector $\mathbf{v}$ of $v_j$ coefficients and, conversely, $\mathbf{v}$ can be computed from $\mathbf{u}$; $\mathbf{u}$ and $\mathbf{v}$ contain the same information.
 
 The transformation from $\mathbf{u}$ to $\mathbf{v}$, and vice versa, is a linear transformation. We call $T^+$ the transformation from $\mathbf{u}$ to $\mathbf{v}$  and $T^-$ its inverse:
-
 \begin{equation}
 \mathbf{v} = T^+(\mathbf{u}) \qquad
 \mathbf{u} = T^-(\mathbf{v})
 \end{equation}
-
 From the definition, and without attempting any optimization, we can implement these operators as follows:
 
 \begin{lstlisting}
@@ -8135,11 +7941,9 @@ Here is an example of usage:
 
 Of course, this example is trivial because of the choice of basis which makes $v$ the same as $u$. Yet our argument works for any basis $\mathbf{b}_i$. In particular, we can make the following choice:
 
-
 \begin{equation}
 b_{ji} = \frac{1}{\sqrt{2\pi}} e^{2\pi I ij/N}
 \end{equation}
-
 where $I$ is the imaginary unit. With this choice, the $T^+$ and $T^-$ functions become
 \begin{align}
 \label{fourierd1}
@@ -8147,7 +7951,6 @@ v_j &\stackunder{FT^+}{=} N^{-\frac12} \sum_i u_i e^{2\pi I ij/N} \\
 \label{fourierd2}
 u_i &\stackunder{FT^-}{=} N^{-\frac12} \sum_j v_j e^{-2\pi I ij/N}
 \end{align}
-
 and they take the names of Fourier transform and anti-transform~\cite{fourier}, respectively;
 we can implement them as follows:
 
@@ -8172,14 +7975,11 @@ Something special happens when $u$ is real:
 Re(v_j) &= +Re(v_{N-j-1}) \\
 Im(v_j) &= -Im(v_{N-j-1})
 \end{align}
-
 We can speed up the code even more using recursion and by observing that if $N$ is a power of $2$, then
-
 \begin{align}
   v_j &= N^{-\frac12} \sum_i u_{2i} e^{2\pi I (2i)j/N} + N^{-\frac12} \sum_i u_{2i+1} e^{2\pi I (2i+1)j/N} \\
       &= 2^{-\frac12} ( v_j^{even} + e^{2\pi j/N} v_j^{even} )
 \end{align}
-
 where $v_j^{even}$ is the Fourier transform of the even terms and $v_j^{odd}$ is the Fourier transform of the odd terms.
 
 The preceding recursive expression can be implemented using dynamic programming, thus obtaining
@@ -8218,55 +8018,40 @@ i^j: 10000011001110
 \section{Differential equations}
 
 In this section, we deal specifically with differential equations of the following form:
-
 \begin{equation}
 a_0 f(x) + a_1 f'(x) + a_2 f''(x) + \dots = g(x) \label{diffeq}
 \end{equation}
-
 where $f(x)$ is an unknown function to be determined; $f'$, $f''$, and so on, are its derivatives; $a_i$ are known input coefficients; and $g(x)$ is a known input function:
-
 \begin{equation}
 f''(x) - 4 f'(x) + f(x) = \sin(x)
 \end{equation}
-
 In this case, $a_2(x) = 1$, $a_1(x) = -4$, $a_0(x) = 1$, and $g(x) = \sin(x)$.
 
 This can be solved using Fourier transforms by observing that if the Fourier transform of $f(x)$ is $\tilde f(y)$, then the Fourier transform of $f'(x)$ is $iy\tilde f(y)$.
 
 Hence, if we Fourier transform both the left and right side of
-
 \begin{equation}
 \sum _k a_k f^{(k)}(x) = g(x)
 \end{equation}
-
 we obtain
-
 \begin{equation}
 (\sum _k a_k (i y)^k) \tilde f(y) = \tilde g(y)
 \end{equation}
-
 therefore $f(x)$ is the anti-Fourier transform of
-
 \begin{equation}
 \tilde f(y) = \frac{\tilde g(y)}{(\sum _k a_k (i y)^k)}
 \end{equation}
-
 In one equation, the solution of eq.~\ref{diffeq} is
-
 \begin{equation}
 f(x) = T^-(T^+(g)/(\sum _k a_k (iy)^k))
 \end{equation}
-
 This is fine and useful when the Fourier transformations are easy to compute.
 
 A more practical numerical solution is the following. We define
-
 \begin{equation}
 y_i(x) \equiv f^{(i)}(x)
 \end{equation}
-
 and we rewrite the differential equation as
-
 \begin{align}
 y'_0 &= y_1 \\
 y'_1 &= y_2 \\
@@ -8274,15 +8059,11 @@ y'_2 &= y_3 \\
 \dots &= \dots \\
 y'_{N-1} &= y_N = (g(x)-\sum_{k<N} a_k y_k(x))/a_N(x)
 \end{align}
-
 or equivalently
-
 \begin{equation}
 \mathbf{y}' = F(\mathbf{y})
 \end{equation}
-
 where
-
 \begin{equation}
 F(\mathbf{y}) = \mathbf{y}+\begin{pmatrix}
 y_1 \\
@@ -8292,19 +8073,15 @@ y_3 \\
 (g(x)-\sum_{k<N} a_k(x)y_k(x))/a_N(x)
 \end{pmatrix}
 \end{equation}
-
 \index{Euler method}
 The naive solution is due to Euler:
-
 \begin{equation}
 \mathbf{y}(x+h) = \mathbf{y}(x) + hF(\mathbf{y},x)\label{euler}
 \end{equation}
-
 The solution is found by iterating the latest equation. Here $h$ is an arbitrary discretization step. Euler's method works even if the $a_k$ coefficients depend on $x$.
 
 \index{Runge--Kutta method}
  Although the Euler integrator works in theory, its systematic error adds up and does not disappear in the limit $h\rightarrow 0$. More accurate integrators are the Runge--Kutta and the Adam--Bashforth. In the fourth-order Runge--Kutta, the {\it classical Runge--Kutta method}, we also solve the differential equation by iteration, except that eq.~\ref{euler} is replaced with
-
 \begin{equation}
 \mathbf{y}(x+h) = \mathbf{y}(x) + h/6 (\mathbf{k}_1+2\mathbf{k}_2+2\mathbf{k}_3+\mathbf{k}_4)\label{rungekutta}
 \end{equation}
@@ -8315,7 +8092,6 @@ where
 \mathbf{k}_3 &= F(\mathbf{y}+h k_2/2,x+h/2) \\
 \mathbf{k}_4 &= F(\mathbf{y}+h k_3,x+h)
 \end{align}
-
 \chapter{Probability and Statistics}
 
 \goodbreak\section{Probability}
@@ -8463,7 +8239,6 @@ probability that $X=x$:
 \begin{equation}
 p(x) \equiv \textrm{Prob}(X=x)
 \end{equation}
-
 We also define the {\it expectation value} of any function of a discrete
 random variable $f(X)$ as
 \begin{equation}
@@ -8475,19 +8250,16 @@ For example, if $X$ is the random variable associated with the outcome of rollin
 \begin{equation}
 E[X]=\sum_ix_ip(x_i)=\sum_{x_i\in \{1,2,3,4,5,6\}}x_i\frac 16=3.5
 \end{equation}
-
 and
 \begin{equation}
 E[(X-3.5)^2]=\sum_i(x_i-3.5)^2p(x_i)=\sum_{x_i\in
 \{1,2,3,4,5,6\}}(x_i-3.5)^2\frac 16=2.9167
 \end{equation}
-
 We call $E[X]$ the {\it mean} of $X$ and usually denote it with $\mu _X$.
 We call $E[(X-\mu _X)^2]$ the {\it variance} of $X$ and denote it with $\sigma _X^2$. Note that
 \begin{equation}
 \sigma _X=E[X^2]-E[X]^2
 \end{equation}
-
 For discrete random variables, we can implement these definitions as follows:
 \index{mean}\index{variance}\index{standard deviation}
 
@@ -8535,7 +8307,6 @@ function} $F(x)$ as the probability that $X\leq x$:
 \begin{equation}
 F(x)\equiv \textrm{Prob}(X\leq x)
 \end{equation}
-
 If $S$ is a continuous set and $X$ is a continuous random variable, then we
 define a {\it probability density} or {\it distribution} $p(x)$ as
 \begin{equation}
@@ -8546,7 +8317,6 @@ as
 \begin{equation}
 \textrm{Prob}(a\leq X\leq b)=\int_a^bp(x)dx
 \end{equation}
-
 \index{expectation value}
 
 We also define the {\it expectation value} of any function of a random
@@ -8554,7 +8324,6 @@ variable $f(X)$ as
 \begin{equation}
 E[f(X)]=\int_{-\infty }^\infty f(x)p(x)dx
 \end{equation}
-
 For example, if $X$ is a uniform random variable (probability density $p(x)$ equal to $1$ if
 $x\in [0,1]$, equal to $0$ otherwise)
 \begin{equation}
@@ -8565,14 +8334,12 @@ and
 E[(X-\frac 12)^2]=\int_{-\infty }^\infty (x-\frac
 12)^2p(x)dx=\int_0^1(x^2-x+\frac 14)dx=\frac 1{12}
 \end{equation}
-
 We call $E[X]$ the {\bf mean} of $X$ and usually denote it with $\mu _X$.
 We call $E[(X-\mu _X)^2]$ the {\bf variance} of $X$ and denote it with $%
 \sigma _X^2$. Note that
 \begin{equation}
 \sigma _X^2=E[X^2]-E[X]^2
 \end{equation}
-
 By definition,
 \begin{equation}
 F(\infty )\equiv \textrm{Prob}(X\leq \infty )=1
@@ -8584,33 +8351,25 @@ therefore
 The distribution $p$ is always normalized to 1.
 
 Moreover,
-
 \begin{align}
 E[aX+b] &= \int_{-\infty }^\infty (ax+b)p(x)dx \\
 &= a\int_{-\infty }^\infty xp(x)dx+b\int_{-\infty }^\infty p(x)dx \\
 &= aE[X]+b
 \end{align}
-
 therefore $E[X]$ is a linear operator.
 
 One important consequence of all these formulas is that if we have a function $f$ and a domain $[a,b]$, we can compute its integral by choosing $p$ to be a uniform distribution with values exclusively between $a$ and $b$:
-
 \begin{equation}
   E[f] = \int_{-\infty }^\infty f(x) p(x) dx = \frac1{b-a}\int_a^b f(x) dx
 \end{equation}
-
 We can also compute the same integral by using the definition of expectation value for a discrete distribution:
-
 \begin{equation}
   E[f] = \sum_{x_i} f(x_i) p(x_i) = \frac1N \sum_{x_i} f(x_i)
 \end{equation}
-
 where $x_i$ are $N$ random points drawn from the uniform distribution $p$ defined earlier. In fact, in the large $N$ limit,
-
 \begin{equation}
   \lim_{N\rightarrow \infty}  \frac1N \sum_{x_i} f(x_i) = \int_{-\infty }^\infty f(x) p(x)dx = \frac1{b-a}\int_a^b f(x) dx
 \end{equation}
-
 We can verify the preceding relation numerically for a special case:
 
 %%% META:FILE:nlib.py
@@ -8633,7 +8392,6 @@ them as
 \textrm{cov}(X,Y) &\equiv  E[(X-\mu _X)(Y-\mu _Y)]=E[XY]-E[X]E[Y] \\
 \textrm{corr}(X,Y) &\equiv  \textrm{cov}(X,Y)/(\sigma_X \sigma_Y)
 \end{align}
-
 Applying the definitions:
 \begin{align}
 E[XY] &=\int \int xyp(x,y)dxdy \\
@@ -8656,7 +8414,6 @@ Moreover,
 &=\pm E[(X-\mu _X)(X-\mu _X)] \\
 &=\pm \sigma _X^2
 \end{align}
-
 Therefore, if $X$ and $Y$ are completely correlated or anti-correlated ($Y=\pm X$), then $\textrm{cov}(X,Y)=\pm \sigma _X^2$ and $\textrm{corr}(X,Y) = \pm 1$.
 Notice that the correlation lies always in the range $[-1,1]$.
 
@@ -8665,7 +8422,6 @@ Finally, notice that for uncorrelated random variables $X_i$,
 E[\sum_ia_iX_i] &=\sum_ia_iE[X_i] \\
 E[(\sum_iX_i)^2] &=\sum_iE[X_i^2]
 \end{align}
-
 
 We can define covariance and correlation for discrete distributions:
 %%% META:FILE:nlib.py
@@ -8706,7 +8462,6 @@ distributed random variables with $E[X_i]=$ $\mu $ and finite variance, then
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{X_1+X_2+\dots+X_n}n=\mu
 \end{equation}
-
 This theorem means that ``the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.'' The name of this law is due to Poisson~\cite{largenumbers}.
 
 \goodbreak\subsection{Central limit theorem}
@@ -8721,7 +8476,6 @@ follows a Gaussian distribution with mean and variance:
 \mu &= \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} \mu_i \\
 \sigma^2 &= \lim_{N\rightarrow\infty}\frac1N \sum_{i=0}^{i<N} \sigma^2_i
 \end{align}
-
 We can numerically verify this for the simple case in which $X_i$ are uniform random variables with mean equal to 0:
 
 %%% META:FILE:nlib.py
@@ -8751,16 +8505,14 @@ We can numerically verify this for the simple case in which $X_i$ are uniform ra
 
 This theorem is of fundamental importance for stochastic calculus. Notice that the theorem does not apply when the $X_i$ follow distributions that do not have a finite mean or a finite variance.
 
-\index{Levy distributions}
+\index{L'{e}vy distributions}
 
-Distributions that do not follow the central limit are called {\it Levy distributions}.
+Distributions that do not follow the central limit are called {\it L\'{e}vy distributions}.
 They are characterized by fat tails for the form
-
 \begin{equation}
 p(x) \stackunder{x\rightarrow\infty}{\sim} \frac1{\left|x\right|^{1+\alpha}}, \qquad 0<\alpha<2
 \end{equation}
-
-An example if the Pareto distribution.
+An example is the Pareto distribution.
 
 \goodbreak\subsection{Error in the mean}
 \index{error in the mean}
@@ -8986,18 +8738,14 @@ with any desired distribution. In particular, we want to use the randomness
 in the decay time of radioactive atoms to produce random numbers with
 uniform distribution. We assemble a system consisting of many
 atoms, and we record the time when we observe atoms decay:
-
 \begin{equation}
 t_0,t_1,t_2,t_3,t_4,t_5\dots,
 \end{equation}
-
 One could study the probability distribution of the $t_i$ and find
 that it follows an exponential probability distribution like
-
 \begin{equation}
 \textrm{Prob}(t_i = t)=\lambda e^{-\lambda t}
 \end{equation}
-
 where $t_0=1/\lambda $ is the decay time characteristic of the particular
 type of atom. One characteristic of this distribution is that it is a memoryless process: $t_i$ does not depend on $t_{i-1}$ and therefore the probability that $t_i>t_{i-1}$ is the same as the probability that $t_i<t_{i-1}$.
 
@@ -9007,7 +8755,7 @@ type of atom. One characteristic of this distribution is that it is a memoryless
 \index{distribution!Bernoulli}
 
 Given the sequence $\{t_i\}$ with exponential distribution, we can build a
-random sequence of zeros and ones (Bernoulli distribution) by applying the following formula, known as the Von Neumann procedure~\cite{bits}:
+random sequence of zeros and ones (Bernoulli distribution) by applying the following formula, known as the von Neumann procedure~\cite{bits}:
 \begin{equation}
 x_i=
 \begin{cases}
@@ -9015,7 +8763,6 @@ x_i=
 0 & \text{otherwise}
 \end{cases}
 \end{equation}
-
 Note that the procedure can be applied to map any random sequence into
 a Bernoulli sequence even if the numbers in the original sequence do not
 follow an exponential distribution, as long as $t_i$ is independent of $t_j$
@@ -9050,7 +8797,6 @@ and we perform the following steps:
 
 \item  map each chunk $a_0a_1a_2a_3a_4a_5a_6a_7$ into $x=\sum_{k=0}^{k<8}a_k/2^{k+1}$
 thus obtaining:
-
 \begin{equation}
 0.3671875 - 0.83203125 - 0.4609375 -\dots 
 \end{equation}
@@ -9111,7 +8857,6 @@ this is adequate.
 \goodbreak\subsection{Linear congruential generator}
 
 Here is probably the simplest possible pseudo random number generator:
-
 \begin{align}
 x_i &= (a x_{i-1} + c) \textrm{mod}m \\
 y_i &= x_i/m
@@ -9150,7 +8895,6 @@ x_{i-1}$, produces $x_i$.
 
 \index{seed}
 
-
 \item  PRNGs have to start from an initial value, $x_0$, called the {\it seed}.
 A typical choice is to set the seed equal to the number of seconds from the
 conventional date and time ``Thu Jan 01 01:00:00 1970.'' This is not always
@@ -9171,15 +8915,17 @@ In the case of RANDU, the period is $m/4$. A better choice is using $a=7^5$ and 
 \begin{equation}
 x_i=(7^5x_{i-1})\textrm{mod}(2^{31}-1)  \label{Mersenne}
 \end{equation}
-
 Here are some examples of MCG used by various systems:
 
-\begin{tabular}{|lrrr|} \hline
-Source & $m$ & $a$ & $c$ \\ \hline
-Numerical Recipes & $2^{32}$ & 1664525 & 1013904223 \\
-glibc (used by GCC) & $2^{32}$ & 1103515245 & 12345 \\
-Apple CarbonLib & $2^{31} - 1$ & 16807 & 0 \\
-java.util.Random & $2^{48}$ & 25214903917 & 11 \\ \hline
+\begin{tabular}{lrrr}
+  \toprule
+  Source & $m$ & $a$ & $c$ \\
+  \midrule
+  Numerical Recipes & $2^{32}$ & 1664525 & 1013904223 \\
+  glibc (used by GCC) & $2^{32}$ & 1103515245 & 12345 \\
+  Apple CarbonLib & $2^{31} - 1$ & 16807 & 0 \\
+  java.util.Random & $2^{48}$ & 25214903917 & 11 \\
+  \bottomrule
 \end{tabular}
 
 When $c$ is set to zero, a linear congruential generator is also called a multiplicative congruential generator.
@@ -9215,11 +8961,9 @@ An example of pattern/bias is discussed in ref.~\cite{randu} and can be seen in 
 \goodbreak\subsection{Multiplicative recursive generator}
 
 Another modification of the multiplicative congruential generator is the following:
-
 \begin{equation}
 x_i=(a_1x_{i-1}+a_2x_{i-2}+\dots+a_kx_{i-k})\textrm{mod}m
 \end{equation}
-
 The advantage of this generator is that if $m$ is prime, the period of this
 type of generator can be as big as $m^k-1$. This is much larger than a
 simple multiplicative congruential generator.
@@ -9229,30 +8973,23 @@ where the period is
 \begin{equation}
 (2^{31}-1)^5-1\simeq 4.56\times 10^{46}
 \end{equation}
-
 \goodbreak\subsection{Lagged Fibonacci generator}
-
 \begin{equation}
 x_i=(x_{i-j}+x_{i-k})\textrm{mod}m
 \end{equation}
-
 This is similar to the multiplicative recursive generator earlier. If $m$ is
 prime and $j\neq k$, the period can be as large as $m^k-1$.
 
 \goodbreak\subsection{Marsaglia's add-with-carry generator}
-
 \begin{equation}
 x_i=(x_{i-j}+x_{i-k}+c_i)\textrm{mod}m
 \end{equation}
-
 where $c_1=0$ and $c_i=1$ if $(x_{i-1-j}+x_{i-1-k}+c_{i-1})<m$, $0$
 
 \goodbreak\subsection{Marsaglia's subtract-and-borrow generator}
-
 \begin{equation}
 x_i=(x_{i-j}-x_{i-k}-c_i)\textrm{mod}m
 \end{equation}
-
 where $k>j>0$, $c_1=0$, and $c_i=1$ if $(x_{i-1-j}-x_{i-1-k}-c_{i-1})<0$, $0$
 otherwise.
 
@@ -9275,11 +9012,9 @@ numbers, read $k$ numbers, and so on. The number $p$ has to be chosen to be
 larger than $k$. When $p=k$, the original Marsaglia generator is recovered.
 
 \goodbreak\subsection{Knuth's polynomial congruential generator}
-
 \begin{equation}
 x_i=(ax_{i-1}^2+bx_{i-1}+c)\textrm{mod}m
 \end{equation}
-
 This generator takes the form of a more complex function. It makes it harder to guess one number in the sequence from the following numbers; therefore
 it finds applications in cryptography.
 
@@ -9287,7 +9022,6 @@ Another example is the Blum, Blum, and Shub generator:
 \begin{equation}
 x_i=x_{i-1}^2\textrm{mod}m
 \end{equation}
-
 \goodbreak\subsection{PRNGs in cryptography}
 
 Random numbers find many applications in cryptography. For example, consider
@@ -9338,11 +9072,9 @@ as a key, he or she cannot easily compute all previous keys generated using the
 same PRNG.
 
 \goodbreak\subsection{Inverse congruential generator}
-
 \begin{equation}
 x_i=(ax_{i-1}^{-1}+c)\textrm{mod}m
 \end{equation}
-
 where $x_{i-1}^{-1}$ is the multiplicative inverse of $x_{i-1}$ modulo $m$,
 for example, $x_{i-1}x_{i-1}^{-1}=1\textrm{mod}m$.
 
@@ -9425,7 +9157,6 @@ $y_4$ & 0.146293803118 & 0.380731142126 \\
 $y_5$ & \dots &\dots 
 \end{tabular}
 \end{equation}
-
 Note that the second sequence is the same as the first but shifted by two
 lines.
 
@@ -9473,7 +9204,6 @@ One can break it into subsequences of $k$ numbers:
 &x_2,x_{2+k},x_{2+2k},x_{2+3k},\dots \\
 \dots&
 \end{align}
-
 The seeds $x_1,x_2,..x_{k-1}$ are generated from $x_0$, and the independent
 sequences can be generated independently using the formula
 \begin{equation}
@@ -9575,7 +9305,6 @@ We can use {\ft randint} to generate a random choice from a finite set when each
 The Bernoulli distribution, named after Swiss scientist James Bernoulli, is
 a discrete probability distribution that takes value 1 with
 probability of success $p$ and value 0 with probability of failure $q=1-p$:
-
 \begin{equation}
 p(k) \equiv 
 \begin{cases}
@@ -9683,7 +9412,6 @@ method is an array of arrays $a_{ij}$ built according to the following rules:
 
 Note that $0\leq i<t$ and $\forall i\geq 0$,$0\leq j<2^{t-i}$, where $t=\log
 _2n$. The array of arrays $a$ can be represented as follows:
-
 \begin{equation}
 a_{ij}=
 \begin{pmatrix}
@@ -9785,7 +9513,6 @@ interested in the probability $\textrm{Prob}(X=30)$.
 In general, if the random variable $X$ follows the binomial distribution with
 parameters $n$ and $p$, the probability of getting exactly $k$ successes is
 given by
-
 \begin{equation}
 p(k)=\textrm{Prob}(X=k) \equiv  \binom nkp^k(1-p)^{n-k}
 \end{equation}
@@ -9803,12 +9530,10 @@ binomial variable; its distribution is
 \begin{equation}
 p(k)=\textrm{Prob}(X=k)=\binom{n_X+n_Y}kp^k(1-p)^{n-k}
 \end{equation}
-
 We can generate random numbers following binomial distribution using a table lookup with table
 \begin{equation}
 \text{table[}k\text{]}=\textrm{Prob}(X=k)=\binom nkp^k(1-p)^{n-k}
 \end{equation}
-
 For large $n$, it may be convenient to avoid storing the table and use the
 formula directly to compute its elements on a need-to-know basis.
 Moreover, because the table is accessed sequentially by the
@@ -9845,7 +9570,6 @@ negative binomial distribution with parameters $r$ and $p$:
 \begin{equation}
 p(n)=\textrm{Prob}(X=n)=\binom{n-1}{k-1}p^k(1-p)^{n-k}
 \end{equation}
-
 Here is an example:
 
 John, a kid, is required to sell candy bars in his neighborhood to
@@ -9921,7 +9645,6 @@ occurrences ($x$ being a natural number including 0, $k=0,1,2,\dots$) is
 \begin{equation}
 p(k)=\textrm{Prob}(X=k)=e^{-\lambda }\frac{\lambda ^k}{k!}
 \end{equation}
-
 The Poisson distribution arises in connection with Poisson processes. It
 applies to various phenomena of discrete nature (i.e., those that may
 happen 0, 1, 2, 3,\dots, times during a given period of time or in a given
@@ -9957,12 +9680,10 @@ amount of radiation.
 \end{itemize}
 
 The limit of the binomial distribution with parameters $n$ and $p=\lambda /n$, for $n$ approaching infinity, is the Poisson distribution:
-
 \begin{equation}
 \frac{n!}{(n-k)!k!}\left( \frac \lambda n\right) ^k\left( 1-\frac \lambda
 n\right) ^{n-k}\simeq e^{-\lambda }\frac{\lambda ^k}{k!}+O(\frac 1n)
 \end{equation}
-
 \begin{figure}[ht]
 \centering\includegraphics[width=4in]{images/poisson.png}
 \caption{Example of Poisson distribution.}
@@ -10020,7 +9741,6 @@ into integers by using the formula
 \begin{equation}
 h_i=a+\left\lfloor (b-a+1)y_i\right\rfloor
 \end{equation}
-
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
     def uniform(self,a,b):
@@ -10038,11 +9758,9 @@ parameter $\lambda $. Therefore the integral from $0$ to $T$ over $p(t)$ is
 the probability that the object is in state $B$ at time $T$.
 
 The probability mass function is given by
-
 \begin{equation}
 p(x)=\lambda e^{-\lambda x}
 \end{equation}
-
 The exponential distribution may be viewed as a continuous counterpart of
 the geometric distribution, which describes the number of Bernoulli trials
 necessary for a discrete process to change state. In contrast, the
@@ -10063,11 +9781,9 @@ Examples of variables that are approximately exponentially distributed are as fo
 
 An important property of the exponential distribution is that it is
 memoryless: the chance that an event will occur $s$ seconds from now does not depend on the past. In particular, it does not depend on how much time we have been waiting already. In a formula we can write this condition as
-
 \begin{equation}
 \textrm{Prob}(X>s+t|X>t)=\textrm{Prob}(X>s)
 \end{equation}
-
 Any process satisfying the preceding condition is a Poisson process. The number of events per time unit is given by the Poisson distribution, and the time interval between consecutive events is described by the exponential distribution.
 
 \begin{figure}[ht]
@@ -10092,7 +9808,6 @@ Now notice that if $u$ is uniform, $1-u$ is also uniform; therefore we can furth
 \begin{equation}
 x=-\frac 1\lambda \log u
 \end{equation}
-
 We implement as follows:
 
 %%% META:FILE:nlib.py
@@ -10178,11 +9893,9 @@ random.gauss(mu,sigma)
 \end{lstlisting}
 
 Given a Gaussian random variable with mean $\mu$ and standard deviation $\sigma$, it is often useful to know how many standard deviations $a$ correspond to a confidence $c$ defined as
-
 \begin{equation}
 c = \int_{\mu-a\sigma}^{\mu+a\sigma} p(x)\textrm{d}x
 \end{equation}
-
 The following algorithm generates a table of $a$ versus $c$ given $\mu$ and $\sigma$:
 
 \index{confidence intervals}
@@ -10212,11 +9925,9 @@ def confidence_intervals(mu,sigma):
 \index{distribution!pareto}
 
 The Pareto distribution, named after the economist Vilfredo Pareto, is a power law probability distribution that coincides with social, scientific, geophysical, actuarial, and many other types of observable phenomena. Outside the field of economics, it is sometimes referred to as the Bradford distribution. Its cumulative distribution function is
-
 \begin{equation}
 F(x) \equiv  \textrm{Prob}(X<x) = 1 - \left(\frac{x_m}{x}\right)^{\alpha}
 \end{equation}
-
 \begin{figure}[ht]
 \centering\includegraphics[width=4in]{images/pareto.png}
 \caption{Example of Pareto distribution.}
@@ -10237,7 +9948,7 @@ The Python function to generate Pareto distributed random numbers is
 xm * random.paretovariate(alpha)
 \end{lstlisting}
 
-The Pareto distribution is an example of Levy distribution. The Central Limit theorem does not apply to it.
+The Pareto distribution is an example of L\'{e}vy distribution. The Central Limit theorem does not apply to it.
 
 \goodbreak\subsection{In and on a circle}
 \index{distribution!circle}
@@ -10247,7 +9958,6 @@ We can generate a random point $(x,y)$ uniformly distributed on a circle by gene
 x &= \cos (2\pi u) \\
 y &= \sin (2\pi u)
 \end{align}
-
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
     def point_on_circle(self, radius=1.0):
@@ -10434,7 +10144,6 @@ f^{(2i+1)}(0)=(-1)(2i)! \\
 f^{(2i)}(x) &= x\dots\rightarrow f^{(2i)}(0)=0
 \end{align}
 }:
-
 \begin{equation}
 \arctan x=\allowbreak \sum_{i=0}(-1)^i\frac{x^{2i+1}}{2i+1}
 \end{equation}
@@ -10442,7 +10151,6 @@ and one can approximate $\pi $ to arbitrary precision by computing the sum
 \begin{equation}
 \pi =\allowbreak \sum_{i=0}(-1)^i\frac 4{2i+1}
 \end{equation}
-
 We can use the program
 \begin{lstlisting}
 def pi_Taylor(n):
@@ -10466,13 +10174,11 @@ which produces the following output:
 \end{lstlisting}
 
 A better formula is due to Plauffe,
-
 \begin{equation}
 \pi = \sum_{i=0} \frac{1}{16^i} \left(
 \frac{4}{8i+1}-\frac{2}{8i+4}-\frac{1}{8i+5}-\frac{1}{8i+6}
 \right)
 \end{equation}
-
 which we can implement as follows:
 we can use the program
 \begin{lstlisting}
@@ -10491,7 +10197,6 @@ The preceding formula works and converges very fast and already in 100 iteration
 \begin{equation}
 \pi = 3.1415926535897932384626433\dots
 \end{equation}
-
 There is a different approach based on the fact that $\pi$ is also the
 area of a circle of radius 1. We can draw a square or area containing
 a quarter of a circle of radius 1. We can randomly generate points $(x,y)$
@@ -10644,13 +10349,10 @@ The result of any MC computation is an average:
 \begin{equation}
 \mu = \frac1N \sum x_i
 \end{equation}
-
 The error on this average can be estimated using the formula
-
 \begin{equation}
 \delta\mu = \frac{\sigma}{\sqrt{N}} = \sqrt{\frac1{N} \left( {\frac1N \sum x^2_i - \mu^2} \right)}
 \end{equation}
-
 This formula assumes the distribution of the $x_i$ is Gaussian. Using this formula, we can compute a 68\% confidence level for the MC computation of $\pi$, shown in fig.~\ref{pi-plot2}.
 
 \begin{figure}[ht]
@@ -10663,11 +10365,9 @@ This formula assumes the distribution of the $x_i$ is Gaussian. Using this formu
 The purpose of the bootstrap~\cite{bootstrap} algorithm is computing the error in an average $\mu = (1/N) \sum x_i$ without making the assumption that the $x_i$ are Gaussian.
 
 The first step of the bootstrap methodology consists of computing the average not only on the initial sample $\{x_i\}$ but also on many data samples obtained by resampling the original data. If the number of elements $N$ of the original sample were infinity, the average on each other sample would be the same. Because $N$ is finite, each of these means produces slightly different results:
-
 \begin{equation}
 \mu_k = \frac1N \sum x^{[k]}_i
 \end{equation}
-
 where $x^{[k]}_i$ is the $i$th element of resample $k$ and $\mu_k$ is the average of that resample.
 
 The second step of the bootstrap methodology consists of sorting the $\mu_k$ and finding two values $\mu^-$ and $\mu^+$ that with a given percentage of the means follows in between those two values. The given percentage is the confidence level, and we set it to $68\%$.
@@ -10792,11 +10492,9 @@ Our goal is to simulate one year of losses and to determine
 From these assumptions, we determine that the $\lambda=10$ for the exponential distribution and $x_m=3000$ for the Pareto distribution. The mean of the Pareto distribution is $\alpha x_m/(\alpha-1) = 15,000$, from which we determine that $\alpha = 1.5$.
 
 We can answer the first questions (the average total loss) simply multiplying the average number of losses per year, $52\times5$, by the number of losses in one day, 10, and by the average individual loss, \$15,000, thus obtaining
-
 \begin{equation}
 \textrm{[average yearly loss]} = \$39,000,000
 \end{equation}
-
 To answer the second question, we would need to study the width of the distribution. The problem is that, for $\alpha=1.5$, the standard deviation of the Pareto distribution is infinity, and analytical methods do not apply. We can do it using a Monte Carlo simulation:
 
 
@@ -10993,7 +10691,6 @@ and
 \begin{equation}
 g(x)=f(x)/p(x)
 \end{equation}
-
 We can interpret $p(x)$ as a probability mass function and
 \begin{equation}
 E[g(X)]=\int_{-\infty }^{+\infty }g(x)p(x)dx=\int_a^bf(x)dx=I
@@ -11100,7 +10797,6 @@ and
 \begin{equation}
 g(x_0,x_1)=\frac{f(x_0,x_1)}{p_0(x_0)p_1(x_1)}
 \end{equation}
-
 We can interpret $p(x_0,x_1)$ as a probability mass function for two
 independent random variables $X_0$ and $X_1$ and
 \begin{equation}
@@ -11111,7 +10807,6 @@ Therefore
 \begin{equation}
 I = E[g(X_0,X_1)] = \frac 1N\sum_{i=0}^{i<N}g(x_{i0},x_{i1})
 \end{equation}
-
 \goodbreak\subsection{$n$-dimensional Monte Carlo integration}
 
 The technique described earlier can also be extended to $n$-dimensional integrals
@@ -11133,7 +10828,6 @@ and
 \begin{equation}
 g(x_0,\dots,x_{n-1})=f(x_0,\dots,x_{n-1})/p(x_0,\dots,x_{n-1})
 \end{equation}
-
 We can interpret $p(x_0,\dots,x_{n-1})$ as a probability mass function for $n$
 independent random variables $X_0$\dots$X_{n-1}$ and
 \begin{align}
@@ -11150,7 +10844,6 @@ As an example, we consider the integral
 \begin{equation}
 I = \int_0^1 dx_0 \int_0^1 dx_1 \int_0^1 dx_2 \int_0^1 dx_3 \sin(x_0+x_1+x_2+x_3)
 \end{equation}
-
 Here is the Python code:
 \begin{lstlisting}
 >>> class MCIntegrator(MCEngine):
@@ -11190,7 +10883,6 @@ $X_0=0$. The position of the grasshopper at each future ($t>0$) time is unknown.
 Therefore it is a random variable.
 
 We can model the movements of the grasshopper as follows:
-
 \begin{equation}
 X_{n+1}=X_n + \mu + \varepsilon _n\Delta _x  \label{markov1}
 \end{equation}
@@ -11205,7 +10897,6 @@ times $t<n\Delta _t$. We can write the statement by saying that
 \begin{equation}
 \textrm{Prob}(X_{n+1}=x|\{X_i\}\text{ for }i\leq n)=\textrm{Prob}(X_{n+1}=x|X_n)  \label{markov2}
 \end{equation}
-
 A process in which the probability distribution of its future state only
 depends on the present state and not on the past is called a
 {\it Markov process}~\cite{markov}.
@@ -11245,7 +10936,6 @@ direction and $n_{-}=n-n_{+}$ in a negative direction is given by
 \begin{equation}
 \frac{n!}{n_{+}!(n-n_{+})!}p^{n_{+}}(1-p)^{n-n_{+}}
 \end{equation}
-
 The probability of going from $a=0$ to $b=k\Delta _x>0$ in a time $t=n\Delta
 _t>0$ corresponds to the case when
 \begin{align}
@@ -11257,7 +10947,6 @@ of going from $0$ to $k$ in time $t=n\Delta _t$ is given by
 \begin{equation}
 \textrm{Prob}(n,k)=\frac{n!}{((n+k)/2)!((n-k)/2)!}p^{(n+k)/2}(1-p)^{(n-k)/2}
 \end{equation}
-
 Note that $n+k$ has to be even, otherwise it is not possible for the
 grasshopper to reach $k\Delta _x$ in exactly $n$ steps.
 
@@ -11281,7 +10970,6 @@ p(X_n)=\frac 1{\sqrt{2\pi n\Delta _x^2}}e^{-(X_n - n\mu)^2/(2n\Delta _x^2)}
 \end{equation}
 Notice how the mean and the variance of $X_n$ are both proportional
 to $n$, whereas the standard deviation is proportional to $\sqrt{n}$.
-
 \begin{align}
 \textrm{Prob}(a \leq X_n\leq b) &= \frac 1{\sqrt{2\pi n\Delta _x^2}}\int_a^be^{-(X_n - n\mu)^2/(2n%
 \Delta _x^2)}dx \\
@@ -11290,7 +10978,6 @@ _x)}e^{-x^2/2}dx \\
 &= \textrm{erf}(\frac {b-n\mu}{\sqrt{n}\Delta _x})-\textrm{erf}(\frac {a-n\mu}{\sqrt{n}\Delta
 _x})
 \end{align}
-
 \goodbreak\section{Option pricing}
 \index{Options}
 
@@ -11304,13 +10991,10 @@ The value at expiration of a European call option is
 \begin{equation}
 \max (S_\tau -A,0)
 \end{equation}
-
 Its present value is therefore
-
 \begin{equation}
 \max (S_\tau -A,0) e^{-r\tau}
 \end{equation}
-
 where $r$ is the risk-free interest rate. This value corresponds to how much we would have to borrow today from a bank so that we can repay the bank at time $\tau$ with the profit from the option.
 
 All our knowledge about the future spot price $x=S_\tau $ of the underlying
@@ -11324,20 +11008,15 @@ C_{call}=e^{-r\tau }\int_{-\infty }^{+\infty }\max (x-A,0)p_\tau (x)dx
 \label{call_option}
 \end{equation}
 
-
 Similarly, we can perform the same computations for a put option. A put option gives the buyer the option to sell the asset on a given day at a fixed price. This is an insurance against the price going down instead of going up. The value of this option at expiration is
-
 \begin{equation}
 \max (A-S_\tau,0)
 \end{equation}
-
 and its pricing formula is
-
 \begin{equation}
 C_{put}=e^{-r\tau }\int_{-\infty }^{+\infty }\max (A-x,0)p_\tau (x)dx
 \label{put_option}
 \end{equation}
-
 Also notice that $C_{call}-C_{put} = S_0 - A e^{-r\tau }$.
 This relation is called the {\it call-put parity}.
 
@@ -11364,7 +11043,6 @@ S_{n+1} &= S_nd\text{ with probability }1-p
 where $u>1$ and $0<d<1$ are measures for historic data. It follows that for $%
 \tau =n\Delta _t$, the probability that the spot price of the asset at
 expiration is $S_uu^id^{n-i}$ is given by
-
 \begin{equation}
 \textrm{Prob}(S_\tau =S_uu^id^{n-i})=\binom nip^i(1-p)^{n-i}
 \end{equation}
@@ -11378,16 +11056,13 @@ and
 C_{put}=e^{-r\tau }\frac 1n\sum_{i=0}^{i\leq n}\binom nip^i(1-p)^{n-i}\max
 (A-S_uu^id^{n-i},0)  \label{binput}
 \end{equation}
-
 The parameters of this model are $u,d$ and $p$, and they must be determined
 from historical data. For example,
-
 \begin{align}
 p &= \frac{e^{r\Delta_t} - d}{u-d} \\
 u &= e^{\sigma\sqrt{\Delta_t}} \\
 d &= e^{-\sigma\sqrt{\Delta_t}}
 \end{align}
-
 where $\Delta_t$ is the length of the time interval, $r$ is the risk-free rate, and $\sigma$ is the volatility of the asset, that is, the standard deviation of the log returns.
 
 Here is a Python code to simulate an asset price using a binomial tree:
@@ -11430,7 +11105,6 @@ t=n\Delta _t$, the log return is a Gaussian random variable:
 \begin{equation}
 \log \frac{S_{n+1}}{S_n} = \textrm{gauss}(\mu\Delta_t,\sigma\sqrt{\Delta_t}) \label{BS}
 \end{equation}
-
 There are three parameters in the preceding equation:
 
 \begin{itemize}
@@ -11450,17 +11124,13 @@ Notice that this model is equivalent to the previous binomial model for large ti
 Notice how our assumption that log-return is Gaussian is different and not compatible with Markowitz's assumption of modern portfolio theory (the arithmetic return is Gaussian). In fact, log returns and arithmetic returns cannot both be Gaussian. It is therefore incorrect to optimize a portfolio using MPT when the portfolio includes options priced using Black--Scholes. The price of an individual asset cannot be negative, therefore its arithmetic return cannot be negative and it cannot be Gaussian. Conversely, a portfolio that includes both short and long positions (the holder is the buyer and seller of options) can have negative value. A change of sign in a portfolio is not compatible with the Gaussian log-return assumption.
 
 If we are pricing a European call option, we are only interested in $S_T$ and not in $S_t$ for $0<t<T$; therefore we can choose $\Delta_t = T$. In this case, we obtain
-
 \begin{equation}
 S_T = S_0 exp(r_T)
 \end{equation}
-
 and
-
 \begin{equation}
 p(r_T) \propto \exp\left(-\frac{(r_T-\mu T)^2}{2\sigma^2 T}\right)
 \end{equation}
-
 This allows us to write the following:
 
 %%% META:FILE:options.py
@@ -11611,7 +11281,6 @@ variables whose probability mass function is given by
 \begin{equation}
 p({\bf x})=p(x_0,x_1,\dots,x_{n-1})
 \end{equation}
-
 The procedure works as follows:
 
 \begin{description}
@@ -11653,7 +11322,7 @@ for i, x in enumerate(metropolis(P,Q)):
     if i==100: break
 \end{lstlisting}
 
-In this example, {\ft Q} is the function that generates random points in the domain (in the example, $[0,1]\times[0,1]$), and ${\ft P}$ is an example probability $p(x) = 6(x_0-x_1)^2$. Notice we used the Python {\ft yield} function instead of {\ft return}. This means the function is a generator and we can loop over its returned (yielded) values without having to generate all of them at once. They are generated as needed.
+In this example, {\ft Q} is the function that generates random points in the domain (in the example, $[0,1]\times[0,1]$), and {\ft P} is an example probability $p(x) = 6(x_0-x_1)^2$. Notice we used the Python {\ft yield} function instead of {\ft return}. This means the function is a generator and we can loop over its returned (yielded) values without having to generate all of them at once. They are generated as needed.
 
 \index{decorrelation}
 
@@ -11683,11 +11352,9 @@ for i, x in enumerate(metropolis_decorrelate(P,Q)):
 A typical example of application of the Metropolis is the Ising model. This model describes a spin system, for example, a ferromagnet. A spin system consists of a regular crystalline structure, and each vertex is an atom. Each atom is a small magnet, and its magnetic orientation can be +1 or $-$1. Each atom interacts with the external magnetic field and with the magnetic field of its six neighbors (think about the six faces of a cube). We use the index $i$ to label an atom and $s_i$ its spin.
 
 The entire system has a total energy given by
-
 \begin{equation}
 E(s) = - \sum_i s_i h - \sum_{ij|dist_{ij}=1} s_i s_j
 \end{equation}
-
 where $h$ is the external magnetic field, the first sum is over all spin sites, and the second is about all couples of next neighbor sites. In the absence of spin-spin interaction, only the first term contributes, and the energy is lower when the direction of the $s_i$ (their sign) is the same as $h$. In absence of $h$, only the second term contributes. The contribution to each couple of spins is positive if their sign is the opposite, and negative otherwise.
 
 In the absence of external forces, each system evolves toward the state of minimum energy, and therefore, for a spin system, each spin tends to align itself in the same direction as its neighbors and in the same direction as the external field $h$.
@@ -11695,7 +11362,6 @@ In the absence of external forces, each system evolves toward the state of minim
 Things change when we turn on heat. Feeding energy to the system makes the atoms vibrate and the spins randomly flip. The higher the temperature, the more they randomly flip.
 
 The probability of finding the system in a given state $s$ at a given temperature $T$ is given by the Boltzmann distribution:
-
 \begin{equation}
 p(s) = \exp\left(-\frac{E(s)}{KT}\right)
 \end{equation}
@@ -11704,11 +11370,9 @@ where $K$ is the Boltzmann constant.
 We can now use the Metropolis algorithm to generate possible states of the system $s$ compatible with a given temperature $T$ and measure the effects on the average magnetization (the average spin) as a function of $T$ and possibly an external field $h$.
 
 Also notice that in the case of the Boltzmann distribution,
-
 \begin{equation}
 \frac{p(s')}{p(s)} = exp\left(\frac{E(s)-E(s')}{KT}\right)
 \end{equation}
-
 only depends on the change in energy. The Metropolis algorithm gives us the freedom to choose a function {\ft Q} that changes the state of the system and depends on the current state. We can choose such a function so that we only try to flip one spin at a time. In this case, the {\ft P} algorithm simplifies because we no longer need to compute the total energy of the system at each iteration, but only the variation of energy due to the flipping of that one spin.
 
 Here is the code for a three-dimensional spin system:
@@ -12035,16 +11699,19 @@ def TREE(i,j):
 
 Here are values of this parameter for each type of network:
 
-\begin{tabular}{|l|lll|} \hline
-Network              & Links & Diameter & Width \\ \hline
-completely connected & $p(p-1)/2$   & $1$   & $p-1$ \\
-switch               & $p$          & $2$   & $1$ \\
-1D mesh              & $p-1$        & $p-1$ & $1$ \\
-nD mesh              & $n(p^{\frac1n}-1)p^{\frac{n-1}n}$ & $n$ & $p^{\frac23}$ \\
-1D torus             & $p$          & $\frac{p}2$ & $2$ \\
-nD torus             & $np$         & $\frac{n}2 p^{\frac1n}$ & $2n$ \\
-hypercube            & $\frac{p}2 \log_2 p$ & $\log_2 p$ & $log_2 p$ \\
-tree                 & $p-1$        & $\log_2 p$ & $1$ \\ \hline
+\begin{tabular}{llll}
+  \toprule
+  Network              & Links & Diameter & Width \\
+  \midrule
+  completely connected & $p(p-1)/2$   & $1$   & $p-1$ \\
+  switch               & $p$          & $2$   & $1$ \\
+  1D mesh              & $p-1$        & $p-1$ & $1$ \\
+  nD mesh              & $n(p^{\frac1n}-1)p^{\frac{n-1}n}$ & $n$ & $p^{\frac23}$ \\
+  1D torus             & $p$          & $\frac{p}2$ & $2$ \\
+  nD torus             & $np$         & $\frac{n}2 p^{\frac1n}$ & $2n$ \\
+  hypercube            & $\frac{p}2 \log_2 p$ & $\log_2 p$ & $log_2 p$ \\
+  tree                 & $p-1$        & $\log_2 p$ & $1$ \\
+  \bottomrule
 \end{tabular}
 
 \begin{figure}[ht]
@@ -12067,20 +11734,16 @@ The time it takes for a message of size $m$ (in bytes) over a wire can be broken
 Think of a pipe of length $L$ and section $s$, and you want to pump $m$ liters of water through the pipe at velocity $v$. From the moment you start pumping, it takes $L/v$ seconds before the water starts arriving at the other end of the pipe. From that moment, it will take $m / sv$ for all the water to arrive at its destination. In this analogy, $L/v$ is the latency $t_s$, $sv$ is the bandwidth, and $t_w = 1/sv$.
 
 The total time to send the message (or the water) is
-
 \begin{equation}
 T(m) = t_s + t_w m
 \end{equation}
-
 From now on, we will use $T_1(n)$ to refer to the nonparallel running time of an algorithm as a function of its input $m$. We will use $T_p(n)$ to refer to its running time with $p$ parallel processes.
 
 As a practical case, in the following example, we consider a generic algorithm with the following parallel and nonparallel running times:
-
 \begin{align}
 T_1(n) &= t_a n^2 \\
 T_p(n) &= t_a n^2 / p + 2p (t_s+t_w n/p)
 \end{align}
-
 These formulas may come from example from the problem of multiplying a matrix times a vector.
 
 Here $t_a$ is the time to perform one elementary instruction; $t_s$ and $t_w$ are the latency and inverse bandwidth. The first term of $T_p$ is nothing but $T_1/p$, while the second term is an overhead due to communications.
@@ -12095,7 +11758,6 @@ Typically $t_s >> t_w >> t_a$. In the following plots, we will always assume $t_
 \goodbreak\subsection{Speedup}\index{speedup}
 
 The {\it speedup} is defined as
-
 \begin{equation}
 S_p(n) = \frac{T_1(n)}{T_p(n)}
 \end{equation}
@@ -12109,7 +11771,6 @@ where $T_1$ is the time it takes to run the algorithm on an input of size $n$ on
 \goodbreak\subsection{Efficiency}\index{efficiency}
 
 The {\it efficiency} is defined as
-
 \begin{equation}
 E_p(n) = \frac{S_p(n)}{p} = \frac{T_1(n)}{p T_p(n)}
 \end{equation}
@@ -12123,7 +11784,6 @@ Notice that in case of perfect parallelization (impossible), $T_p=T_1/p$, and th
 \goodbreak\subsection{Isoefficiency}\index{isoefficiency}
 
 Given a value of efficiency that we choose as target, $E$, and a given number of nodes, $p$, we ask what is the maximum size of a problem that we can solve. The answer is found by solving $n$ the following equation:
-
 \begin{equation}
 E_p(n) = E
 \end{equation}
@@ -12146,17 +11806,13 @@ For our example problem, $n$ is proportional to $p$. In general, this is not tru
 \goodbreak\subsection{Cost}\index{cost of computation}
 
 The cost of a computation is equal to the time it takes to run on each node, multiplied by the number of nodes involved in the computation:
-
 \begin{equation}
 C_p(n) = p T_p(n)
 \end{equation}
-
 Notice that in general
-
 \begin{equation}
 \frac{\textrm{d}C_p(n)}{\textrm{d}p} = \alpha T_1(n) > 0
 \end{equation}
-
 This means that for a fixed problem size $n$, the more an algorithm is parallelized, the more it costs to run it (because it gets less and less efficient).
 
 \begin{figure}[ht]
@@ -12167,25 +11823,19 @@ This means that for a fixed problem size $n$, the more an algorithm is paralleli
 \goodbreak\subsection{Cost optimality}\index{cost optimality}
 
 With the preceding disclaimer, we define cost optimality as the choice of $p$ (as a function of $n$), which makes the cost scale proportional to $T_1(n)$:
-
 \begin{equation}
 p T_p(n) \propto T_1(n)
 \end{equation}
-
 Or in other words, looking for the $p(n)$ such that
-
 \begin{equation}
 \lim_{n\rightarrow\infty} p(n) T_{p(n)}(n) / T_1(n) = const. \ne 0
 \end{equation}
-
 \goodbreak\subsection{Amdahl's law}\index{Amdahl's law}
 
 Consider an algorithm that can be parallelized, but one faction $\alpha$ of its total sequential running time $\alpha T_1$ cannot be parallelized. That means that $T_p = \alpha T_1 + (1-\alpha) T_1/p$, and this yields~\cite{admhal}
-
 \begin{equation}
 S_p = \frac{1}{\alpha+(1-\alpha)/p} < \frac{1}{\alpha}
 \end{equation}
-
 Therefore the speedup is theoretically limited.
 
 \goodbreak\section{Message passing}\index{message passing}
@@ -12655,19 +12305,21 @@ The use of {\ft barrier} is usually a symptom of bad code because it forces para
 
 In the following table, we compute the order of growth or typical running times for the most common network topologies for typical communication algorithms:
 
-\begin{tabular}{|l|lll|} \hline
-Network & Send/Recv & One2All Bcast & Scatter \\ \hline
-completely connected & $1$ & $1$ & $1$ \\
-switch  & $2$ & $\log p$ & $2p$ \\
-1D mesh  & $p-1$ & $p-1$ & $p^2$ \\
-2D mesh  & $2(p^{\frac12}-1)$ & $\sqrt{p}$ & $p^2$ \\
-3D mesh  & $3(p^{\frac13}-1)$ & $p^{1/3}$ & $p^2$ \\
-1D torus  & $p/2$ & $p/2$ & $p^2$ \\
-2D torus  & $2p^{\frac12}$ & $\sqrt{p}/2$ & $p^2$ \\
-3D torus  & $3/2 p^{\frac13}$ & $p^{1/3}/2$ & $p^2$ \\
-hypercube  & $\log p$ & $\log_2 p$ & $p$ \\
-tree  & $\log p$ & $\log p$ & $p$
-\\ \hline
+\begin{tabular}{llll}
+  \toprule
+  Network & Send/Recv & One2All Bcast & Scatter \\
+  \midrule
+  completely connected & $1$ & $1$ & $1$ \\
+  switch  & $2$ & $\log p$ & $2p$ \\
+  1D mesh  & $p-1$ & $p-1$ & $p^2$ \\
+  2D mesh  & $2(p^{\frac12}-1)$ & $\sqrt{p}$ & $p^2$ \\
+  3D mesh  & $3(p^{\frac13}-1)$ & $p^{1/3}$ & $p^2$ \\
+  1D torus  & $p/2$ & $p/2$ & $p^2$ \\
+  2D torus  & $2p^{\frac12}$ & $\sqrt{p}/2$ & $p^2$ \\
+  3D torus  & $3/2 p^{\frac13}$ & $p^{1/3}/2$ & $p^2$ \\
+  hypercube  & $\log p$ & $\log_2 p$ & $p$ \\
+  tree  & $\log p$ & $\log p$ & $p$ \\
+  \bottomrule
 \end{tabular}
 
 It is obvious that the completely connected is the fastest network but also the most expensive to build. The tree is a cheap compromise. The switch tends to be faster for arbitrary point-to-point communication, but the switch comes to a premium. Multidimensional meshes and toruses become cost-effective when solving problems that are naturally defined on a grid because they only require next neighbor interaction.
@@ -12919,7 +12571,6 @@ Here {\ft self.ctx} is the device context, {\ft self.queue} is the device queue.
 \subsection{Laplace solver}
 
 In this section we implement a two-dimensional Laplace solver. A three-dimensional generalization is straightforward. In particular, we want to solve the following differential equation known as a Laplace equation:
-
 \begin{equation}
 (\partial_x^2 + \partial_y^2) u(x,y) = q(x,y)
 \label{nabla}
@@ -12929,7 +12580,6 @@ Here $q$ is the input and $u$ is the output.
 This equation originates, for example, in electrodynamics. In this case, $q$ is the distribution of electric charge in space and $u$ is the electrostatic potential.
 
 As we did in chapter 3, we proceed by discretizing the derivatives:
-
 \begin{align}
 \partial_x^2 u(x,y) &= (u(x-h,y)-2 u(x,y)+u(x+h,y))/h^2 \\
 \partial_y^2 u(x,y) &= (u(x,y-h)-2 u(x,y)+u(x,y+h))/h^2
@@ -12939,7 +12589,6 @@ Substitute them into eq.~\ref{nabla} and solve the equation in $u(x,y)$. We obta
 u(x,y) = 1/4 (u(x-h,y)+u(x+h,y)+u(x,y-h)+u(x,y+h)-h^2 q(x,y))
 \label{nabla2}
 \end{equation}
-
 We can therefore solve eq.~\ref{nabla} by iterating eq.~\ref{nabla2} until convergence. The initial value of $u$ will not affect the solution, but the closer we can pick it to the actual solution, the faster the convergence.
 
 The procedure we utilized here for transforming a differential equation into an iterative procedure is a general one and applies to other differential equations as well. The iteration proceeds very much as the fixed point solver also examined in chapter 3.
@@ -13079,15 +12728,18 @@ int a = b+c;
 The converter also checks the types for consistency. The return type is determined automatically from the type of the object that is returned. Python objects that have no C99 equivalent like lists, tuples, dictionaries, and sets are not supported. Other types are converted based on the following table:
 
 \begin{center}
-\begin{tabular}{|l|l|} \hline
-{\bf ocl} & {\bf C99/OpenCL} \\ \hline
-{\ft a = new}\_{\it type}{\ft (...)} & {\it type} {\ft  a = ...;} \\
-{\ft a = new\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft *a = ...;} \\
-{\ft a = new\_prt\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft **a = ...;} \\
-{\ft None} & {\ft null} \\
-{\ft ADDR(x)} & {\ft \&x} \\
-{\ft REFD(x)} & {\ft *x} \\
-{\ft CAST(prt\_}{\it type}{\ft ,x)} & {\ft (}{\it type}{\ft *)x} \\ \hline
+\begin{tabular}{ll}
+  \toprule
+  {\bf ocl} & {\bf C99/OpenCL} \\
+  \midrule
+  {\ft a = new}\_{\it type}{\ft (...)} & {\it type} {\ft  a = ...;} \\
+  {\ft a = new\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft *a = ...;} \\
+  {\ft a = new\_prt\_prt\_}{\it type}{\ft (...)} & {\it type} {\ft **a = ...;} \\
+  {\ft None} & {\ft null} \\
+  {\ft ADDR(x)} & {\ft \&x} \\
+  {\ft REFD(x)} & {\ft *x} \\
+  {\ft CAST(prt\_}{\it type}{\ft ,x)} & {\ft (}{\it type}{\ft *)x} \\
+  \bottomrule
 \end{tabular}
 \end{center}
 
@@ -13208,41 +12860,39 @@ In this program, we have defined multiple kernels and complied them at once. We 
 \goodbreak\section{Appendix A: Math Review and Notation}
 
 \goodbreak\subsection{Symbols}
-
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-$\infty $ & infinity \\ \hline
-$\wedge $ & and \\ \hline
-$\vee $ & or \\ \hline
-$\cap $ & intersection \\ \hline
-$\cup $ & union \\ \hline
-$\in $ & element or In \\ \hline
-$\forall $ & for each \\ \hline
-$\exists $ & exists \\ \hline
-$\Rightarrow $ & implies \\ \hline
-: & such that \\ \hline
-iff & if and only if \\ \hline
-\end{tabular}
+  \begin{tabular}{ll}
+    \toprule
+    $\infty $ & infinity \\
+    $\wedge $ & and \\
+    $\vee $ & or \\
+    $\cap $ & intersection \\
+    $\cup $ & union \\
+    $\in $ & element or In \\
+    $\forall $ & for each \\
+    $\exists $ & exists \\
+    $\Rightarrow $ & implies \\
+    : & such that \\
+    iff & if and only if \\
+    \bottomrule
+  \end{tabular}
 \end{equation}
-
 \goodbreak\subsection{Set theory}
 
 \subsubsection{Important sets}
-
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-${\bf 0}$ & empty set \\ \hline
-${\Bbb N}$ & natural numbers \{0,1,2,3,\dots\} \\ \hline
-${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,\dots\} \\ \hline
-${\Bbb Z}$ & all integers \{\dots,-3,-2,-1,0,1,2,3,\dots\} \\ \hline
-${\Bbb R}$ & all real numbers \\ \hline
-${\Bbb R}^{+}$ & positive real numbers (not including 0) \\ \hline
-${\Bbb R}^{0}$ & positive numbers including 0 \\ \hline
+\begin{tabular}{ll}
+  \toprule
+  ${\bf 0}$ & empty set \\
+  ${\Bbb N}$ & natural numbers \{0,1,2,3,\dots\} \\
+  ${\Bbb N}^{+}$ & positive natural numbers \{1,2,3,\dots\} \\
+  ${\Bbb Z}$ & all integers \{\dots,-3,-2,-1,0,1,2,3,\dots\} \\
+  ${\Bbb R}$ & all real numbers \\
+  ${\Bbb R}^{+}$ & positive real numbers (not including 0) \\
+  ${\Bbb R}^{0}$ & positive numbers including 0 \\
+  \bottomrule
 \end{tabular}
 \end{equation}
-
 \subsubsection{Set operations}
 
 ${\cal A}$, ${\cal B}$ and ${\cal C}$ are some generic sets.
@@ -13446,15 +13096,12 @@ Properties of logarithms:
 \log \frac xy &= (\log x)-(\log y) \\
 \log x^n &= n\log x
 \end{align}
-
 \goodbreak\subsection{Finite sums}
 
 \subsubsection{Definition}
-
 \begin{equation}
 \sum_{i=0}^{i<n}f(i)\equiv f(0)+f(1)+\dots+f(n-1)
 \end{equation}
-
 \subsubsection{Properties}
 
 \begin{itemize}
@@ -13466,12 +13113,10 @@ Properties of logarithms:
 
 \item  {\bf Linearity II}
 \end{itemize}
-
 \begin{equation}
 \sum_{i=0}^{i<n}af(i)+bg(i)=a\left( \sum_{i=0}^{i<n}f(i)\right) +b\left(
 \sum_{i=0}^{i<n}g(i)\right)
 \end{equation}
-
 Proof:
 \begin{align}
 \sum_{i=0}^{i<n}af(i)+bg(i) &= \left( af(0)+bg(0)\right) +\dots+\left(
@@ -13481,9 +13126,7 @@ af(n-1)+bg(n-1)\right)  \nonumber \\
 \\
 &= a\left( \sum_{i=0}^{i<n}f(i)\right) +b\left( \sum_{i=0}^{i<n}g(i)\right)
 \end{align}
-
 Examples:
-
 \begin{align}
 \sum_{i=0}^{i<n}c &= cn\text{ for any constant }c \\
 \sum_{i=0}^{i<n}i &= \frac 12n(n-1) \\
@@ -13493,22 +13136,18 @@ Examples:
 \sum_{i=0}^{i<n}\frac 1{i(i+1)} &= 1-\frac 1n\text{ (telescopic sum)}
 \end{align}
 
-
 \goodbreak\subsection{Limits ($n\rightarrow \infty $)}
 
 In these section we will only deal with limits ($n\rightarrow \infty $) of
 positive functions.
-
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=?
 \end{equation}
-
 First compute limits of the numerator and denominator separately:
 \begin{align}
 \lim_{n\rightarrow \infty }f(n) &= a \\
 \lim_{n\rightarrow \infty }g(n) &= b
 \end{align}
-
 \begin{itemize}
 \item  If $a\in {\Bbb R}$ and $b\in {\Bbb R}^{+}\,$then
 \begin{equation}
@@ -13543,24 +13182,23 @@ For any $a\in {\Bbb R}$ or $a=\infty $%
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=a\Rightarrow \lim_{n\rightarrow
 \infty }\frac{g(n)}{f(n)}=1/a
 \end{equation}
-
 \subsubsection{Table of derivatives}
-
 \begin{equation}
-\begin{tabular}{|l|l|}
-\hline
-$f(x)$ & $f^{\prime }(x)$ \\ \hline
-$c$ & $0$ \\ \hline
-$ax^n$ & $anx^{n-1}$ \\ \hline
-$\log x$ & $\frac 1x$ \\ \hline
-$e^x$ & $e^x$ \\ \hline
-$a^x$ & $a^x\log a$ \\ \hline
-$x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
-\end{tabular}
+  \begin{tabular}{ll}
+    \toprule
+    $f(x)$ & $f^{\prime }(x)$ \\
+    \midrule
+    $c$ & $0$ \\
+    $ax^n$ & $anx^{n-1}$ \\
+    $\log x$ & $\frac 1x$ \\
+    $e^x$ & $e^x$ \\
+    $a^x$ & $a^x\log a$ \\
+    $x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\
+    \bottomrule
+  \end{tabular}
 \end{equation}
 
 \subsubsection{Practical rules to compute derivatives}
-
 \begin{align}
 \frac d{dx}\left( f(x)+g(x)\right) &= f^{\prime }(x)+g^{\prime }(x) \\
 \frac d{dx}\left( f(x)-g(x)\right) &= f^{\prime }(x)-g^{\prime }(x) \\
@@ -13570,7 +13208,6 @@ $x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
 \frac{f(x)g^{\prime }(x)}{g(x)^2} \\
 \frac d{dx}f(g(x)) &= f^{\prime }(g(x))g^{\prime }(x)
 \end{align}
-
 \end{fullwidth}
 \backmatter
 
@@ -13625,7 +13262,7 @@ $x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
 \bibitem{lorenz} Edward N. Lorenz, ``Deterministic non-periodic flow''. Journal of the Atmospheric Sciences 20 (2) (1963) pp 130–141. DOI:10.1175/1520-0469
 \bibitem{determinism} Ian Hacking, ``19th-century Cracks in the Concept of Determinism'', Journal of the History of Ideas, 44 (3) (1983) pp 455-475 JSTOR:2709176
 \bibitem{decay} F. Cannizzaro, G. Greco, S. Rizzo, E. Sinagra, ``Results of the measurements carried out in order to verify the validity of the poisson-exponential distribution in radioactive decay events''. The International Journal of Applied Radiation and Isotopes 29 (11) (1978) pp 649. DOI:10.1016/0020-708X(78)90101-1
-\bibitem{bits} Yuval Perez, ``Iterating Von Neumann's Procedure for Extracting Random Bits''. The Annals of Statistics 20 (1) (1992) pp 590–597
+\bibitem{bits} Yuval Perez, ``Iterating von Neumann's Procedure for Extracting Random Bits''. The Annals of Statistics 20 (1) (1992) pp 590–597
 \bibitem{lusher} Martin Luescher, ``A Portable High-Quality Random Number Generator for Lattice Field Theory Simulations'', Comput. Phys. Commun. 79 (1994) pp 100-110
 \bibitem{randu} \url{http://demonstrations.wolfram.com/PoorStatisticalQualitiesForTheRANDURandomNumberGenerator}
 \bibitem{fishman} G. S. Fishman, ``Grouping observations in digital simulation'', Management Science 24 (1978) pp 510-521
