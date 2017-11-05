@@ -2994,7 +2994,6 @@ T_{average} &\in \Theta (n\log n) \\
 T_{worst} &\in \Theta (n\log n) \\
 T_{memory} &\in \Theta (1)
 \end{align}
-\index{greedy algorithms}
 
 {\bf Greedy algorithms}
 \index{greedy algorithms} work in phases. In each phase, a decision is made
@@ -4968,7 +4967,7 @@ We define the condition number of $f$ in $x$ as
 \end{equation}
 (the latter equality only holds if $f$ is differentiable in $x$).
 
-A problem with a low condition number is said to be well-conditioned, while a problem with a high condition number is said to be ill-conditioned. XXX
+A problem with a low condition number is said to be well-conditioned, while a problem with a high condition number is said to be ill-conditioned.
 
 We say that a problem characterized by a function $f$ is well conditioned in a domain $D$ if the condition number is less than 1 for every input in the domain. We also say that a problem is stable if it is well conditioned.
 
@@ -8496,14 +8495,14 @@ We can numerically verify this for the simple case in which $X_i$ are uniform ra
 
 This theorem is of fundamental importance for stochastic calculus. Notice that the theorem does not apply when the $X_i$ follow distributions that do not have a finite mean or a finite variance.
 
-\index{Levy distributions}
+\index{L'{e}vy distributions}
 
-Distributions that do not follow the central limit are called {\it Levy distributions}.
+Distributions that do not follow the central limit are called {\it L\'{e}vy distributions}.
 They are characterized by fat tails for the form
 \begin{equation}
 p(x) \stackunder{x\rightarrow\infty}{\sim} \frac1{\left|x\right|^{1+\alpha}}, \qquad 0<\alpha<2
 \end{equation}
-An example if the Pareto distribution.
+An example is the Pareto distribution.
 
 \goodbreak\subsection{Error in the mean}
 \index{error in the mean}
@@ -8746,7 +8745,7 @@ type of atom. One characteristic of this distribution is that it is a memoryless
 \index{distribution!Bernoulli}
 
 Given the sequence $\{t_i\}$ with exponential distribution, we can build a
-random sequence of zeros and ones (Bernoulli distribution) by applying the following formula, known as the Von Neumann procedure~\cite{bits}:
+random sequence of zeros and ones (Bernoulli distribution) by applying the following formula, known as the von Neumann procedure~\cite{bits}:
 \begin{equation}
 x_i=
 \begin{cases}
@@ -9936,7 +9935,7 @@ The Python function to generate Pareto distributed random numbers is
 xm * random.paretovariate(alpha)
 \end{lstlisting}
 
-The Pareto distribution is an example of Levy distribution. The Central Limit theorem does not apply to it.
+The Pareto distribution is an example of L\'{e}vy distribution. The Central Limit theorem does not apply to it.
 
 \goodbreak\subsection{In and on a circle}
 \index{distribution!circle}
@@ -11310,7 +11309,7 @@ for i, x in enumerate(metropolis(P,Q)):
     if i==100: break
 \end{lstlisting}
 
-In this example, {\ft Q} is the function that generates random points in the domain (in the example, $[0,1]\times[0,1]$), and ${\ft P}$ is an example probability $p(x) = 6(x_0-x_1)^2$. Notice we used the Python {\ft yield} function instead of {\ft return}. This means the function is a generator and we can loop over its returned (yielded) values without having to generate all of them at once. They are generated as needed.
+In this example, {\ft Q} is the function that generates random points in the domain (in the example, $[0,1]\times[0,1]$), and {\ft P} is an example probability $p(x) = 6(x_0-x_1)^2$. Notice we used the Python {\ft yield} function instead of {\ft return}. This means the function is a generator and we can loop over its returned (yielded) values without having to generate all of them at once. They are generated as needed.
 
 \index{decorrelation}
 
@@ -13238,7 +13237,7 @@ $x^n\log x,n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
 \bibitem{lorenz} Edward N. Lorenz, ``Deterministic non-periodic flow''. Journal of the Atmospheric Sciences 20 (2) (1963) pp 130–141. DOI:10.1175/1520-0469
 \bibitem{determinism} Ian Hacking, ``19th-century Cracks in the Concept of Determinism'', Journal of the History of Ideas, 44 (3) (1983) pp 455-475 JSTOR:2709176
 \bibitem{decay} F. Cannizzaro, G. Greco, S. Rizzo, E. Sinagra, ``Results of the measurements carried out in order to verify the validity of the poisson-exponential distribution in radioactive decay events''. The International Journal of Applied Radiation and Isotopes 29 (11) (1978) pp 649. DOI:10.1016/0020-708X(78)90101-1
-\bibitem{bits} Yuval Perez, ``Iterating Von Neumann's Procedure for Extracting Random Bits''. The Annals of Statistics 20 (1) (1992) pp 590–597
+\bibitem{bits} Yuval Perez, ``Iterating von Neumann's Procedure for Extracting Random Bits''. The Annals of Statistics 20 (1) (1992) pp 590–597
 \bibitem{lusher} Martin Luescher, ``A Portable High-Quality Random Number Generator for Lattice Field Theory Simulations'', Comput. Phys. Commun. 79 (1994) pp 100-110
 \bibitem{randu} \url{http://demonstrations.wolfram.com/PoorStatisticalQualitiesForTheRANDURandomNumberGenerator}
 \bibitem{fishman} G. S. Fishman, ``Grouping observations in digital simulation'', Management Science 24 (1978) pp 510-521
