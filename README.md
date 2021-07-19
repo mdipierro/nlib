@@ -1,4 +1,4 @@
-## Annotated Algorithms in Python
+## Annotated Algorithms in Python (3.8)
 
 ### With applications in Physics, Biology, and Finance
 
@@ -12,7 +12,7 @@ The book is also available in printed form from Amazon:
 
 ## The nlib library
 
-The book builds a numerical library from the ground up, called nlib.py.
+The book builds a numerical library from the ground up, called src/nlib.py.
 It is a pure python library for numerical computations. It doesn't require numpy.
 
 ## Usage
@@ -184,4 +184,4 @@ plots are chainable. methods: .plot, .hist, .errorbar, .ellipses
 
 ## License
 
-Created by Massimo Di Pierro (http://experts4solutions.com) @2016 BSDv3 License
+Created by Massimo Di Pierro (massimo.dipierro@gmail.com) @2016 BSDv3 License
