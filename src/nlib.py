@@ -1929,7 +1929,7 @@ class MCEngine:
             dmu = sqrt(variance / k)
             if k > 10:
                 if abs(dmu) < max(ap, abs(mu) * rp):
-                    self.converence = True
+                    self.convergence = True
                     break
         self.results.sort()
         return bootstrap(self.results)
