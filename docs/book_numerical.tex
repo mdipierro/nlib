@@ -8,8 +8,8 @@
 % - rewrite Matrix
 % - dimensional analysis
 
-\title{\LARGE Annotated Algorithms in Python$_3$}
-\subtitle{with applications in Physics, Biology, Finance (2nd Ed.)}
+\title{\LARGE Annotated Algorithms in Python}
+\subtitle{With Applications in Physics, Biology, Finance (3rd Ed.)}
 
 \author{Massimo Di Pierro}
 \publisher{Experts4Solutions}
@@ -87,6 +87,7 @@
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
 % Generates the index
+\raggedbottom
 \begin{document}
 
 \frontmatter
@@ -134,7 +135,7 @@ Email: massimo.dipierro@gmail.com
 \end{verbatim}
 
 Library of Congress Cataloging-in-Publication Data: \\ \\
-ISBN: 978-0-9911604-0-2 \\
+ISBN: 9798254871569 \\
 Build Date: \today
 }
 
@@ -467,7 +468,7 @@ And here is an example of underflow:
 0.0
 \end{lstlisting}
 
-Another problem with finite precision arithmetic is the loss of precision in computation. Consider the case of the difference between two numbers with very different orders of magnitude. To compute the difference, the CPU reduces them to the same exponent (the largest of the two) and then computes the difference in the two mantissas. If two numbers differ for a factor $2^k$, then the mantissa of the smallest number, in binary, needs to be shifted by $k$ positions, thus resulting in a loss of information because the $k$ least significant bits in the mantissa are ignored. If the difference between the two numbers is greater than a factor $2^{52}$, all bits in the mantissa of the smallest number are ignored, and the smallest number becomes completely invisible.
+Another problem with finite precision arithmetic is the loss of precision in computation. Consider the case of the difference between two numbers with very different orders of magnitude. To compute the difference, the CPU reduces them to the same exponent (the largest of the two) and then computes the difference in the two mantissas. If two numbers differ by a factor $2^k$, then the mantissa of the smallest number, in binary, needs to be shifted by $k$ positions, thus resulting in a loss of information because the $k$ least significant bits in the mantissa are ignored. If the difference between the two numbers is greater than a factor $2^{52}$, all bits in the mantissa of the smallest number are ignored, and the smallest number becomes completely invisible.
 
 Following is a practical example that produces an incorrect result:
 
@@ -1307,7 +1308,7 @@ Function arguments can have default values and can return multiple results as a 
 3
 \end{lstlisting}
 
-Function arguments can be passed explicitly by name; therefore the order of arguments specified in the caller can be different than the order of arguments with which the function was defined:
+Function arguments can be passed explicitly by name; therefore the order of arguments specified in the caller can be different from the order of arguments with which the function was defined:
 
 %%% META:FILE:test.py
 \begin{lstlisting}
@@ -1751,7 +1752,7 @@ The {\ft urllib} is a module to download data or a web page from a URL:
 >>> html = page.read()
 \end{lstlisting}
 
-Many web services return data in JSON format. JSON is slowly replacing XML as a favorite protocol for data transfer on the web. It is lighter, simpler to use, and more human readable. JSON can be thought of as serialized JavaScript. the JSON data can be converted to a Python object using a library called {\ft json}:
+Many web services return data in JSON format. JSON is slowly replacing XML as a favorite protocol for data transfer on the web. It is lighter, simpler to use, and more human readable. JSON can be thought of as serialized JavaScript. The JSON data can be converted to a Python object using a library called {\ft json}:
 
 \begin{lstlisting}
 >>> import json
@@ -2279,7 +2280,7 @@ In fact, algorithms are independent
 of any programming language. Efficient algorithms can have a dramatic effect
 on our problem-solving capabilities.
 
-The basic steps of algorithms are loops ({\ft for}, conditionals ({\ft if}), and function calls.
+The basic steps of algorithms are loops ({\ft for}), conditionals ({\ft if}), and function calls.
 Algorithms also make use of arithmetic expressions, logical expressions ({\ft not}, {\ft and}, {\ft or}), and expressions that can be reduced to the other basic components.
 
 The issues that concern us when developing and analyzing algorithms are the following:
@@ -2575,7 +2576,7 @@ def concatenate1(n):
 \end{lstlisting}
 
 \begin{equation}
-T_{worst}(n)=\Theta (\max (n^2, n^3))\Rightarrow \text{{\tt concatenate1}}\in \O(n^3)
+T_{worst}(n)=\Theta (\max (n^2, n^3))\Rightarrow \text{{\tt concatenate1}}\in O(n^3)
 \end{equation}
 
 \begin{equation}
@@ -3627,7 +3628,7 @@ def depth_first_search(graph, start):
     return blacknodes
 \end{lstlisting}
 
-Notice that the BFS and the DFS differ for a single line, which determines whether graynodes is a queue (BSF) or a stack (DFS). When graynodes is a queue, the first vertex discovered is the first visited. When it is a stack, the last vertex discovered is the first visited.
+Notice that the BFS and the DFS differ by a single line, which determines whether graynodes is a queue (BSF) or a stack (DFS). When graynodes is a queue, the first vertex discovered is the first visited. When it is a stack, the last vertex discovered is the first visited.
 
 The DFS algorithm goes as follows:
 \begin{eqnarray}
@@ -3921,7 +3922,7 @@ an audio compression format in which frequencies below 2 KHz are dumped and not
 compressed because they are not audible). Therefore the JPEG and MPEG
 formats are referred to as compression with information loss.
 
-Here is a possible implementation of Huffman encoding using the Python {\ft heapq} library. Notice that in order for it to work properly, we need to wrap the set of symbols they represents, and their relative frequency, into a class {\ft HuffmanNode} that implements the $<$ ({\ft \_\_lt\_\_}) operator.
+Here is a possible implementation of Huffman encoding using the Python {\ft heapq} library. Notice that in order for it to work properly, we need to wrap the set of symbols they represent, and their relative frequency, into a class {\ft HuffmanNode} that implements the $<$ ({\ft \_\_lt\_\_}) operator.
 
 %%% META:FILE:nlib.py
 \begin{lstlisting}[caption={in file: {\ft nlib.py}}]
@@ -4160,6 +4161,30 @@ The output of the algorithm is the following image:
 
 The arrow-like patterns in the figure correspond to locations where {\ft chromosome1} (Y coordinate) and where {\ft chromosome2} (X coordinate) have DNA in common. Those are the places where the sequences are more likely to be aligned for a more detailed comparison.
 
+Both LCS and Needleman--Wunsch are available as optimized implementations in Biopython:
+
+\begin{lstlisting}
+>>> from Bio import pairwise2
+>>> alignments = pairwise2.align.globalxx(chromosome1, chromosome2)
+>>> print(alignments[0].score)
+\end{lstlisting}
+
+Alternatively, using NumPy to vectorize the Needleman--Wunsch DP table:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> def needleman_wunsch_np(a, b, p=0.97):
+...     z = np.zeros((len(a), len(b)))
+...     for i, r in enumerate(a):
+...         for j, c in enumerate(b):
+...             if r == c:
+...                 z[i, j] = z[i-1, j-1] + 1 if i*j > 0 else 1
+...             else:
+...                 z[i, j] = p * max(z[i-1, j] if i > 0 else 0,
+...                                   z[i, j-1] if j > 0 else 0)
+...     return z
+\end{lstlisting}
+
 \subsection{Continuous Knapsack}
 \index{continuous knapsack}
 
@@ -4305,7 +4330,7 @@ if we invest $k$ million dollars in firm $0$:
 \begin{equation}
 f[0, k]=\max_{j|c[0, j]<k}r[0, j]  \label{stage0}
 \end{equation}
-\begin{equation}
+\begin{equation*}
 \begin{tabular}{|l|l|}
 \hline
 $k$ & $f[0, k]$ \\ \hline
@@ -4317,7 +4342,7 @@ $k$ & $f[0, k]$ \\ \hline
 5 & 6 \\ \hline
 \end{tabular}
 \label{table0}
-\end{equation}
+\end{equation*}
 
 STAGE TWO: we maximize the return of investment considering offers from firm $%
 1$ and the prior table. We fill a table $f[1, k]$ with the maximum return of
@@ -4325,7 +4350,7 @@ investment if we invest $k$ million dollars in firm $0$ and firm $1$:
 \begin{equation}
 f[1, k]=\max_{j|c[1, j]<k}r[1, j]+f[0, k-c[0, j]]  \label{stage1}
 \end{equation}
-\begin{equation}
+\begin{equation*}
 \begin{tabular}{|l|l|l|l|}
 \hline
 $k$ & $c[2, j]$ & $f[0, k-c[0, j]]$ & $f[1, k]$ \\ \hline
@@ -4336,8 +4361,8 @@ $k$ & $c[2, j]$ & $f[0, k-c[0, j]]$ & $f[1, k]$ \\ \hline
 4 & 3 & 1 & 13 \\ \hline
 5$^{ * }$ & 4$^{ * }$ & 1$^{ * }$ & 18$^{ * }$ \\ \hline
 \end{tabular}
-\label{table1}
-\end{equation}
+\label{table_stage2}
+\end{equation*}
 
 STAGE THREE: we maximize the return of investment considering offers from
 firm $2$ and the preceding table. We fill a table $f[2, k]$ with the maximum
@@ -4346,7 +4371,7 @@ and firm $2$:
 \begin{equation}
 f[2, k]=\max_{j|c[2, j]<k}r[2, j]+f[1, k-c[1, j]]  \label{stage2}
 \end{equation}
-\begin{equation}
+\begin{equation*}
 \begin{tabular}{|l|l|l|l|}
 \hline
 $k$ & $c[2, j]$ & $f[1, k-c[1, j]]$ & $f[2, k]$ \\ \hline
@@ -4357,8 +4382,8 @@ $k$ & $c[2, j]$ & $f[1, k-c[1, j]]$ & $f[2, k]$ \\ \hline
 4 & 1 & 3 & 13 \\ \hline
 5$^{ * }$ & 2$^{ * }$ & 3$^{ * }$ & 18$^{ * }$ \\ \hline
 \end{tabular}
-\label{table2}
-\end{equation}
+\label{table_stage3}
+\end{equation*}
 The maximum return of investment with \$5M is therefore \$18M. It can be
 achieved by investing \$2M in firm 2 and \$3M in firms 0 and 1. The optimal
 choice is marked with a star in each table. Note that to determine
@@ -4381,14 +4406,14 @@ f[i, k]=\max_{j|c[i, j]<k}r[i, j]+f[i-1, k-c[i-1, j]]
 
 \index{clustering}\index{hierarchical clustering}\index{k-means}
 
-There are many algorithms available to cluster data~\cite{clustering}. They are all based on empirical principles because the cluster themselves are defined by the algorithm used to identify them. Normally we distinguish three categories:
+There are many algorithms available to cluster data~\cite{clustering}. They are all based on empirical principles because the clusters themselves are defined by the algorithm used to identify them. Normally we distinguish three categories:
 \begin{itemize}
 \item {\it Hierarchical clustering}: These algorithms start by considering each point a cluster of its own. At each iteration, the two clusters closest to each other are joined together, forming a larger cluster. Hierarchical clustering algorithms differ from each other about the rule used to determine the distance between clusters. The algorithm returns a tree representing the clusters that are joined, called a {\it dendrogram}.
 \item {\it Centroid-based clustering}: These algorithms require that each point be represented by a vector and each cluster also be represented by a vector (centroid of the cluster). With each iteration, a better estimation for the centroids is given. An example of centroid-based clustering is {\it k-means} clustering. These algorithms require an a priori knowledge of the number of clusters and return the position of the centroids as well the set of points belonging to each cluster.
-\item {\it Distribution-based clustering}: These algorithms are based on statistics (more than the other two categories). They assume the points are generated from a  distribution (which mush be known a priori) and determine the parameters of the distribution. It provides clustering because the distribution may be a sum of more than one localized distribution (each being a cluster).
+\item {\it Distribution-based clustering}: These algorithms are based on statistics (more than the other two categories). They assume the points are generated from a distribution (which must be known a priori) and determine the parameters of the distribution. It provides clustering because the distribution may be a sum of more than one localized distribution (each being a cluster).
 \end{itemize}
 
-Both {\it k}-means and distribution-based clustering assume an a priori knowledge about the data that often defies the purpose of using clustering: learn something we do now know about the data using an empirical algorithm. They also require that the points be represented by vectors in a Euclidean space, which is not always the case. Consider the case of clustering DNA sequences or financial time series. Technically the latter can be presented as vectors, but their dimensionality can be very large, thus making the algorithms impractical.
+Both {\it k}-means and distribution-based clustering assume an a priori knowledge about the data that often defies the purpose of using clustering: learn something we do not know about the data using an empirical algorithm. They also require that the points be represented by vectors in a Euclidean space, which is not always the case. Consider the case of clustering DNA sequences or financial time series. Technically the latter can be presented as vectors, but their dimensionality can be very large, thus making the algorithms impractical.
 
 Hierarchical clustering only requires the notion of a distance between points, for some of the points.
 
@@ -4490,6 +4515,18 @@ For example:
 ...       ).plot(c.dd[150:]).save("clustering1.png")
 >>> Canvas(title="clustering example (2d projection)", xlab="p[0]", ylab="p[1]"
 ...       ).ellipses([p[:2] for p in points]).save("clustering2.png")
+\end{lstlisting}
+
+The same clustering can be performed using {\ft scipy}:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> from scipy.cluster.hierarchy import linkage, fcluster
+>>> from scipy.spatial.distance import pdist
+>>> points = np.array([[random.gauss(i % 5, 0.3) for j in range(10)]
+...                     for i in range(200)])
+>>> Z = linkage(points, method='weighted')
+>>> clusters = fcluster(Z, t=5, criterion='maxclust')
 \end{lstlisting}
 
 With our sample data, we obtain the following plot (``clustering1.png''):
@@ -4651,6 +4688,60 @@ class NeuralNetwork:
                 error = error + self.back_propagate(targets, N, M)
             if check and i % 100 == 0:
                 print("error %-14f" % error)
+\end{lstlisting}
+
+The same neural network can be implemented more efficiently using NumPy for vectorized operations:
+
+\begin{lstlisting}
+import numpy as np
+
+class NeuralNetworkNumPy:
+    def __init__(self, ni, nh, no):
+        self.ni, self.nh, self.no = ni + 1, nh, no
+        self.ai = np.ones(self.ni)
+        self.ah = np.ones(self.nh)
+        self.ao = np.ones(self.no)
+        self.wi = np.random.uniform(-0.2, 0.2, (self.ni, self.nh))
+        self.wo = np.random.uniform(-2.0, 2.0, (self.nh, self.no))
+        self.ci = np.zeros((self.ni, self.nh))
+        self.co = np.zeros((self.nh, self.no))
+
+    def update(self, inputs):
+        self.ai[:self.ni-1] = inputs
+        self.ah = np.tanh(self.ai @ self.wi)
+        self.ao = np.tanh(self.ah @ self.wo)
+        return self.ao.copy()
+
+    def back_propagate(self, targets, N, M):
+        targets = np.array(targets)
+        output_deltas = (1 - self.ao ** 2) * (targets - self.ao)
+        hidden_deltas = (1 - self.ah ** 2) * (output_deltas @ self.wo.T)
+        change = np.outer(self.ah, output_deltas)
+        self.wo += N * change + M * self.co; self.co = change
+        change = np.outer(self.ai, hidden_deltas)
+        self.wi += N * change + M * self.ci; self.ci = change
+        return 0.5 * np.sum((targets - self.ao) ** 2)
+
+    def train(self, patterns, iterations=1000, N=0.5, M=0.1):
+        for i in range(iterations):
+            for p in patterns:
+                self.update(p[0])
+                self.back_propagate(p[1], N, M)
+\end{lstlisting}
+
+Using {\ft scikit-learn}, a neural network follows the same {\ft fit/predict} pattern as linear regression. The {\ft MLPClassifier} (for classification) and {\ft MLPRegressor} (for regression) wrap a multi-layer perceptron with the same interface: call {\ft fit(X, y)} with the training data, then {\ft predict(X\_new)} for predictions. Internally, scikit-learn handles weight initialization, backpropagation, and convergence---the user only specifies the architecture (number and size of hidden layers) and hyperparameters.
+
+\begin{lstlisting}
+>>> from sklearn.neural_network import MLPClassifier
+>>> import numpy as np
+>>> X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+>>> y = np.array([0, 1, 1, 0])  # XOR
+>>> model = MLPClassifier(hidden_layer_sizes=(4,), activation='tanh',
+...                       max_iter=2000, random_state=1)
+>>> model.fit(X, y)
+>>> model.predict(X)
+array([0, 1, 1, 0])
+>>> model.predict_proba(X)  # class probabilities
 \end{lstlisting}
 
 In the following example, we teach the network the XOR function, and we create a network with two inputs, two intermediate neurons, and one output. We train it and check what it learned:
@@ -4852,7 +4943,7 @@ def next(i):
 next(81621)
 \end{lstlisting}
 
-This code check searches for a number equal or greater than 81621 which square is comprised of only two digits. 
+This code check searches for a number equal or greater than 81621 whose square is comprised of only two digits. 
 Nobody knows whether such number exists, therefore nobody knows if this code stops.
 
 Although one day this problem may be solved, there are many other problems that
@@ -5178,7 +5269,7 @@ Continuing with the previous example, the polynomial approximation for the sin f
 to reduce the domain to $x \in [0, \infty]$. We can then use
 
 \begin{equation}
-\sin(x) = \sin(x - 2k\pi) \qquad k\in {\Bbb N}
+\sin(x) = \sin(x - 2k\pi) \qquad k\in \mathbb{N}
 \end{equation}
 
 to reduce the domain to $x \in [0, 2\pi)$
@@ -5233,7 +5324,7 @@ Where do these formulas come from? How do we decide how many iterations we need?
 
 \index{Taylor series}\index{Taylor Theorem}
 
-A function $f(x):{\Bbb R}\rightarrow{\Bbb R}$ is said to be a {\it real analytical} in $\bar x$ if it is continuous in $x=\bar x$ and all its derivatives exist and are continuous in $x=\bar x$.
+A function $f(x):\mathbb{R}\rightarrow\mathbb{R}$ is said to be a {\it real analytical} in $\bar x$ if it is continuous in $x=\bar x$ and all its derivatives exist and are continuous in $x=\bar x$.
 
 When this is the case, the function can be locally approximated with a local power series:
 
@@ -5881,6 +5972,19 @@ In the following code, we consider an image (a set of points) containing a circl
 >>> f(B2, points, "la6.png")
 \end{lstlisting}
 
+The same transformations can be expressed more efficiently using NumPy:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> t = np.linspace(0, 2 * np.pi, 200)
+>>> circle = np.column_stack([np.cos(t), np.sin(t)])
+>>> xaxis = np.column_stack([np.linspace(0, 1, 50), np.zeros(50)])
+>>> yaxis = np.column_stack([np.zeros(50), np.linspace(0, 1, 50)])
+>>> points = np.vstack([circle, xaxis, yaxis])
+>>> A1 = np.array([[0.2, 0], [0, 1]])
+>>> transformed = points @ A1.T  # matrix multiplication on all points at once
+\end{lstlisting}
+
 \newpage
 
 \begin{figure}[ht]
@@ -6099,6 +6203,19 @@ We can also obtain a column vector by performing a transposition of a row vector
 >>> b = Matrix([[3, 6, 10]]).T
 \end{lstlisting}
 
+Using NumPy, linear systems are solved more efficiently:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> A = np.array([[1, 2, 2], [4, 4, 2], [4, 6, 4]], dtype=float)
+>>> b = np.array([3, 6, 10], dtype=float)
+>>> x = np.linalg.solve(A, b)
+>>> print(x)
+[-1.  3. -1.]
+>>> # Matrix inverse (when needed):
+>>> A_inv = np.linalg.inv(A)
+\end{lstlisting}
+
 \goodbreak\subsection{Norm and condition number again}
 
 \index{matrix!norm}\index{condition number}\index{matrix!condition number}
@@ -6154,6 +6271,22 @@ def norm(A, p=1):
              raise NotImplementedError
     else:
         return abs(A)
+\end{lstlisting}
+
+In NumPy, norms are computed directly:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> a = np.array([1.0, 2.0, 3.0])
+>>> np.linalg.norm(a, ord=1)       # 1-norm of a vector
+6.0
+>>> np.linalg.norm(a, ord=2)       # 2-norm of a vector
+3.741...
+>>> A = np.array([[1, 2], [3, 4]])
+>>> np.linalg.norm(A, ord=1)       # 1-norm of a matrix
+6.0
+>>> np.linalg.cond(A, p=1)         # condition number
+21.0
 \end{lstlisting}
 
 Now we can implement a function that computes the condition number for ordinary functions as well as for linear transformations represented by a matrix:
@@ -6306,6 +6439,15 @@ Here is an example of how to use it:
 
 The {\ft RandomList} is a generator. You can iterate over it. The {\ft yield} keyword is used like {\ft return}, except the function will return a generator.
 
+Using NumPy, the Cholesky decomposition and correlated random vector generation are built-in:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> A = np.array([[1.0, 0.1], [0.2, 3.0]])
+>>> L = np.linalg.cholesky(A)
+>>> samples = L @ np.random.randn(2, 1000)  # 1000 correlated random vectors
+\end{lstlisting}
+
 \goodbreak\subsection{Modern portfolio theory}
 
 \index{Modern Portfolio Theory}\index{tangency portfolio}\index{Markowitz}\index{Sharpe ratio}
@@ -6400,6 +6542,25 @@ we compute the tangent portfolio (highest Sharpe ratio), its return, and its ris
 0.25
 0.233333333333
 0.25
+\end{lstlisting}
+
+The same portfolio optimization using NumPy:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> cov = np.array([[0.04, 0.006, 0.02],
+...                 [0.006, 0.09, 0.06],
+...                 [0.02, 0.06, 0.16]])
+>>> mu = np.array([0.10, 0.12, 0.15])
+>>> r_free = 0.05
+>>> x = np.linalg.solve(cov, mu - r_free)
+>>> x = x / x.sum()
+>>> portfolio_return = mu @ x
+>>> portfolio_risk = np.sqrt(x @ cov @ x)
+>>> print(x)
+[0.5566... 0.2750... 0.1682...]
+>>> print(portfolio_return, portfolio_risk)
+0.1139... 0.1867...
 \end{lstlisting}
 
 Investing 55\% in asset 0, 27\% in asset 1, and 16\% in asset 2, the resulting portfolio has an expected return of 11.39\% and a risk of 18.67\%, which corresponds to a Sharpe ratio of 0.34, much higher than 0.25, 0.23, and 0.23 for the individual assets.
@@ -6526,6 +6687,39 @@ CUBIC    = POLYNOMIAL(3)
 QUARTIC  = POLYNOMIAL(4)
 \end{lstlisting}
 
+In NumPy, least squares fitting is available directly:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> points = [(k, 5 + 0.8*k + 0.3*k*k + np.sin(k), 2) for k in range(100)]
+>>> x = np.array([p[0] for p in points], dtype=float)
+>>> y = np.array([p[1] for p in points], dtype=float)
+>>> dy = np.array([p[2] for p in points], dtype=float)
+>>> # Build design matrix for quadratic fit, weighted by 1/dy
+>>> A = np.column_stack([np.ones_like(x), x, x**2]) / dy[:, None]
+>>> b = y / dy
+>>> c, residuals, rank, sv = np.linalg.lstsq(A, b, rcond=None)
+>>> # Or simply use numpy.polyfit for polynomial fits:
+>>> c_poly = np.polyfit(x, y, deg=2, w=1.0/dy)
+\end{lstlisting}
+
+The same fit can be performed using {\ft scikit-learn}. All scikit-learn estimators follow the {\ft fit/predict} pattern: we create a model object, call {\ft model.fit(X, y)} to train it on feature matrix $X$ and target vector $y$, and then call {\ft model.predict(X\_new)} to generate predictions for new data. This uniform interface applies to every estimator in the library---linear regression, neural networks, decision trees, support vector machines, and so on---making it easy to swap models without changing the surrounding code. The feature matrix $X$ is always two-dimensional (rows are samples, columns are features), while $y$ is a one-dimensional target vector.
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> from sklearn.linear_model import LinearRegression
+>>> from sklearn.preprocessing import PolynomialFeatures
+>>> x = np.arange(100, dtype=float).reshape(-1, 1)  # column vector
+>>> y = 5 + 0.8*x.ravel() + 0.3*x.ravel()**2 + np.sin(x.ravel())
+>>> # PolynomialFeatures transforms x into [1, x, x^2]
+>>> poly = PolynomialFeatures(degree=2)
+>>> X = poly.fit_transform(x)
+>>> model = LinearRegression()
+>>> model.fit(X, y)                  # train the model
+>>> y_pred = model.predict(X)        # predict on same or new data
+>>> print(model.coef_)               # fitted coefficients
+\end{lstlisting}
+
 As an example, we can use it to perform a polynomial fit: given a set of points, we want to find the coefficients of a polynomial that best approximate those points.
 
 In other words, we want to find the $c_i$ such that, given $t_j$ and $o_j$, 
@@ -6648,7 +6842,21 @@ def fake_stock_prices(start_price=100, average_return=0.05, volatility=0.30, day
 >>> strategy_profit = final_cash - initial_cash
 \end{lstlisting}
 
-If {\ft strategy\_profit} > {\ft naive\_profit} than our strategy outperforms the naive buy and hold strategy.
+If {\ft strategy\_profit} > {\ft naive\_profit} then our strategy outperforms the naive buy and hold strategy.
+
+Using NumPy, the fake stock price generation is vectorized:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> def fake_stock_prices_np(start_price=100, average_return=0.05,
+...                          volatility=0.30, days=100):
+...     daily_vol = volatility / np.sqrt(250)
+...     daily_ret = average_return / 250
+...     s = np.random.normal(0, daily_vol, days - 1)
+...     mu = daily_ret - s.mean()
+...     log_returns = np.concatenate([[0], np.cumsum(mu + s)])
+...     return start_price * np.exp(log_returns)
+\end{lstlisting}
 
 Of course, we can always engineer a strategy based on historical data that will outperform holding the stock, but {\it past performance is never a guarantee of future performance}.
 
@@ -6814,6 +7022,18 @@ Here is an example that shows, for a particular case, the relation between the i
 True
 \end{lstlisting}
 
+In NumPy, eigenvalue decomposition is built-in and highly optimized (using LAPACK):
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> A = np.array([[1, -2], [1, 4]], dtype=float)
+>>> eigenvalues, eigenvectors = np.linalg.eigh(A)  # for symmetric matrices
+>>> # For general matrices use np.linalg.eig(A)
+>>> # Verify: A = U @ diag(e) @ U.T
+>>> np.allclose(eigenvectors @ np.diag(eigenvalues) @ eigenvectors.T, A)
+True
+\end{lstlisting}
+
 Eigenvalues can be used to filter noise out of data and find hidden dependencies in data. Following are some examples.
 
 \goodbreak\subsection{Principal component analysis}
@@ -6842,6 +7062,24 @@ def compute_correlation_matrix(v):
              (sum(v[i][k] * v[j][k] for k in range(1, n))/n - mus[i] * mus[j])/ \
              math.sqrt(var[i] * var[j]))
     return corr
+\end{lstlisting}
+
+Using NumPy, correlation matrices and PCA are straightforward:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> v = np.array(stocks)          # shape (m, n): m time series of length n
+>>> corr = np.corrcoef(v)         # correlation matrix
+>>> eigenvalues, eigenvectors = np.linalg.eigh(corr)
+\end{lstlisting}
+
+Alternatively, {\ft scikit-learn} provides a dedicated PCA implementation:
+
+\begin{lstlisting}
+>>> from sklearn.decomposition import PCA
+>>> pca = PCA()
+>>> pca.fit(v.T)  # transpose: samples as rows
+>>> pca.explained_variance_ratio_
 \end{lstlisting}
 
 We use the preceding function to compute the correlation and pass it as input to the Jacobi algorithm and plot the output eigenvalues:
@@ -6882,7 +7120,7 @@ Here $\mathbf{p}$ is the vector of adjusted arithmetic returns that better corre
 
 \index{sparse matrix}
 
-Sometimes we have to invert matrices that are very large, and the Gauss-Jordan algorithms fails. Yet, if the matrix is sparse, in the sense that most of its elements are zeros, than two algorithms come to our rescue: the {\it minimum residual} and the {\it biconjugate gradient} (for which we consider a variant called the {\it stabilized bi-conjugate gradient}).
+Sometimes we have to invert matrices that are very large, and the Gauss-Jordan algorithm fails. Yet, if the matrix is sparse, in the sense that most of its elements are zeros, then two algorithms come to our rescue: the {\it minimum residual} and the {\it biconjugate gradient} (for which we consider a variant called the {\it stabilized bi-conjugate gradient}).
 
 We will also assume that the matrix to be inverted is given in some implicit algorithmic as $\mathbf{y}=f(\mathbf{x})$ because this is always the case for sparse matrices. There is no point to storing all its elements because most of them are zero.
 
@@ -6960,6 +7198,20 @@ def invert_bicgstab(f, x, ap=1e-4, rp=1e-4, ns=200):
 \end{lstlisting}
 
 Notice that the minimum residual and the stabilized biconjugate gradient, if they converge, converge to the same value.
+
+SciPy provides optimized sparse solvers that handle these cases efficiently:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> from scipy import sparse
+>>> from scipy.sparse.linalg import spsolve, bicgstab as sp_bicgstab
+>>> # Build a sparse matrix (e.g., tridiagonal)
+>>> n = 100
+>>> A = sparse.diags([-1, 2, -1], [-1, 0, 1], shape=(n, n), format='csc')
+>>> b = np.ones(n)
+>>> x = spsolve(A, b)                    # direct sparse solver
+>>> x2, info = sp_bicgstab(A, b)         # iterative BiCGSTAB solver
+\end{lstlisting}
 
 As an example, consider the following. We take a picture using a camera, but we take the picture out of focus. The image is represented by a set of $m^2$ pixels. The defocusing operation can be modeled as a first approximation with a linear operator acting on the ``true'' image, $x$, and turning it into an ``out of focus'' image, $y$. We can store the pixels in a one-dimensional vector (both for $x$ and $y$) as opposed to a matrix by mapping the pixel $(r, c)$ into vector component $i$ using the relation $(r, c) = (i/m, i\%m)$.
 
@@ -7122,6 +7374,17 @@ Here is how to use it:
 >>> def f(x): return (x-2) * (x-5)
 >>> round(solve_bisection(f, 1.0, 3.0), 4)
 2.0
+\end{lstlisting}
+
+SciPy provides optimized root-finding and minimization methods:
+
+\begin{lstlisting}
+>>> from scipy.optimize import brentq, minimize_scalar
+>>> def f(x): return (x-2) * (x-5)
+>>> brentq(f, 1.0, 3.0)             # root finding
+2.0
+>>> minimize_scalar(f, bracket=(1, 3, 5)).x   # minimization
+3.5
 \end{lstlisting}
 
 \goodbreak\subsection{Newton method}
@@ -7364,6 +7627,16 @@ Here is an example:
 (2.0, 8.0, 5.0)
 \end{lstlisting}
 
+For symbolic partial derivatives, SymPy computes exact results:
+
+\begin{lstlisting}
+>>> import sympy
+>>> x0, x1, x2 = sympy.symbols('x0 x1 x2')
+>>> f = 2.0 * x0 + 3.0 * x1 + 5.0 * x1 * x2
+>>> sympy.diff(f, x0), sympy.diff(f, x1), sympy.diff(f, x2)
+(2.0, 5.0*x2 + 3.0, 5.0*x1)
+\end{lstlisting}
+
 \goodbreak\subsection{Jacobian, gradient, and Hessian}
 
 \index{Jacobian}\index{Gradient}\index{Hessian}
@@ -7514,6 +7787,18 @@ Here is an example:
 [[1.9999999..., 7.999999..., 4.9999999...], [1.9999999..., 0.0, 0.0]]
 \end{lstlisting}
 
+SymPy can compute exact Jacobians symbolically:
+
+\begin{lstlisting}
+>>> import sympy
+>>> x0, x1, x2 = sympy.symbols('x0 x1 x2')
+>>> f0 = 2.0*x0 + 3.0*x1 + 5.0*x1*x2
+>>> f1 = 2.0*x0
+>>> J = sympy.Matrix([f0, f1]).jacobian([x0, x1, x2])
+>>> J.subs([(x0, 1), (x1, 1), (x2, 1)])
+Matrix([[2.0, 8.0, 5.0], [2.0, 0, 0]])
+\end{lstlisting}
+
 \goodbreak\subsection{Newton method (solver)}
 
 \index{Newton solver!multidimensional}
@@ -7551,6 +7836,15 @@ Here is an example:
 >>> def f(x): return [x[0]+x[1], x[0]+x[1] ** 2-2]
 >>> solve_newton_multi(f, x=(0, 0))
 [1.0..., -1.0...]
+\end{lstlisting}
+
+SciPy provides optimized multidimensional root finders:
+
+\begin{lstlisting}
+>>> from scipy.optimize import fsolve
+>>> def f(x): return [x[0]+x[1], x[0]+x[1]**2-2]
+>>> fsolve(f, x0=[0, 0])
+array([ 1., -1.])
 \end{lstlisting}
 
 \goodbreak\subsection{Newton method (optimize)}
@@ -7595,6 +7889,17 @@ def optimize_newton_multi(f, x, ap=1e-6, rp=1e-4, ns=20):
 >>> def f(x): return (x[0]-2) ** 2+(x[1]-3) ** 2
 >>> optimize_newton_multi(f, x=(0, 0))
 [2.0, 3.0]
+\end{lstlisting}
+
+SciPy provides optimized multidimensional minimizers:
+
+\begin{lstlisting}
+>>> from scipy.optimize import minimize
+>>> def f(x): return (x[0]-2)**2 + (x[1]-3)**2
+>>> result = minimize(f, x0=[0, 0], method='Newton-CG',
+...                   jac=lambda x: [2*(x[0]-2), 2*(x[1]-3)])
+>>> result.x
+array([2., 3.])
 \end{lstlisting}
 
 \goodbreak\subsection{Improved Newton method (optimize)}
@@ -7757,6 +8062,19 @@ Here is an example:
 [0.999..., 2.000..., 300.000..., 10.000...] ...
 \end{lstlisting}
 
+SciPy provides {\ft curve\_fit} for nonlinear fitting:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> from scipy.optimize import curve_fit
+>>> x = np.arange(1, 10, dtype=float)
+>>> y = x + 2.0*x**2 + 300.0/(x + 10)
+>>> dy = np.full_like(x, 2.0)
+>>> def model(x, a, b, c, d): return a*x + b*x**2 + c/(x + d)
+>>> popt, pcov = curve_fit(model, x, y, sigma=dy, p0=[1, 1, 100, 5])
+>>> print(popt)  # [1., 2., 300., 10.]
+\end{lstlisting}
+
 \index{a priori}\index{Bayesian statistics}
 
 In the preceding implementation, we added a somewhat mysterious argument {\ft constraint}. This is a function of $\mathbf{b}$, and its output gets added to the value of $\chi^2$, which we are minimizing. By choosing the appropriate function, we can set constraints about the expected values $b$. These constraints represent a priori knowledge about the parameters, that is, knowledge that does not come from the data being fitted.
@@ -7908,6 +8226,19 @@ Here is an example of usage:
 1.991...
 \end{lstlisting}
 
+SciPy provides optimized numerical integration routines:
+
+\begin{lstlisting}
+>>> from scipy import integrate
+>>> from math import sin
+>>> result, error = integrate.quad(sin, 0, 3)
+>>> print(round(result, 4))
+1.9899
+>>> # For fixed-order quadrature:
+>>> integrate.fixed_quad(sin, 0, 3, n=4)
+(1.9899..., None)
+\end{lstlisting}
+
 \newpage
 \section{Fourier transforms}
 
@@ -8034,6 +8365,17 @@ def anti_fourier(v):
 \end{lstlisting}
 
 Here $1j$ is the Python notation for $I$ and $cexp$ is the exponential function for complex numbers.
+
+NumPy provides a highly optimized FFT implementation:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> u = np.array([1.0, 2.0, 3.0, 4.0])
+>>> v = np.fft.fft(u) / np.sqrt(len(u))     # forward Fourier transform
+>>> u_back = np.fft.ifft(v) * np.sqrt(len(u))  # inverse transform
+>>> np.allclose(u, u_back.real)
+True
+\end{lstlisting}
 
 Notice how the transformation works even when $\mathbf{u}$ is a vector of complex numbers.
 
@@ -8173,8 +8515,8 @@ The naive solution is due to Euler:
 
 The solution is found by iterating the latest equation. Here $h$ is an arbitrary discretization step. Euler"s method works even if the $a_k$ coefficients depend on $x$.
 
-\index{Runge--Katta method}
- Although the Euler integrator works in theory, its systematic error adds up and does not disappear in the limit $h\rightarrow 0$. More accurate integrators are the Runge--Katta and the Adam--Bashforth. In the fourth-order Runge--Katta, the {\it classical Runge--Katta method}, we also solve the differential equation by iteration, except that eq.~\ref{euler} is replaced with
+\index{Runge--Kutta method}
+ Although the Euler integrator works in theory, its systematic error adds up and does not disappear in the limit $h\rightarrow 0$. More accurate integrators are the Runge--Kutta and the Adams--Bashforth. In the fourth-order Runge--Kutta, the {\it classical Runge--Kutta method}, we also solve the differential equation by iteration, except that eq.~\ref{euler} is replaced with
 
 \begin{equation}
 \mathbf{y}(x+h) = \mathbf{y}(x) + h/6 (\mathbf{k}_1+2\mathbf{k}_2+2\mathbf{k}_3+\mathbf{k}_4)\label{rungekatta}
@@ -8186,6 +8528,18 @@ where
 \mathbf{k}_3 &=& F(\mathbf{y}+h k_2/2, x+h/2) \\
 \mathbf{k}_4 &=& F(\mathbf{y}+h k_3, x+h)
 \end{eqnarray}
+
+SciPy provides ODE solvers including Runge--Kutta methods:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> from scipy.integrate import solve_ivp
+>>> # Example: y'' - 4y' + y = sin(x), rewritten as a system
+>>> def F(x, y): return [y[1], 4*y[1] - y[0] + np.sin(x)]
+>>> sol = solve_ivp(F, [0, 10], y0=[0, 1], method='RK45', dense_output=True)
+>>> x = np.linspace(0, 10, 100)
+>>> y = sol.sol(x)[0]  # solution f(x) evaluated at 100 points
+\end{lstlisting}
 
 \chapter{Probability and Statistics}
 
@@ -8386,6 +8740,20 @@ As an example, let"s consider a simple bet on a dice. We roll the dice once and 
 
 The average expected payoff is $-0.83...$, which means that on average, we should expect to lose 83 cents at this game.
 
+Using NumPy, these statistical functions operate directly on arrays:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> S = np.array([1, 2, 3, 4, 5, 6])
+>>> np.mean(S)
+3.5
+>>> np.std(S)
+1.707...
+>>> payoff = np.where(S == 6, 20.0, -5.0)
+>>> np.mean(payoff)
+-0.8333...
+\end{lstlisting}
+
 \goodbreak\subsection{Continuous random variables}
 \index{continuous random variable}
 \index{cumulative distribution function}
@@ -8545,6 +8913,20 @@ def correlation(X, Y):
     return covariance(X, Y)/sd(X)/sd(Y)
 \end{lstlisting}
 
+NumPy computes covariance and correlation directly:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> X = np.array([1.0, 2.0, 3.0, 4.0])
+>>> Y = np.array([2.0, 4.0, 5.0, 7.0])
+>>> np.cov(X, Y, bias=True)      # covariance matrix
+array([[1.25 , 1.625],
+       [1.625, 2.6875]])
+>>> np.corrcoef(X, Y)             # correlation matrix
+array([[1.        , 0.88660..],
+       [0.88660.., 1.        ]])
+\end{lstlisting}
+
 \goodbreak\subsection{Strong law of large numbers}
 
 If $X_1, X_2, ...X_n$ are a sequence of independent and identically
@@ -8583,6 +8965,17 @@ We can numerically verify this for the simple case in which $X_i$ are uniform ra
 >>> Canvas(title="Central Limit Theorem", xlab="y", ylab="p(y)"
 ...       ).hist(make_set(8), legend="N=8").save("images/central8.png")
 \end{lstlisting}
+
+Using NumPy, the same demonstration is vectorized:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> def make_set_np(n, m=10000):
+...     return np.random.uniform(-1, 1, (m, n)).mean(axis=1)
+>>> samples = make_set_np(8)
+>>> print(np.mean(samples), np.std(samples))  # mean near 0, std shrinks with n
+\end{lstlisting}
+
 \begin{figure}[ht]
 \begin{center}
 \begin{tabular}{cc}
@@ -8606,7 +8999,7 @@ They are characterized by fat tails for the form
 p(x) \stackunder{x\rightarrow\infty}{\sim} \frac1{\left|x\right|^{1+\alpha}}, \qquad 0<\alpha<2
 \end{equation}
 
-An example if the Pareto distribution.
+An example is the Pareto distribution.
 
 \goodbreak\subsection{Error in the mean}
 \index{error in the mean}
@@ -8932,7 +9325,7 @@ class URANDOM(object):
         random_float = float(random_integer)/256 ** n
 \end{lstlisting}
 
-Notice how the constructor allows us to further randomize the data by contributing input to the entropy source. Also notice how the {\ft random()} method reads 16 bites from the stream (using {\ft os.urandom()}), converts each into $8$-bit integers, combines them into a $128$-bit integer, and then converts it to a float by dividing by $256^{16}$.
+Notice how the constructor allows us to further randomize the data by contributing input to the entropy source. Also notice how the {\ft random()} method reads 16 bytes from the stream (using {\ft os.urandom()}), converts each into $8$-bit integers, combines them into a $128$-bit integer, and then converts it to a float by dividing by $256^{16}$.
 
 \goodbreak\section{Pseudo-randomness}
 
@@ -9727,7 +10120,7 @@ neighborhood without selling the five candy bars?
 \end{equation}
 \end{itemize}
 
-As we the binomial distribution, we can find an efficient recursive formula for the 
+As with the binomial distribution, we can find an efficient recursive formula for the 
 negative binomial distribution:
 
 \begin{eqnarray}
@@ -10197,6 +10590,15 @@ def test_bin(nevents=1000, nbins=10):
 >>> test_bin()
 \end{lstlisting}
 
+NumPy provides {\ft histogram} for efficient binning:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> samples = np.random.uniform(0, 1, 1000)
+>>> counts, edges = np.histogram(samples, bins=10, range=(0, 1))
+>>> frequencies = counts / len(samples)
+\end{lstlisting}
+
 It produces the following output:
 \begin{lstlisting}
 i frequency[i]
@@ -10543,6 +10945,18 @@ Here is an example of usage:
 
 In this example, the output consists of $\mu^-$, $\mu$, and $\mu^+$.
 
+Using NumPy, the bootstrap is vectorized:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> S = np.random.normal(2, 1, 100)
+>>> resamples = np.random.choice(S, size=(100, len(S)), replace=True)
+>>> means = resamples.mean(axis=1)
+>>> means.sort()
+>>> left, right = int(0.16 * 100), int(0.84 * 100)
+>>> print(means[left], S.mean(), means[right])
+\end{lstlisting}
+
 Because $S$ contains 100 random Gaussian numbers, with average 2 and standard deviation 1, we expect $\mu$ to be close to 2. We get $1.89$. The bootstrap tells us that with 68\% probability, the true average of these numbers is indeed between $1.77$ and $2.00$. The uncertainty $(2.00-1.77)/2 = 0.12$ is compatible with $\sigma/\sqrt{100} = 1/10 = 0.10$.
 
 \goodbreak\section{A general purpose Monte Carlo engine}
@@ -10713,7 +11127,7 @@ if there is a successful path that connects the two nodes.
 The optimal data structure to implement equivalence classes is {\ft DisjSets}, discussed in chapter 3.
 
 To simulate the system, we create a class {\ft Network} that extends {\ft MCEngine}. It has a {\ft simulate\_once} method that tries to send a packet from {\ft start} to
-{\ft stop} and simulates the network once. During the simulation each link of the network may be up or down with given probability. If there is a path connecting the {\ft start} node to the {\ft stop} node in which all links of the network are up, than the packet transfer succeeds. We use the DisjointSets to represent sets of nodes connected together. If there is a link up connecting a node from a set to a node in another set, than the two sets are joined. If, in the end, the {\ft start} and {\ft stop} nodes are found to belong to the same set, then there is a path and {\ft simulate\_once} returns 1, otherwise it returns 0.
+{\ft stop} and simulates the network once. During the simulation each link of the network may be up or down with given probability. If there is a path connecting the {\ft start} node to the {\ft stop} node in which all links of the network are up, then the packet transfer succeeds. We use the DisjointSets to represent sets of nodes connected together. If there is a link up connecting a node from a set to a node in another set, then the two sets are joined. If, in the end, the {\ft start} and {\ft stop} nodes are found to belong to the same set, then there is a path and {\ft simulate\_once} returns 1, otherwise it returns 0.
 
 \index{class!NetworkReliability}
 
@@ -10765,7 +11179,7 @@ Fig.~\ref{nuclear} provides a representation of the process.
 \caption{Probability of chain reaction in uranium.\label{nuclear2}}
 \end{figure}
 
-Here is a possible implementation of the process. We store each event that happens inside the material in a queue ({\ft events}). For each simulation, the queue starts with one event, and from it we generate two more, and so on. If the new events happen inside the material, we place the new events back in the queue. If the size of the queue shrinks to zero, then we are subcritical. If the size of the queue grows exponentially, we have a self-sustained chain reaction. We detect this by measuring the size of the queue and wether it exceeds a threshold (which we arbitrarily set to 200). The average free flight distance for a neutron in  uranium is 1.91 cm. We use this number in our simulation. Given the radius of the material, {\ft simulate\_once} returns 1.0 if it detects a chain reaction and 0.0 if it does not. The output of {\ft simulate\_many} is the probability of a chain reaction:
+Here is a possible implementation of the process. We store each event that happens inside the material in a queue ({\ft events}). For each simulation, the queue starts with one event, and from it we generate two more, and so on. If the new events happen inside the material, we place the new events back in the queue. If the size of the queue shrinks to zero, then we are subcritical. If the size of the queue grows exponentially, we have a self-sustained chain reaction. We detect this by measuring the size of the queue and whether it exceeds a threshold (which we arbitrarily set to 200). The average free flight distance for a neutron in  uranium is 1.91 cm. We use this number in our simulation. Given the radius of the material, {\ft simulate\_once} returns 1.0 if it detects a chain reaction and 0.0 if it does not. The output of {\ft simulate\_many} is the probability of a chain reaction:
 
 \index{class!NuclearReactor}
 
@@ -11012,6 +11426,18 @@ Here is the Python code:
 >>> s.simulate_many()
 \end{lstlisting}
 
+Using NumPy, Monte Carlo integration is vectorized:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> N = 100000
+>>> x = np.random.random((N, 4))
+>>> mask = np.sum(x**2, axis=1) < 1
+>>> values = np.sin(x[mask].sum(axis=1))
+>>> integral = values.mean()
+>>> error = values.std() / np.sqrt(mask.sum())
+\end{lstlisting}
+
 \goodbreak\section{Stochastic, Markov, Wiener, and processes}
 
 \index{stochastic process}
@@ -11251,6 +11677,15 @@ def BinomialSimulation(S0, u, d, p, n):
     return data
 \end{lstlisting}
 
+Using NumPy, many price paths can be simulated at once:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> def BinomialSimulation_np(S0, u, d, p, n, npaths=10000):
+...     moves = np.where(np.random.random((npaths, n)) < p, u, d)
+...     return S0 * np.cumprod(moves, axis=1)
+\end{lstlisting}
+
 The function takes the present spot value, $S_0$, of the asset, the values
 of $u, d$ and $p$, and the number of simulation steps and returns a list
 containing the simulated evolution of the stock price. Note that because of
@@ -11259,7 +11694,7 @@ to perform a simulation unless the underlying asset is a stock that pays
 dividends or we want to include some other variable in the model.
 
 This method works fine for European call options, but the method is not easy to
-generalize to other options, when its depends on the path of
+generalize to other options, when it depends on the path of
 the asset (e.g., the asset is a stock that pays dividends). Moreover, 
 to increase precision, one has to decrease $\Delta _t$ or redo the
 computation from the beginning.
@@ -11369,7 +11804,7 @@ A different type of option will have a different payoff function $f(x)$.
 \item  The more accurately we model the underlying asset, the more accurate will be the computed value of the option. Some options are more sensitive than others to our modeling details.
 \end{itemize}
 
-Note one never model the option. One only model the underlying asset. The option payoff is given. We only choose the most efficient algorithm based on the model and the option:
+Note one never models the option. One only models the underlying asset. The option payoff is given. We only choose the most efficient algorithm based on the model and the option:
 
 %%% META:FILE:options.py
 \begin{lstlisting}[caption={in file: {\ft options.py}}]
@@ -11422,6 +11857,19 @@ main()
 
 This code allows us to price any option simply by changing the payoff function.
 
+Using NumPy, many paths can be simulated simultaneously:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> npaths, nsteps = 100000, 90
+>>> S0, mu, sigma, r, K = 100, 0.12/250, 0.30/np.sqrt(250), 0.05, 110
+>>> log_returns = np.random.normal(mu, sigma, (npaths, nsteps))
+>>> paths = S0 * np.exp(np.cumsum(log_returns, axis=1))
+>>> payoffs = np.maximum(paths[:, -1] - K, 0)
+>>> price = np.exp(-r/250 * nsteps) * payoffs.mean()
+>>> error = np.exp(-r/250 * nsteps) * payoffs.std() / np.sqrt(npaths)
+\end{lstlisting}
+
 One can also change the model for the underlying using different assumptions. For example, a possible choice is that of including a model for market crashes, and on random days, separated by intervals given by the exponential distribution, assume a negative jump that follows the Pareto distribution (similar to the losses in our previous risk model). Of course, a change of the model requires a recalibration of the parameters.
 
 \begin{figure}[ht]
@@ -11433,7 +11881,7 @@ One can also change the model for the underlying using different assumptions. Fo
 \index{Markov chain}
 \index{Metropolis algorithm}
 
-Until this point, all-out simulations were based on independent random
+Until this point, all our simulations were based on independent random
 variables. This means that we were able to generate each random number
 independently of the others because all the random variables were
 uncorrelated. There are cases when we have the following problem.
@@ -11618,6 +12066,23 @@ def main(name="ising.png"):
 main()
 \end{lstlisting}
 
+
+Using NumPy, the spin lattice can be stored and updated more efficiently:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> n = 10
+>>> s = np.ones((n, n, n), dtype=int)
+>>> def ising_step_np(s, t, h):
+...     x, y, z = [np.random.randint(0, n) for _ in range(3)]
+...     neighbors = (s[(x-1)%n, y, z] + s[(x+1)%n, y, z] +
+...                  s[x, (y-1)%n, z] + s[x, (y+1)%n, z] +
+...                  s[x, y, (z-1)%n] + s[x, y, (z+1)%n])
+...     dE = -2.0 * s[x, y, z] * (h + neighbors)
+...     if dE > t * np.log(np.random.random()):
+...         s[x, y, z] *= -1
+...     return s.sum()
+\end{lstlisting}
 
 Fig.~\ref{ising-mag} shows how the spins tend to align in the direction of the external magnetic field, but the larger the temperature (left to right), the more random they are, and the average magnetization tends to zero. The higher the external magnetic field (bottom to top curves), the longer it takes for the transition from order (aligned spins) to chaos (random spins).
 
@@ -11831,7 +12296,7 @@ The tree topology looks like a tree where the computer may be associated with ev
 Tree networks are ideal for global operations such as broadcasting and for sharing IO devices such as disks. If the IO device is connected to the root node, every other computer can communicate with it using only $\log p$ links (where $p$ is the number of computers connected). Moreover, each subset of a tree network is also a tree network. This makes it easy to distribute subtasks to different subsets of the same architecture.
 
 \item{\bf Hypercube:}
-This network assumes $2^d$ nodes, and each node corresponds to a vertex of a hypercube. Nodes are connected by direct links, which correspond to the edges of the hypercube. Its importance is more academical than practical, although some ideas from hypercube networks are implemented in some algorithms.
+This network assumes $2^d$ nodes, and each node corresponds to a vertex of a hypercube. Nodes are connected by direct links, which correspond to the edges of the hypercube. Its importance is more academic than practical, although some ideas from hypercube networks are implemented in some algorithms.
 \end{itemize}
 
 If we identify each node on the network with a unique integer number called its rank, we write explicit code to determine if two nodes $i$ and $j$ are connected for each network topology:
@@ -11939,7 +12404,7 @@ T_1(n) &=& t_a n^2 \\
 T_p(n) &=& t_a n^2 / p + 2p (t_s+t_w n/p)
 \end{eqnarray}
 
-These formulas may come from example from the problem of multiplying a matrix times a vector.
+These formulas may come for example from the problem of multiplying a matrix times a vector.
 
 Here $t_a$ is the time to perform one elementary instruction; $t_s$ and $t_w$ are the latency and inverse bandwidth. The first term of $T_p$ is nothing but $T_1/p$, while the second term is an overhead due to communications.
 
@@ -11980,7 +12445,7 @@ Notice that in case of perfect parallelization (impossible), $T_p=T_1/p$, and th
 
 \goodbreak\subsection{Isoefficiency}\index{isoefficiency}
 
-Given a value of efficiency that we choose as target, $E$, and a given number of nodes, $p$, we ask what is the maximum size of a problem that we can solve. The answer is found by solving $n$ the following equation:
+Given a value of efficiency that we choose as target, $E$, and a given number of nodes, $p$, we ask what is the maximum size of a problem that we can solve. The answer is found by solving for $n$ the following equation:
 
 \begin{equation}
 E_p(n) = E
@@ -12036,9 +12501,9 @@ Or in other words, looking for the $p(n)$ such that
 \lim_{n\rightarrow\infty} p(n) T_{p(n)}(n) / T_1(n) = const. \ne 0
 \end{equation}
 
-\goodbreak\subsection{Admahl"s law}\index{Admahl"s law}
+\goodbreak\subsection{Amdahl"s law}\index{Amdahl"s law}
 
-Consider an algorithm that can be parallelized, but one faction $\alpha$ of its total sequential running time $\alpha T_1$ cannot be parallelized. That means that $T_p = \alpha T_1 + (1-\alpha) T_1/p$, and this yields~\cite{admhal}
+Consider an algorithm that can be parallelized, but one fraction $\alpha$ of its total sequential running time $\alpha T_1$ cannot be parallelized. That means that $T_p = \alpha T_1 + (1-\alpha) T_1/p$, and this yields~\cite{admhal}
 
 \begin{equation}
 S_p = \frac{1}{\alpha+(1-\alpha)/p} < \frac{1}{\alpha}
@@ -12213,6 +12678,15 @@ def scalar_product_test1(n, p):
 scalar_product_test(10, 2)
 \end{lstlisting}
 
+Using NumPy, the scalar product is a single operation:
+
+\begin{lstlisting}
+>>> import numpy as np
+>>> a = np.random.random(n)
+>>> b = np.random.random(n)
+>>> scalar = np.dot(a, b)  # or equivalently: a @ b
+\end{lstlisting}
+
 Most parallel algorithms follow a similar pattern. One process has access to IO. That process reads and scatters the data. The other processes perform their part of the computation; the results are reduced (aggregated) and sent back to the root process. This pattern may be repeated by multiple functions, perhaps in loops. Different functions may handle different data structure and may have different communication patterns. The one thing that must be constant throughout the run is the number of processes because one wants to pair each process with one computing unit.
 
  In the following, we implement a parallel version of the {\ft mergesort}. At each step, the code splits the problem into two smaller problems. Half of the problem is solved by the process that performed the split and assigns the other half to an existing free process. When there are no more free processes, it reverts to the nonparallel {\ft mergesort} step. The {\ft merge} function here is the same as the nonparallel {\ft mergesort} of chapter 3.
@@ -12307,7 +12781,7 @@ The simplest type of broadcast is the one-2-all, which consists of one process (
         return vector
 \end{lstlisting}
 
-We have implemented the all-to-all broadcast using a trick. We send collected all values to node with rank 0 (via a function collect), and then we did a one-to-all broadcast of the entire list from node 0. In general, the implementation depends on the topology of the available network.
+We have implemented the all-to-all broadcast using a trick. We collected all values and sent them to the node with rank 0 (via a function collect), and then we did a one-to-all broadcast of the entire list from node 0. In general, the implementation depends on the topology of the available network.
 
 Here is an example of an application of broadcasting:
 
@@ -12460,6 +12934,14 @@ def random_adjacency_matrix(n):
             A[r][c] = A[c][r] = random.randint(1, 100)
     return A
 
+# NumPy equivalent:
+# import numpy as np
+# def random_adjacency_matrix_np(n):
+#     A = np.random.randint(1, 100, (n, n))
+#     A = (A + A.T) // 2      # make symmetric
+#     np.fill_diagonal(A, 0)  # zero diagonal
+#     return A
+
 class Vertex(object):
     def __init__(self, path=[0, 1, 2]):
         self.path = path
@@ -12589,7 +13071,7 @@ While this process can often appear inefficient compared to algorithms that are 
 
 Parallelism also offers some possibility of recovering from partial failure of servers or storage during the operation: if one mapper or reducer fails, the work can be rescheduled---assuming the input data are still available.
 
-Map-Reduce comprises of two main functions: {\ft mapfn} and {\ft reducefn}. {\ft mapfn} takes a (key, value) pair of data with a type in one data domain and returns a list of (key, value) pairs in a different domain:
+Map-Reduce comprises two main functions: {\ft mapfn} and {\ft reducefn}. {\ft mapfn} takes a (key, value) pair of data with a type in one data domain and returns a list of (key, value) pairs in a different domain:
 \begin{equation}
 \textrm{mapfn}(k1, v1) \rightarrow (k2, v2)
 \end{equation}
@@ -12700,7 +13182,7 @@ run N copies of this kernel code on the device
 copy data from device to host
 \end{lstlisting}
 
-Usually the kernel is written in C99, while the host is written in C++. It is also possible to write the host code in other languages, including Python. Here we will use the {\ft pyOpenCL}~\cite{pyopencl} module for programming the host using Python. This produces no significative loss of performance compared to C++ because the actual computation is performed by kernel, not by the host. It is also possible to write the kernels using Python using a library called Clyther~\cite{clyther} but this is not discussed here.
+Usually the kernel is written in C99, while the host is written in C++. It is also possible to write the host code in other languages, including Python. Here we will use the {\ft pyOpenCL}~\cite{pyopencl} module for programming the host using Python. This produces no significant loss of performance compared to C++ because the actual computation is performed by kernel, not by the host. It is also possible to write the kernels using Python using a library called Clyther~\cite{clyther} but this is not discussed here.
 
 \index{class!Device}
 
@@ -12750,7 +13232,7 @@ assert npy.linalg.norm(w - (u + v)) == 0
 
 The program works as follows:
 \begin{itemize}
-\item It creates a two {\ft numpy} arrays $u$ and $v$ of given size and filled with random numbers.
+\item It creates two {\ft numpy} arrays $u$ and $v$ of given size and filled with random numbers.
 \item It creates another {\ft numpy} array $w$ of the same size filled with zeros.
 \item It loops over all indices of $w$ and adds, term by term, $u$ and $v$ storing the result into $w$.
 \item It checks the result using the {\ft numpy} {\ft linalg} submodule.
@@ -12917,12 +13399,12 @@ iff & if and only if \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 ${\bf 0}$ & empty set \\ \hline
-${\Bbb N}$ & natural numbers \{0, 1, 2, 3, ...\} \\ \hline
-${\Bbb N}^{+}$ & positive natural numbers \{1, 2, 3, ...\} \\ \hline
-${\Bbb Z}$ & all integers \{..., -3, -2, -1, 0, 1, 2, 3, ...\} \\ \hline
-${\Bbb R}$ & all real numbers \\ \hline
-${\Bbb R}^{+}$ & positive real numbers (not including 0) \\ \hline
-${\Bbb R}^{0}$ & positive numbers including 0 \\ \hline
+$\mathbb{N}$ & natural numbers \{0, 1, 2, 3, ...\} \\ \hline
+$\mathbb{N}^{+}$ & positive natural numbers \{1, 2, 3, ...\} \\ \hline
+$\mathbb{Z}$ & all integers \{..., -3, -2, -1, 0, 1, 2, 3, ...\} \\ \hline
+$\mathbb{R}$ & all real numbers \\ \hline
+$\mathbb{R}^{+}$ & positive real numbers (not including 0) \\ \hline
+$\mathbb{R}^{0}$ & positive numbers including 0 \\ \hline
 \end{tabular}
 \end{equation}
 
@@ -13017,9 +13499,9 @@ i, j, S_i\cap S_j={\bf 0}$
 \item  The number of elements in a set ${\cal A}$ is called the {\bf %
 cardinality} of set ${\cal A}.$
 
-\item  cardinality(${\Bbb N}$)=countable infinite ($\infty $)
+\item  cardinality($\mathbb{N}$)=countable infinite ($\infty $)
 
-\item  cardinality(${\Bbb R}$)=uncountable infinite ($\infty $) !!!
+\item  cardinality($\mathbb{R}$)=uncountable infinite ($\infty $) !!!
 \end{itemize}
 
 
@@ -13032,9 +13514,9 @@ cardinality} of set ${\cal A}.$
 \end{equation}
 
 \item  A {\bf binary relation} $R$ between two sets ${\cal A}$ and ${\cal B}$
-if a subset of their Cartesian product.
+is a subset of their Cartesian product.
 
-\item  A binary relation is {\bf transitive} is $aRb$ and $bRc$ implies $aRc$
+\item  A binary relation is {\bf transitive} if $aRb$ and $bRc$ implies $aRc$
 
 \item  A binary relation is {\bf symmetric} if $aRb$ implies $bRa$
 
@@ -13103,17 +13585,17 @@ Examples:
 
 \begin{itemize}
 \item
-$f(n)\equiv n\func{mod}2$ with domain ${\Bbb N}$ and codomain $%
-{\Bbb N}$ is not a surjection nor a bijection.
+$f(n)\equiv n\func{mod}2$ with domain $\mathbb{N}$ and codomain $%
+\mathbb{N}$ is not a surjection nor a bijection.
 \item
-$f(n)\equiv n\func{mod}2$ with domain ${\Bbb N}$ and codomain $%
+$f(n)\equiv n\func{mod}2$ with domain $\mathbb{N}$ and codomain $%
 \{0, 1\}$ is a surjection but not a bijection
 \item
-$f(x)\equiv 2x$ with domain ${\Bbb N}$ and codomain ${\Bbb N}$ is
+$f(x)\equiv 2x$ with domain $\mathbb{N}$ and codomain $\mathbb{N}$ is
 not a surjection but is a bijection (in fact it is not invertible on odd
 numbers)
 \item
-$f(x)\equiv 2x$ with domain ${\Bbb R}$ and codomain ${\Bbb R}$ is
+$f(x)\equiv 2x$ with domain $\mathbb{R}$ and codomain $\mathbb{R}$ is
 not a surjection and is a bijection (in fact it is invertible)
 \item
 \end{itemize}
@@ -13181,7 +13663,7 @@ Examples:
 
 \goodbreak\subsection{Limits ($n\rightarrow \infty $)}
 
-In these section we will only deal with limits ($n\rightarrow \infty $) of
+In this section we will only deal with limits ($n\rightarrow \infty $) of
 positive functions.
 
 \begin{equation}
@@ -13195,23 +13677,23 @@ First compute limits of the numerator and denominator separately:
 \end{eqnarray}
 
 \begin{itemize}
-\item  If $a\in {\Bbb R}$ and $b\in {\Bbb R}^{+}\, $then
+\item  If $a\in \mathbb{R}$ and $b\in \mathbb{R}^{+}\, $then
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=\frac ab
 \end{equation}
 
-\item  If $a\in {\Bbb R}$ and $b=\infty $ then
+\item  If $a\in \mathbb{R}$ and $b=\infty $ then
 \begin{equation}
 \lim_{x\rightarrow \infty }\frac{f(x)}{g(x)}=0
 \end{equation}
 
-\item  If $(a\in {\Bbb R}^{+}$ and $b=0)$ or $(a={\Bbb \infty }$ and $b\in
-{\Bbb R})$
+\item  If $(a\in \mathbb{R}^{+}$ and $b=0)$ or $(a=\infty$ and $b\in
+\mathbb{R})$
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=\infty
 \end{equation}
 
-\item  If $(a=0$ and $b=0)$ or $(a={\Bbb \infty }$ and $b={\Bbb \infty })$
+\item  If $(a=0$ and $b=0)$ or $(a=\infty$ and $b=\infty)$
 use de l"Hopital rule
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=\lim_{n\rightarrow \infty }%
@@ -13223,7 +13705,7 @@ and start again!
 non-analytic functions).
 \end{itemize}
 
-For any $a\in {\Bbb R}$ or $a=\infty $%
+For any $a\in \mathbb{R}$ or $a=\infty $%
 \begin{equation}
 \lim_{n\rightarrow \infty }\frac{f(n)}{g(n)}=a\Rightarrow \lim_{n\rightarrow
 \infty }\frac{g(n)}{f(n)}=1/a
@@ -13287,14 +13769,14 @@ $x^n\log x, n>0$ & $x^{n-1}(n\log x+1)$ \\ \hline
 \bibitem{shannon} C. E. Shannon, ``A Mathematical Theory of Communication''. Bell System Technical Journal 27 (1948) pp 379–423
 \bibitem{fano} R. M. Fano, ``The transmission of information'', Technical Report No. 65 MIT (1949)
 \bibitem{huffman} D. A. Huffman, ``A Method for the Construction of Minimum-Redundancy Codes'', Proceedings of the I.R.E., (1952) pp 1098–1102
-\bibitem{bergroth} Bergroth and H. Hakonen and T. Raita, ``A Survey of Longest Common Subsequence Algorithms''. SPIRE (IEEE Computer Society) 39–48 (200). DOI:10.1109/SPIRE.2000.878178. ISBN:0-7695-0746-8
+\bibitem{bergroth} Bergroth and H. Hakonen and T. Raita, ``A Survey of Longest Common Subsequence Algorithms''. SPIRE (IEEE Computer Society) 39–48 (2000). DOI:10.1109/SPIRE.2000.878178. ISBN:0-7695-0746-8
 \bibitem{needleman} Saul Needleman and Christian Wunsch, ``A general method applicable to the search for similarities in the amino acid sequence of two proteins''. Journal of Molecular Biology 48 (3) (1970) pp 443–53. DOI:10.1016/0022-2836(70)90057-4
 \bibitem{knapsack} Tobias Dantzig, ``Numbers: The Language of Science'', 1930.
 \bibitem{clustering} V. Estivill-Castro, ``Why so many clustering algorithms'', ACM SIGKDD Explorations Newsletter 4 (2002) pp 65. DOI:10.1145/568574.568575
 \bibitem{neural} J. J. Hopfield, ``Neural networks and physical systems with emergent collective computational abilities'', Proc. Natl. Acad. Sci. USA Vol. 79 (1982) pp 2554-2558
 \bibitem{barricelli} Nils Aall Barricelli, Nils Aall, ``Symbiogenetic evolution processes realized by artificial methods'', Methodos (1957) pp 143–182
 \bibitem{pnp} Michael Garey and David Johnson, ``Computers and Intractability: A Guide to the Theory of NP-Completeness'', San Francisco: W. H. Freeman and Company (1979). ISBN:0-7167-1045-5
-\bibitem{hofstadter} Douglas R. Hofstadter, ``Gödel, Escher, Bach: An Eternal Golden Braid'', Basic Books 91979). ISBN:0-465-02656-7
+\bibitem{hofstadter} Douglas R. Hofstadter, ``Gödel, Escher, Bach: An Eternal Golden Braid'', Basic Books (1979). ISBN:0-465-02656-7
 \bibitem{mpt} Harry Markowitz, ``Foundations of portfolio theory'', The Journal of Finance 46.2 (2012) pp 469-477
 \bibitem{chi2} P. E. Greenwood and M. S. Nikulin, ``A guide to chi-squared testing''. Wiley, New York (1996). ISBN:0-471-55779-X
 \bibitem{andrew} Andrew Lo and Jasmina Hasanhodzic, ``The Evolution of Technical Analysis: Financial Prediction from Babylonian Tablets to Bloomberg Terminals'', Bloomberg Press (2010). ISBN:1576603490
