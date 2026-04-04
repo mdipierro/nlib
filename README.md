@@ -10,10 +10,10 @@ The book is also available in printed form from Amazon:
 
 [Amazon](http://www.amazon.com/Annotated-Algorithms-Python-Applications-Physics/dp/0991160401)
 
-## The nlib library
+## The `nlib` library
 
-The book builds a numerical library from the ground up, called src/nlib.py.
-It is a pure python library for numerical computations. It doesn't require numpy.
+The book builds a numerical library called [`nlib`](src/nlib.py) from the ground up.
+It is a pure Python library for numerical computations. It does not require the module `numpy`.
 
 ## Usage
 
@@ -40,7 +40,7 @@ It is a pure python library for numerical computations. It doesn't require numpy
     >>> x0 = solve_newton(f, 0.0, ap=0.01, rp=0.01, ns=100)
     >>> print 'f(%s)=%s ~ 0' % (x0, f(x0))
 
-(ap is target absolute precision, rp is target relative precision, ns is max number of steps)
+(named parameters: `ap` for target absolute precision, `rp` for target relative precision, `ns` for maximum number of steps)
 
 ## Optimizers
 
@@ -52,11 +52,11 @@ It is a pure python library for numerical computations. It doesn't require numpy
 ## Statistics
 
     >>> x = [random.random() for k in range(100)]
-    >>> print 'mu     =', mean(x)
-    >>> print 'sigma  =', sd(x)
-    >>> print 'E[x]   =', E(lambda x:x,    x)
-    >>> print 'E[x^2] =', E(lambda x:x**2, x)
-    >>> print 'E[x^3] =', E(lambda x:x**3, x)
+    >>> print 'μ      =', mean(x)
+    >>> print 'σ      =', sd(x)
+    >>> print 'E[X]   =', E(lambda x:x,    x)
+    >>> print 'E[X²]  =', E(lambda x:x**2, x)
+    >>> print 'E[X³]  =', E(lambda x:x**3, x)
     >>> y = [random.random() for k in range(100)]
     >>> print 'corr(x,y) = ', correlation(x,y)
     >>> print 'cov(x,y)  = ', covariance(x,y)
@@ -77,7 +77,7 @@ It is a pure python library for numerical computations. It doesn't require numpy
     >>> print d['key']
     >>> del d['key']
 
-d works like a drop-in preplacement for any normal Python dictionary except that the data is stored in a sqlite database in a file called  "test.sqlite" so it is still there if you re-start the program. Kind of like the shelve module but shelve files cannot safely be accessed by multiple threads/processes unless locked and locking the entire file is not efficient.
+The object referenced by the variable `d` works like a drop-in preplacement for any normal Python dictionary except that the data is stored in a sqlite database in a file named `test.sqlite` so it is still there if you re-start the program. Kind of like the `shelve` module&mdash;but `shelve` files cannot safely be accessed by multiple threads/processes unless locked and locking the entire file is not efficient.
 
 ## Neural Network
 
@@ -95,8 +95,8 @@ d works like a drop-in preplacement for any normal Python dictionary except that
     >>> data = [(x0,y0), ...]
     >>> Canvas(title='my plot').plot(data, color='red').save('myplot.png')
 
-nlib plotting requires matplotlib/numpy for the Canvas object only
-plots are chainable. methods: .plot, .hist, .errorbar, .ellipses
+`nlib` plotting requires the module `matplotlib/numpy` for the Canvas object only;
+plots are chainable.  Methods: `.plot`, `.hist`, `.errorbar`, `.ellipses`.
 
 ## Complete list of functions/classes
 
@@ -184,4 +184,4 @@ plots are chainable. methods: .plot, .hist, .errorbar, .ellipses
 
 ## License
 
-Created by Massimo Di Pierro (massimo.dipierro@gmail.com) @2016 BSDv3 License
+Created by [Massimo Di Pierro](mailto:massimo.dipierro@gmail.com) @2016 BSDv3 License
